@@ -5,7 +5,7 @@ import { spring, TransitionMotion } from "react-motion"
 
 type Props = {
   show: boolean,
-  component: React$Component<Object, Object>
+  component: Object
 }
 
 const willLeave = () => ({ opacity: spring(0), marginTop: spring(-30) })

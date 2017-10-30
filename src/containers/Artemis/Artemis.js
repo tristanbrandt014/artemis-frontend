@@ -4,46 +4,54 @@ import Aux from "react-aux"
 import Seek from "../Seek/Seek"
 import assignKey from "keymaster"
 import { FadeDown } from "./../../components"
-
-export const SEEK = "SEEK"
-export const HUNT = "HUNT"
-export const NONE = "NONE"
+import {
+  SEEK,
+  openArtemis,
+  closeArtemis
+} from "./../../store/actions/artemis"
+import { connect } from "react-redux"
 
 type RenderState = "SEEK" | "HUNT" | "NONE"
 
-type State = {
+type Props = {
+  changeState: () => RenderState,
+  open: Function,
+  close: Function,
   render: RenderState
 }
 
-type Props = {
-  changeState: () => RenderState
-}
+const MapStateToProps = state => ({
+  render: state.artemis
+})
 
-class Artemis extends Component<Props, State> {
-  state = {
-    render: "NONE"
-  }
+const MapDispatchToProps = dispatch => ({
+  open: type => dispatch(openArtemis(type)),
+  close: type => dispatch(closeArtemis(type))
+})
 
+const enhance = connect(MapStateToProps, MapDispatchToProps)
+
+class Artemis extends Component<Props, {}> {
   componentDidMount() {
     assignKey("shift+down", () => this.openSeek())
   }
 
   openSeek() {
-    if (this.state.render === SEEK) {
-      this.setState({ render: NONE })
+    if (this.props.render === SEEK) {
+      this.props.close(SEEK)
       return
     }
-    this.setState({ render: SEEK })
+    this.props.open(SEEK)
   }
 
   // $FlowFixMe
   render() {
     return (
       <Aux>
-        <FadeDown component={Seek} show={this.state.render === SEEK} />
+        <FadeDown component={Seek} show={this.props.render === SEEK} />
       </Aux>
     )
   }
 }
 
-export default Artemis
+export default enhance(Artemis)
