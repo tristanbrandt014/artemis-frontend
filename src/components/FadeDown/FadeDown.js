@@ -5,7 +5,7 @@ import { spring, TransitionMotion } from "react-motion"
 
 type Props = {
   show: boolean,
-  children: React$Component<Object, Object>
+  component: React$Component<Object, Object>
 }
 
 const willLeave = () => ({ opacity: spring(0), marginTop: spring(-30) })
@@ -15,7 +15,7 @@ const didEnter = () => ({ opacity: spring(1), marginTop: spring(0) })
 const willEnter = () => ({ opacity: 0, marginTop: -30 })
 
 const FadeDown = (props: Props) => {
-  const Child = props.children
+  const Child = props.component
   return (
     <TransitionMotion
       styles={() => [
