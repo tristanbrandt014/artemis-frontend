@@ -1,13 +1,8 @@
 // @flow
+import type { User } from "./user"
 
 export type Auth = {
-  user?: {
-    id: string,
-    firstname: string,
-    lastname: string,
-    email: string,
-    startup: string
-  },
+  user?: User,
   token?: string
 }
 

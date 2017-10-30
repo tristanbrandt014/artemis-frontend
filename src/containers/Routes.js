@@ -1,16 +1,19 @@
 // @flow
 import React from "react"
-import { Route } from "react-router"
+import { Route, Redirect } from "react-router"
 import Login from "./Auth/Login"
 import Logout from "./Auth/Logout"
-import Main from "./Main"
+import Main from "./Main/Main"
+import Aux from "react-aux"
 
 const Routes = () => (
-  <div>
-    <Route path="/" exact component={Main} />
+  <Aux>
+    <Route exact path="/" component={() => <Redirect to="/app" />} />
+    <Route exact path="/app" component={() => <Redirect to="/app/projects" />} />
     <Route path="/login" exact component={Login} />
     <Route path="/logout" exact component={Logout} />
-  </div>
+    <Route path="/app" component={Main} />
+  </Aux>
 )
 
 export default Routes

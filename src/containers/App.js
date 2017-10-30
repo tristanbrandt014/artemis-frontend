@@ -16,6 +16,9 @@ import Routes from "./Routes"
 persistStore()
 injectGlobal`
 ${styledNormalize}
+* {
+box-sizing: border-box;
+}
 `
 
 const theme = createMuiTheme({

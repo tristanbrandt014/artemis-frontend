@@ -3,7 +3,7 @@ import React, { Component } from "react"
 import { connect } from "react-redux"
 import styled from "styled-components"
 import { Paper, Typography, TextField, Button } from "material-ui"
-import { blueGrey, red } from "material-ui/colors"
+import { cyan, red } from "material-ui/colors"
 import { Formik } from "formik"
 import rp from "request-promise"
 import { LinearProgress } from "material-ui/Progress"
@@ -40,7 +40,7 @@ class Login extends Component<Props, {}> {
 
   checkUser(props) {
     if (props.auth && props.auth.token) {
-      props.redirect("/")
+      props.redirect("/app")
     }
   }
 
@@ -205,7 +205,7 @@ const BackgroundTop = styled.div`
   position: absolute;
   width: 100%;
   height: 50vh;
-  background-color: ${blueGrey[900]};
+  background-color: ${cyan[500]};
 `
 
 const Logo = styled.img`
