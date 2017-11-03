@@ -1,0 +1,9 @@
+fragment NoteFragment on Note {
+  id
+  name
+  body
+  todos {
+    description
+    done
+  }
+}

@@ -6,9 +6,10 @@ import initialStore from "./hydrate.js"
 import logger from "redux-logger"
 import history from "./middleware/history"
 import auth from "./middleware/auth"
+import client from "./middleware/apollo"
 
 export default createStore(
   reducers,
   initialStore,
-  applyMiddleware(auth, history, logger)
+  applyMiddleware(auth, history, logger, client)
 )
