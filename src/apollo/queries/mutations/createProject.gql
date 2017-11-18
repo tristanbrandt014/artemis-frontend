@@ -1,0 +1,6 @@
+#import "./../fragments/project.gql"
+mutation createProject($name: String!, $category: String) {
+  createProject(name: $name, category: $category) {
+    ...ProjectFragment
+  }
+}

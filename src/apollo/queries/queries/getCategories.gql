@@ -1,0 +1,6 @@
+#import "./../fragments/category.gql"
+query getCategories {
+  Categories {
+    ...CategoryFragment
+  }
+}

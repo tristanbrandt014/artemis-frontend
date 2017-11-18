@@ -6,7 +6,8 @@ import AddIcon from "material-ui-icons/Add"
 
 type Props = {
   type: "add",
-  color: "primary"
+  color: "primary",
+  onClick: Function
 }
 
 const FloatingButton = (props: Props) => {
@@ -21,7 +22,7 @@ const FloatingButton = (props: Props) => {
   return (
     <Container>
       {/* $FlowFixMe */}
-      <Button fab color={props.color}>
+      <Button onClick={props.onClick} fab color={props.color}>
         {getIcon()}
       </Button>
     </Container>

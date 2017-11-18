@@ -5,6 +5,15 @@ import FullScreen from "./FullScreen/Fullscreen"
 import FadeDown from "./FadeDown/FadeDown"
 import Project from "./Project/Project"
 import FloatingButton from "./FloatingButton/FloatingButton"
+import AddProject from "./AddProject/AddProject"
 
-// $FlowFixMe
-export { Header, Sidebar, FullScreen, FadeDown, Project, FloatingButton }
+export {
+  Header,
+  Sidebar,
+  FullScreen,
+  FadeDown,
+  // $FlowFixMe
+  Project,
+  FloatingButton,
+  AddProject
+}

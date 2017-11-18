@@ -2,11 +2,21 @@
 import React, { Component } from "react"
 import styled from "styled-components"
 import { Typography } from "material-ui"
-import { graphql } from "react-apollo"
+import { graphql, compose } from "react-apollo"
+import { connect } from "react-redux"
+import _ from "lodash"
+import { toggleProjectDialog } from "./../../store/actions/projects"
 import { GET_PROJECTS } from "./../../apollo/queries"
 import { Project, FloatingButton } from "./../../components"
+import AddProject from "./AddProject"
 
-const enhance = graphql(GET_PROJECTS)
+const withProjects = graphql(GET_PROJECTS)
+
+const mapDispatchToProps = dispatch => ({
+  toggleDialog: open => dispatch(toggleProjectDialog(open))
+})
+
+const enhance = compose(connect(null, mapDispatchToProps), withProjects)
 
 class Projects extends Component<{}, {}> {
   render() {
@@ -26,12 +36,17 @@ class Projects extends Component<{}, {}> {
                     name={project.name}
                     description={project.description}
                     status={project.status}
-                    color={project.category.color}
+                    color={_.get(project, "category.color", "#ccc")}
                   />
                 </ProjectContainer>
               ))}
         </Content>
-        <FloatingButton type="add" color="primary" />
+        <FloatingButton
+          onClick={() => this.props.toggleDialog(true)}
+          type="add"
+          color="primary"
+        />
+        <AddProject />
       </Container>
     )
   }
@@ -40,12 +55,17 @@ class Projects extends Component<{}, {}> {
 const Container = styled.div`padding: 30px;`
 
 const Content = styled.div`
-  height: 50px;
   margin-top: 20px;
   display: flex;
 `
 
-const ProjectContainer = styled.div`flex: 0 0 370px;`
+const ProjectContainer = styled.div`
+  flex: 0 0 370px;
+  margin-right: 30px;
+  display: flex;
+  flex-flow: column nowrap;
+  height: auto;
+`
 
 // $FlowFixMe
 export default enhance(Projects)

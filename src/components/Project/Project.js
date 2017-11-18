@@ -52,11 +52,11 @@ const Project = (props: Props) => {
       case "ABANDONED":
         return grey[500]
       default:
-        return "#333"
+        return "#fff"
     }
   }
   return (
-    <Card>
+    <FullHeightCard>
       <Container>
         <Color color={props.color} />
         <CardContent>
@@ -76,13 +76,14 @@ const Project = (props: Props) => {
           </Actions>
         </CardContent>
       </Container>
-    </Card>
+    </FullHeightCard>
   )
 }
 
 const Container = styled.div`
   display: flex;
-  flex-flow: row-nowrap;
+  flex-flow: row nowrap;
+  flex: 1 1 auto;
 `
 
 const Color = styled.div`
@@ -93,23 +94,28 @@ const Color = styled.div`
 const CardContent = styled.div`
   padding-bottom: 10px;
   padding-right: 10px;
-  flex: 1 1 auto;
+  flex: 1 0 100%;
+  display: flex;
+  flex-flow: column nowrap;
 `
 
 const Description = styled(Typography)`
   padding-left: 17px;
   padding-bottom: 10px;
+  flex: 1 0 auto;
 `
 
 const Actions = styled.div`
   display: flex;
   justify-content: flex-end;
+  flex: 0 0 auto;
 `
 
 const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex: 0 0 auto;
 `
 
 const Heading = styled(Typography)`padding: 10px 17px;`
@@ -120,6 +126,12 @@ const Status = styled.div`
   height: 14px;
   border-radius: 100%;
   background-color: ${props => props.color};
+`
+
+const FullHeightCard = styled(Card)`
+  flex: 1 0 auto;
+  display: flex;
+  flex-flow: column nowrap;
 `
 
 export default enhance(Project)
