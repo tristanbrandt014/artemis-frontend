@@ -1,0 +1,6 @@
+#import "./../fragments/project.gql"
+mutation updateProject($id: String!, $archived: Boolean) {
+  updateProject(id: $id, archived: $archived) {
+    ...ProjectFragment
+  }
+}

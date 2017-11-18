@@ -2,7 +2,6 @@
 import React, { Component } from "react"
 import { FullScreen } from "../../components"
 import styled from "styled-components"
-import { grey } from "material-ui/colors"
 // @flow
 import { Typography } from "material-ui"
 
@@ -30,7 +29,7 @@ class Seek extends Component<Props, {}> {
 const Container = styled.div`
   width: 100%;
   height: 100%;
-  background-color: ${grey[300]};
+  background-color: rgba(255, 255, 255, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;

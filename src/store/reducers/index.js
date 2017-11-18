@@ -16,7 +16,9 @@ const rootReducer = combineReducers({
 
 export default (state: Object, action: Object): Object => {
   if (action.type === LOGOUT) {
-    return {}
+    return {
+      apollo: state.apollo
+    }
   }
   return rootReducer(state, action)
 }

@@ -1,6 +1,0 @@
-#import "./../fragments/project.gql"
-query getProjects($ids: [String], $category: String) {
-  Projects (ids: $ids, category: $category) {
-    ...ProjectFragment
-  }
-}

@@ -1,0 +1,10 @@
+#import "./../fragments/project.gql"
+#import "./../fragments/category.gql"
+query getProjects($ids: [String], $category: String, $archived: Boolean) {
+  Projects(ids: $ids, category: $category, archived: $archived) {
+    ...ProjectFragment
+    category {
+      ...CategoryFragment
+    }
+  }
+}
