@@ -18,6 +18,7 @@ type Response = {
 type Props = {
   open: boolean,
   toggle: (open: boolean) => void,
+  archived: boolean,
   id: string
 }
 
@@ -33,7 +34,7 @@ const enhance: OperationComponent<
       mutate({
         variables: {
           id: ownProps.id,
-          archived: true
+          archived: !ownProps.archived
         }
       })
   })
@@ -45,7 +46,9 @@ const ArchiveDialog = (props: Props) => (
     {/* $FlowFixMe */}
     <DialogContent>
       {/* $FlowFixMe */}
-      <DialogContentText>Archive this project?</DialogContentText>
+      <DialogContentText>
+        {props.archived ? "Restore" : "Archive"} this project?
+      </DialogContentText>
     </DialogContent>
     {/* $FlowFixMe */}
     <DialogActions>
@@ -59,7 +62,7 @@ const ArchiveDialog = (props: Props) => (
           props.archive()
         }}
       >
-        Archive
+        {props.archived ? "Restore" : "Archive"}
       </Button>
     </DialogActions>
   </Dialog>

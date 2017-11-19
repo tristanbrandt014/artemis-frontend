@@ -13,7 +13,8 @@ type Props = {
   description: string,
   id: string,
   color: string,
-  status: string
+  status: string,
+  archived: boolean
 }
 
 type State = {
@@ -81,7 +82,7 @@ class Project extends Component<Props, State> {
               </Button>
               {/* $FlowFixMe */}
               <Button dense onClick={() => this.toggleDialog("archive", true)}>
-                Archive
+                {this.props.archived ? `Restore` : `Archive`}
               </Button>
               {/* $FlowFixMe */}
               <Button dense color="primary">
@@ -95,6 +96,7 @@ class Project extends Component<Props, State> {
           id={this.props.id}
           toggle={open => this.toggleDialog("archive", open)}
           open={this.state.archive}
+          archived={this.props.archived}
         />
         <DeleteDialog
           id={this.props.id}

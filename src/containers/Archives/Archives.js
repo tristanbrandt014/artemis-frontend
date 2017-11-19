@@ -2,32 +2,25 @@
 import React, { Component } from "react"
 import styled from "styled-components"
 import { Typography } from "material-ui"
-import { graphql, compose } from "react-apollo"
-import { connect } from "react-redux"
+import { graphql } from "react-apollo"
 import _ from "lodash"
-import { toggleProjectDialog } from "./../../store/actions/projects"
 import { GET_PROJECTS } from "./../../apollo/queries"
-import { Project, FloatingButton } from "./../../components"
-import AddProject from "./AddProject"
+import { Project } from "./../../components"
 
 const withProjects = graphql(GET_PROJECTS)
 
-const mapDispatchToProps = dispatch => ({
-  toggleDialog: open => dispatch(toggleProjectDialog(open))
-})
+const enhance = withProjects
 
-const enhance = compose(connect(null, mapDispatchToProps), withProjects)
-
-class Projects extends Component<{}, {}> {
+class Archives extends Component<{}, {}> {
   render() {
     return (
       <Container>
         {/*$FlowFixMe*/}
-        <Typography type="display1">Projects</Typography>
+        <Typography type="display1">Archives</Typography>
         <Content>
           {!this.props.data.loading &&
             this.props.data.Projects
-              .filter(project => !project.archived)
+              .filter(project => project.archived)
               .map(project => (
                 <ProjectContainer key={project.id}>
                   {/* $FlowFixMe */}
@@ -42,12 +35,6 @@ class Projects extends Component<{}, {}> {
                 </ProjectContainer>
               ))}
         </Content>
-        <FloatingButton
-          onClick={() => this.props.toggleDialog(true)}
-          type="add"
-          color="primary"
-        />
-        <AddProject />
       </Container>
     )
   }
@@ -70,4 +57,4 @@ const ProjectContainer = styled.div`
 `
 
 // $FlowFixMe
-export default enhance(Projects)
+export default enhance(Archives)

@@ -25,12 +25,16 @@ const Sidebar = (props: Props) => (
     <Greeting>
       <AccountCircle style={{ width: "35px", height: "35px" }} color="white" />
       {/* $FlowFixMe */}
-      <Typography type="subheading" style={{ color: "white", marginLeft: "10px" }}>
+      <Typography
+        type="subheading"
+        style={{ color: "white", marginLeft: "10px" }}
+      >
         Hey {props.user.firstname}
       </Typography>
     </Greeting>
     <List>
       <Link to="/app/projects" name="Projects" />
+      <Link to="/app/archives" name="Archives" />
       <Link to="/app/settings" name="Settings" />
     </List>
   </Container>
