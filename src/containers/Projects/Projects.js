@@ -57,14 +57,15 @@ const Container = styled.div`padding: 30px;`
 const Content = styled.div`
   margin-top: 20px;
   display: flex;
+  flex-flow: row wrap;
 `
 
 const ProjectContainer = styled.div`
   flex: 0 0 370px;
   margin-right: 30px;
+  margin-bottom: 30px;
   display: flex;
   flex-flow: column nowrap;
-  height: auto;
 `
 
 // $FlowFixMe

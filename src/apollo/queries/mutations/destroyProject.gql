@@ -1,0 +1,6 @@
+#import "./../fragments/project.gql"
+mutation destroyProject($id: String!) {
+  destroyProject(id: $id) {
+    ...ProjectFragment
+  }
+}

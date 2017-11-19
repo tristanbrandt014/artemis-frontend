@@ -11,7 +11,11 @@ import { MenuItem } from "material-ui/Menu"
 import { FormControl } from "material-ui/Form"
 import Input, { InputLabel } from "material-ui/Input"
 import { graphql, compose } from "react-apollo"
-import { GET_CATEGORIES, CREATE_PROJECT } from "./../../apollo/queries"
+import {
+  GET_CATEGORIES,
+  CREATE_PROJECT,
+  GET_PROJECTS
+} from "./../../apollo/queries"
 import Select from "material-ui/Select"
 import styled from "styled-components"
 
@@ -30,7 +34,20 @@ const withCreateProject = graphql(CREATE_PROJECT, {
           ...(args.category ? { category: args.category } : {})
         }
       })
-  })
+  }),
+  // $FlowFixMe
+  options: {
+    refetchQueries: [
+      {
+        query: GET_PROJECTS,
+        variables: {
+          ids: null,
+          category: null,
+          archived: null
+        }
+      }
+    ]
+  }
 })
 
 const enhance = compose(
@@ -52,6 +69,7 @@ class AddProject extends Component<{}, {}> {
 
   submit = async (values, { setSubmitting, setErrors }) => {
     try {
+      this.props.toggleDialog(false)
       await this.props.create(values)
       setSubmitting(false)
     } catch (err) {

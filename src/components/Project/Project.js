@@ -1,18 +1,12 @@
 // @flow
-import React from "react"
+import React, { Component } from "react"
 import Card from "material-ui/Card"
 import Button from "material-ui/Button"
 import Typography from "material-ui/Typography"
 import { green, teal, amber, grey } from "material-ui/colors"
 import styled from "styled-components"
-import { graphql } from "react-apollo"
-import type { OperationComponent, QueryProps } from "react-apollo"
-import { UPDATE_PROJECT } from "./../../apollo/queries"
-import type { ProjectType } from "./../../types/project"
-
-type Response = {
-  Projects: Array<ProjectType>
-}
+import ArchiveDialog from "./ArchiveDialog"
+import DeleteDialog from "./DeleteDialog"
 
 type Props = {
   name: string,
@@ -22,62 +16,94 @@ type Props = {
   status: string
 }
 
-type AllProps = Response & QueryProps & Props
+type State = {
+  archive: boolean,
+  delete: boolean
+}
 
-const enhance: OperationComponent<
-  Response,
-  Props,
-  AllProps
-> = graphql(UPDATE_PROJECT, {
-  props: ({ ownProps, mutate }) => ({
-    archive: () =>
-      mutate({
-        variables: {
-          id: ownProps.id,
-          archived: true
-        }
+class Project extends Component<Props, State> {
+  constructor() {
+    super()
+    this.toggleDialog = this.toggleDialog.bind(this)
+  }
+
+  state = {
+    archive: false,
+    delete: false
+  }
+
+  toggleDialog(dialog: "delete" | "archive", open?: boolean) {
+    if (typeof open !== "boolean") {
+      this.setState({
+        [dialog]: !this.state[dialog]
       })
-  })
-})
-
-const Project = (props: Props) => {
-  const getColor = () => {
-    switch (props.status) {
-      case "COMPLETE":
-        return green[500]
-      case "ACTIVE":
-        return teal[500]
-      case "TODO":
-        return amber[500]
-      case "ABANDONED":
-        return grey[500]
-      default:
-        return "#fff"
+    } else {
+      this.setState({
+        [dialog]: open
+      })
     }
   }
-  return (
-    <FullHeightCard>
-      <Container>
-        <Color color={props.color} />
-        <CardContent>
-          <Header>
-            {/* $FlowFixMe */}
-            <Heading type="headline">{props.name}</Heading>
-            <Status color={getColor()} />
-          </Header>
-          <Description>{props.description}</Description>
-          <Actions>
-            {/* $FlowFixMe */}
-            <Button onClick={props.archive} color="accent">
-              Archive
-            </Button>
-            {/* $FlowFixMe */}
-            <Button color="primary">Edit</Button>
-          </Actions>
-        </CardContent>
-      </Container>
-    </FullHeightCard>
-  )
+
+  render() {
+    const getColor = () => {
+      switch (this.props.status) {
+        case "COMPLETE":
+          return green[500]
+        case "ACTIVE":
+          return teal[500]
+        case "TODO":
+          return amber[500]
+        case "ABANDONED":
+          return grey[500]
+        default:
+          return "#fff"
+      }
+    }
+    return (
+      <FullHeightCard>
+        <Container>
+          <Color color={this.props.color} />
+          <CardContent>
+            <Header>
+              {/* $FlowFixMe */}
+              <Heading type="headline">{this.props.name}</Heading>
+              <Status color={getColor()} />
+            </Header>
+            <Description>{this.props.description}</Description>
+            <Actions>
+              {/* $FlowFixMe */}
+              <Button
+                dense
+                onClick={() => this.toggleDialog("delete", true)}
+                color="accent"
+              >
+                Delete
+              </Button>
+              {/* $FlowFixMe */}
+              <Button dense onClick={() => this.toggleDialog("archive", true)}>
+                Archive
+              </Button>
+              {/* $FlowFixMe */}
+              <Button dense color="primary">
+                Edit
+              </Button>
+            </Actions>
+          </CardContent>
+        </Container>
+        {/* $FlowFixMe */}
+        <ArchiveDialog
+          id={this.props.id}
+          toggle={open => this.toggleDialog("archive", open)}
+          open={this.state.archive}
+        />
+        <DeleteDialog
+          id={this.props.id}
+          toggle={open => this.toggleDialog("delete", open)}
+          open={this.state.delete}
+        />
+      </FullHeightCard>
+    )
+  }
 }
 
 const Container = styled.div`
@@ -94,7 +120,7 @@ const Color = styled.div`
 const CardContent = styled.div`
   padding-bottom: 10px;
   padding-right: 10px;
-  flex: 1 0 100%;
+  flex: 1 0 auto;
   display: flex;
   flex-flow: column nowrap;
 `
@@ -134,4 +160,4 @@ const FullHeightCard = styled(Card)`
   flex-flow: column nowrap;
 `
 
-export default enhance(Project)
+export default Project
