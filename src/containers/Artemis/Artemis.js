@@ -2,13 +2,10 @@
 import React, { Component } from "react"
 import Aux from "react-aux"
 import Seek from "../Seek/Seek"
-import assignKey from "keymaster"
+import "keymaster"
 import { FadeDown } from "./../../components"
-import {
-  SEEK,
-  openArtemis,
-  closeArtemis
-} from "./../../store/actions/artemis"
+import { assignKey, unbindKey } from "./../../utils/keymaster"
+import { SEEK, openArtemis, closeArtemis } from "./../../store/actions/artemis"
 import { connect } from "react-redux"
 
 type RenderState = "SEEK" | "HUNT" | "NONE"
@@ -34,6 +31,10 @@ const enhance = connect(MapStateToProps, MapDispatchToProps)
 class Artemis extends Component<Props, {}> {
   componentDidMount() {
     assignKey("shift+down", () => this.openSeek())
+  }
+
+  commponentWillUnmount() {
+    unbindKey("shift+down")
   }
 
   openSeek() {

@@ -5,7 +5,7 @@ import { Typography } from "material-ui"
 import { graphql, compose } from "react-apollo"
 import { connect } from "react-redux"
 import _ from "lodash"
-import { toggleProjectDialog } from "./../../store/actions/projects"
+import { toggleCreate } from "./../../store/actions/projects"
 import { GET_PROJECTS } from "./../../apollo/queries"
 import { Project, FloatingButton } from "./../../components"
 import AddProject from "./AddProject"
@@ -13,7 +13,7 @@ import AddProject from "./AddProject"
 const withProjects = graphql(GET_PROJECTS)
 
 const mapDispatchToProps = dispatch => ({
-  toggleDialog: open => dispatch(toggleProjectDialog(open))
+  toggleDialog: open => dispatch(toggleCreate(open))
 })
 
 const enhance = compose(connect(null, mapDispatchToProps), withProjects)

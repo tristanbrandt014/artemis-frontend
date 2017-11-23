@@ -3,10 +3,18 @@ import React, { Component } from "react"
 import Card from "material-ui/Card"
 import Button from "material-ui/Button"
 import Typography from "material-ui/Typography"
-import { green, teal, amber, grey } from "material-ui/colors"
 import styled from "styled-components"
 import ArchiveDialog from "./ArchiveDialog"
 import DeleteDialog from "./DeleteDialog"
+import { push } from "react-router-redux"
+import { connect } from "react-redux"
+import Status from "./../StatusDot/StatusDot"
+
+const mapDispatchToProps = dispatch => ({
+  redirect: path => dispatch(push(path))
+})
+
+const enhance = connect(null, mapDispatchToProps)
 
 type Props = {
   name: string,
@@ -26,11 +34,16 @@ class Project extends Component<Props, State> {
   constructor() {
     super()
     this.toggleDialog = this.toggleDialog.bind(this)
+    this.edit = this.edit.bind(this)
   }
 
   state = {
     archive: false,
     delete: false
+  }
+
+  edit() {
+    this.props.redirect(`/app/projects/${this.props.id}`)
   }
 
   toggleDialog(dialog: "delete" | "archive", open?: boolean) {
@@ -46,20 +59,6 @@ class Project extends Component<Props, State> {
   }
 
   render() {
-    const getColor = () => {
-      switch (this.props.status) {
-        case "COMPLETE":
-          return green[500]
-        case "ACTIVE":
-          return teal[500]
-        case "TODO":
-          return amber[500]
-        case "ABANDONED":
-          return grey[500]
-        default:
-          return "#fff"
-      }
-    }
     return (
       <FullHeightCard>
         <Container>
@@ -68,7 +67,7 @@ class Project extends Component<Props, State> {
             <Header>
               {/* $FlowFixMe */}
               <Heading type="headline">{this.props.name}</Heading>
-              <Status color={getColor()} />
+              <Status color={this.props.status} />
             </Header>
             <Description>{this.props.description}</Description>
             <Actions>
@@ -85,8 +84,8 @@ class Project extends Component<Props, State> {
                 {this.props.archived ? `Restore` : `Archive`}
               </Button>
               {/* $FlowFixMe */}
-              <Button dense color="primary">
-                Edit
+              <Button onClick={this.edit} dense color="primary">
+                View
               </Button>
             </Actions>
           </CardContent>
@@ -98,6 +97,7 @@ class Project extends Component<Props, State> {
           open={this.state.archive}
           archived={this.props.archived}
         />
+        {/* $FlowFixMe */}
         <DeleteDialog
           id={this.props.id}
           toggle={open => this.toggleDialog("delete", open)}
@@ -148,18 +148,10 @@ const Header = styled.div`
 
 const Heading = styled(Typography)`padding: 10px 17px;`
 
-const Status = styled.div`
-  margin-right: 24px;
-  width: 14px;
-  height: 14px;
-  border-radius: 100%;
-  background-color: ${props => props.color};
-`
-
 const FullHeightCard = styled(Card)`
   flex: 1 0 auto;
   display: flex;
   flex-flow: column nowrap;
 `
 
-export default Project
+export default enhance(Project)

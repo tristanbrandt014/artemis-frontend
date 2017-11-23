@@ -39,7 +39,7 @@ const enhance = compose(
 )
 
 const Link = (props: Props) => {
-  const active = props.path === props.to
+  const active = props.path.includes(props.to)
   return (
     <ListItem
       button

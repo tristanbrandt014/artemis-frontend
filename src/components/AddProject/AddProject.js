@@ -6,7 +6,7 @@ import TextField from "material-ui/TextField"
 import { Formik } from "formik"
 import { DialogActions, DialogContent, DialogTitle } from "material-ui/Dialog"
 import { connect } from "react-redux"
-import { toggleProjectDialog } from "./../../store/actions/projects"
+import { toggleCreate } from "./../../store/actions/projects"
 import { MenuItem } from "material-ui/Menu"
 import { FormControl } from "material-ui/Form"
 import Input, { InputLabel } from "material-ui/Input"
@@ -20,7 +20,7 @@ import Select from "material-ui/Select"
 import styled from "styled-components"
 
 const mapDispatchToProps = dispatch => ({
-  toggleDialog: open => dispatch(toggleProjectDialog(open))
+  toggleDialog: open => dispatch(toggleCreate(open))
 })
 
 const withCategories = graphql(GET_CATEGORIES)

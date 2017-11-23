@@ -13,6 +13,7 @@ const enhance = withProjects
 
 class Archives extends Component<{}, {}> {
   render() {
+    console.log("ARCHIVES", this.props.data)
     return (
       <Container>
         {/*$FlowFixMe*/}

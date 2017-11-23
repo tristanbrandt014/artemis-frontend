@@ -7,6 +7,7 @@ import Artemis from "./../Artemis/Artemis"
 import { Route } from "react-router"
 import Projects from "./../Projects/Projects"
 import Archives from "./../Archives/Archives"
+import Project from "./../Project/Project"
 
 export default () => (
   <Container>
@@ -16,6 +17,7 @@ export default () => (
       <Content>
         <Route path="/app/projects" exact component={Projects} />
         <Route path="/app/archives" exact component={Archives} />
+        <Route path="/app/projects/:id" exact component={Project} />
       </Content>
     </Body>
     <Artemis />

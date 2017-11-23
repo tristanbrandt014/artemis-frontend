@@ -6,6 +6,8 @@ import FadeDown from "./FadeDown/FadeDown"
 import Project from "./Project/Project"
 import FloatingButton from "./FloatingButton/FloatingButton"
 import AddProject from "./AddProject/AddProject"
+import StatusDot from "./StatusDot/StatusDot"
+import EditProject from "./EditProject/EditProject"
 
 export {
   Header,
@@ -15,5 +17,7 @@ export {
   // $FlowFixMe
   Project,
   FloatingButton,
-  AddProject
+  AddProject,
+  StatusDot,
+  EditProject
 }
