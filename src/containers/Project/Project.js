@@ -37,7 +37,13 @@ class Project extends Component<{}, {}> {
       // $FlowFixMe
       return <CircularProgress />
     }
-    const project = this.props.data.Projects[0]
+    const project = {
+      ...this.props.data.Projects[0]
+    }
+    project.category = {
+      name: "Private",
+      color: "#333"
+    }
 
     const categoryColor = _.get(project, "category.color", "#ccc")
 
@@ -59,20 +65,13 @@ class Project extends Component<{}, {}> {
       paddingTop: "2px"
     }
 
+    const labelStyle = {
+      fontWeight: 500,
+      marginRight: "15px"
+    }
+
     const hasStatus = project.status && project.status !== "NONE"
     const hasCategory = !!project.category
-
-    let subtitle = ""
-
-    if (hasStatus) {
-      subtitle += project.status
-      if (hasCategory) {
-        subtitle += ", "
-      }
-    }
-    if (hasCategory) {
-      subtitle += `in ${project.category.name}`
-    }
 
     const noteColumns = project.notes.reduce(
       (cols, note, index) => {
@@ -111,22 +110,38 @@ class Project extends Component<{}, {}> {
         </TopContainer>
         <Notes>
           {noteColumns.map((column, colIndex) => (
-            <NoteColumn key={colIndex}>
+            <NoteColumn
+              style={{
+                order: colIndex === 0 ? 2 : colIndex * 2 - 1
+              }}
+              key={colIndex}
+            >
               <Aux>
                 {colIndex === 0 && (
                   <NoteContainer>
-                    <Subtitle>
-                      {hasStatus && <Status color={project.status} />}
-                      {subtitle && (
+                    {hasStatus && (
+                      <StatusLine>
+                        <Typography style={labelStyle}>Status:</Typography>
+                        <Status color={project.status} />
                         <Typography style={subtitleStyle}>
-                          {subtitle}
+                          {project.status}
                         </Typography>
-                      )}
-                    </Subtitle>
+                      </StatusLine>
+                    )}
+                    {hasCategory && (
+                      <StatusLine>
+                        <Typography style={labelStyle}>Category:</Typography>
+                        <Typography style={subtitleStyle}>
+                          {project.category.name}
+                        </Typography>
+                      </StatusLine>
+                    )}
                   </NoteContainer>
                 )}
                 {column.map((note, noteIndex) => (
-                  <NoteContainer key={noteIndex}>Hello</NoteContainer>
+                  <NoteContainer key={noteIndex}>
+                    <MarkdownRenderer markdown={note.body} />
+                  </NoteContainer>
                 ))}
               </Aux>
             </NoteColumn>
@@ -170,6 +185,7 @@ const ColorBar = styled.div`
   flex-flow: row nowrap;
   align-items: flex-end;
   justify-content: space-between;
+  position: relative;
 `
 
 const Title = styled.div`
@@ -182,8 +198,9 @@ const Subtitle = styled.div`
 `
 
 const EditButton = styled(Button)`
-  margin-bottom: -28px;
-  margin-right: 15px;
+  bottom: -28px;
+  right: 15px;
+  position: absolute;
 `
 
 const Status = styled(StatusDot)`
@@ -212,6 +229,12 @@ const NoteColumn = styled.div`
   flex: 0 0 33%;
   flex-flow: column nowrap;
   padding: 10px;
+`
+
+const StatusLine = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
 `
 
 export default enhance(Project)

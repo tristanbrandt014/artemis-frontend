@@ -178,12 +178,12 @@ class EditNote extends Component<{}, {}> {
                 </Details>
                 <Description>
                   <Editor
-                    value={values.description}
+                    value={values.body}
                     name="Note"
                     description="Let your thoughts be recorded"
                     onChange={value => {
                       const fake = {
-                        name: "description",
+                        name: "body",
                         value: value
                       }
                       handleChange({ target: fake, persist: () => {} })

@@ -28,7 +28,7 @@ class Archives extends Component<{}, {}> {
                   <Project
                     id={project.id}
                     name={project.name}
-                    description={project.description}
+                    summary={project.summary}
                     status={project.status}
                     archived={project.archived}
                     color={_.get(project, "category.color", "#ccc")}

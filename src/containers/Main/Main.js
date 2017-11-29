@@ -36,4 +36,7 @@ const Body = styled.div`
   background-color: ${blueGrey[50]};
 `
 
-const Content = styled.div`flex: 1 1 auto;`
+const Content = styled.div`
+flex: 1 1 auto;
+overflow-Y: auto;
+`
