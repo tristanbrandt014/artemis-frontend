@@ -1,0 +1,6 @@
+#import "./../fragments/note.gql"
+mutation destroyNote($id: String!) {
+  destroyNote(id: $id) {
+    ...NoteFragment
+  }
+}

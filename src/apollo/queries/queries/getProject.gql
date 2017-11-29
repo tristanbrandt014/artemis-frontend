@@ -1,0 +1,14 @@
+#import "./../fragments/project.gql"
+#import "./../fragments/category.gql"
+#import "./../fragments/note.gql"
+query getProject($id: String!) {
+  Projects(ids: [$id]) {
+    ...ProjectFragment
+    category {
+      ...CategoryFragment
+    }
+    notes {
+      ...NoteFragment
+    }
+  }
+}

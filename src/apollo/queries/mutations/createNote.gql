@@ -1,0 +1,6 @@
+#import "./../fragments/note.gql"
+mutation createNote($body: String, $todos: [TodoInput], $project_id: String!) {
+  createNote(body: $body, todos: $todos, project_id: $project_id) {
+    ...NoteFragment
+  }
+}

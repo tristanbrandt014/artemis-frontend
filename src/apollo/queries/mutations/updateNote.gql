@@ -1,0 +1,6 @@
+#import "./../fragments/note.gql"
+mutation updateNote($id: String!, $body: String, $todos: [TodoInput]) {
+  updateNote(id: $id, body: $body, todos: $todos) {
+    ...NoteFragment
+  }
+}

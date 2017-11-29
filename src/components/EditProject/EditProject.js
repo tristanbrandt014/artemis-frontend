@@ -24,6 +24,7 @@ import { toggleUpdate } from "./../../store/actions/projects"
 import Select from "material-ui/Select"
 import styled from "styled-components"
 import _ from "lodash"
+import Editor from "../Markdown/Editor"
 
 const mapDispatchToProps = dispatch => ({
   toggleDialog: open => dispatch(toggleUpdate(open))
@@ -76,12 +77,13 @@ class EditProject extends Component<{}, {}> {
 
   submit = async (values, { setSubmitting, setErrors }) => {
     try {
-      this.props.toggleUpdate(false)
+      this.props.toggleDialog(false)
+      console.log(this.props.id)
       await this.props.update(values)
       setSubmitting(false)
     } catch (err) {
       setSubmitting(false)
-      setErrors({ auth: "Failed to connect" })
+      console.log("FAILED")
     }
   }
   render() {
@@ -96,9 +98,10 @@ class EditProject extends Component<{}, {}> {
         <Formik
           initialValues={{
             category: category ? category.id : "",
-            name: project.name,
-            status: project.status,
-            description: project.description
+            summary: project.summary || "",
+            name: project.name || "",
+            status: project.status || "NONE",
+            description: project.description || ""
           }}
           validate={this.validate}
           onSubmit={this.submit}
@@ -158,42 +161,63 @@ class EditProject extends Component<{}, {}> {
                     />
                   </Field>
                   <Field>
-                    {/* $FlowFixMe */}
-                    <FormControl fullWidth>
+                    <TextField
+                      type="text"
+                      multiline
+                      name="summary"
+                      margin="normal"
+                      fullWidth
+                      error={!!errors.summary}
+                      helperText={errors.summary}
+                      label="Summary"
+                      onChange={handleChange}
+                      value={values.summary}
+                    />
+                  </Field>
+                  {/* _TODO: Dont show if no categories have been added */}
+                  {!this.props.categories.loading &&
+                  this.props.categories.Categories.length ? (
+                    <Field withMargin>
                       {/* $FlowFixMe */}
-                      <InputLabel htmlFor="category-input">Category</InputLabel>
-                      {/* $FlowFixMe */}
-                      <Select
-                        value={values.category}
-                        onChange={e => {
-                          const fake = {
-                            name: "category",
-                            value: e.target.value
-                          }
-                          handleChange({ target: fake, persist: () => {} })
-                        }}
-                        input={
-                          <Input
-                            value={values.category}
-                            onChange={() => {}}
-                            id="category-input"
-                          />
-                        }
-                      >
+                      <FormControl fullWidth>
                         {/* $FlowFixMe */}
-                        <MenuItem value="">
-                          <em>None</em>
-                        </MenuItem>
-                        {!this.props.categories.loading &&
-                          this.props.categories.Categories.map(category => (
+                        <InputLabel htmlFor="category-input">
+                          Category
+                        </InputLabel>
+                        {/* $FlowFixMe */}
+                        <Select
+                          value={values.category}
+                          onChange={e => {
+                            const fake = {
+                              name: "category",
+                              value: e.target.value
+                            }
+                            handleChange({ target: fake, persist: () => {} })
+                          }}
+                          input={
+                            <Input
+                              value={values.category}
+                              onChange={() => {}}
+                              id="category-input"
+                            />
+                          }
+                        >
+                          {/* $FlowFixMe */}
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          {this.props.categories.Categories.map(category => (
                             <MenuItem key={category.id} value={category.id}>
                               {category.name}
                             </MenuItem>
                           ))}
-                      </Select>
-                    </FormControl>
-                  </Field>
-                  <Field>
+                        </Select>
+                      </FormControl>
+                    </Field>
+                  ) : (
+                    <span />
+                  )}
+                  <Field withMargin>
                     {/* $FlowFixMe */}
                     <FormControl fullWidth>
                       {/* $FlowFixMe */}
@@ -232,7 +256,18 @@ class EditProject extends Component<{}, {}> {
                   />
                 </Details>
                 <Description>
-                  
+                  <Editor
+                    value={values.description}
+                    name="Description"
+                    description="Describe your project"
+                    onChange={value => {
+                      const fake = {
+                        name: "description",
+                        value: value
+                      }
+                      handleChange({ target: fake, persist: () => {} })
+                    }}
+                  />
                 </Description>
               </Container>
             </form>
@@ -245,6 +280,7 @@ class EditProject extends Component<{}, {}> {
 
 const Field = styled.div`
   padding-bottom: 10px;
+  margin-top: ${props => (props.withMargin ? "28px" : "0")};
 `
 
 const ToolbarFlex = styled(Toolbar)`
@@ -263,10 +299,12 @@ const Container = styled.div`
 
 const Details = styled.div`
   flex: 1 1 auto;
+  padding: 15px;
 `
 
 const Description = styled.div`
   flex: 5 5 auto;
+  padding: 15px;
 `
 
 export default enhance(EditProject)

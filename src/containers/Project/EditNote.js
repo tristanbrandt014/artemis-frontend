@@ -1,23 +1,23 @@
 // @flow
 import React, { Component } from "react"
 import Dialog from "material-ui/Dialog"
-import { EditProject as Form } from "../../components"
+import { EditNote as Form } from "../../components"
 import styled from "styled-components"
 import { connect } from "react-redux"
-import { toggleUpdate } from "./../../store/actions/projects"
+import { toggleNoteDialog } from "./../../store/actions/notes"
 import Slide from "material-ui/transitions/Slide"
 
 const mapStateToProps = state => ({
-  projects: state.projects
+  notes: state.notes
 })
 
 const mapDispatchToProps = dispatch => ({
-  toggle: open => dispatch(toggleUpdate(open))
+  toggle: open => dispatch(toggleNoteDialog(open))
 })
 
 const enhance = connect(mapStateToProps, mapDispatchToProps)
 
-class AddProject extends Component<{}, {}> {
+class EditNote extends Component<{}, {}> {
   handleRequestClose = () => {
     this.props.toggle(false)
   }
@@ -26,13 +26,13 @@ class AddProject extends Component<{}, {}> {
     return (
       // $FlowFixMe
       <Dialog
-        open={this.props.projects.modals.update}
+        open={this.props.notes.modal}
         onRequestClose={this.handleRequestClose}
         transition={Transition}
         fullScreen
       >
         <Container>
-          <Form id={this.props.id} />
+          <Form project_id={this.props.project_id} id={this.props.id} />
         </Container>
       </Dialog>
     )
@@ -49,4 +49,4 @@ const Container = styled.div`
   padding: 15px 0;
 `
 
-export default enhance(AddProject)
+export default enhance(EditNote)

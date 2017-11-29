@@ -8,6 +8,10 @@ import FloatingButton from "./FloatingButton/FloatingButton"
 import AddProject from "./AddProject/AddProject"
 import StatusDot from "./StatusDot/StatusDot"
 import EditProject from "./EditProject/EditProject"
+import MarkdownEditor from "./Markdown/Editor"
+import MarkdownRenderer from "./Markdown/Renderer"
+import EditNote from "./EditNote/EditNote"
+import EditTodos from "./EditTodos/EditTodos"
 
 export {
   Header,
@@ -19,5 +23,9 @@ export {
   FloatingButton,
   AddProject,
   StatusDot,
-  EditProject
+  EditProject,
+  MarkdownEditor,
+  MarkdownRenderer,
+  EditNote,
+  EditTodos
 }

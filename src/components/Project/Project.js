@@ -18,7 +18,7 @@ const enhance = connect(null, mapDispatchToProps)
 
 type Props = {
   name: string,
-  description: string,
+  summary: string,
   id: string,
   color: string,
   status: string,
@@ -69,7 +69,7 @@ class Project extends Component<Props, State> {
               <Heading type="headline">{this.props.name}</Heading>
               <Status color={this.props.status} />
             </Header>
-            <Description>{this.props.description}</Description>
+            <Description>{this.props.summary}</Description>
             <Actions>
               {/* $FlowFixMe */}
               <Button
@@ -146,7 +146,9 @@ const Header = styled.div`
   flex: 0 0 auto;
 `
 
-const Heading = styled(Typography)`padding: 10px 17px;`
+const Heading = styled(Typography)`
+  padding: 10px 17px;
+`
 
 const FullHeightCard = styled(Card)`
   flex: 1 0 auto;
