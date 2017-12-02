@@ -53,7 +53,6 @@ const enhance: OperationComponent<
           project => project.id !== destroyProject.id
         )
       }
-      console.log("NEW_DATA", newData)
       proxy.writeQuery({
         query: GET_PROJECTS,
         variables: {

@@ -1,8 +1,4 @@
 fragment NoteFragment on Note {
   id
   body
-  todos {
-    description
-    done
-  }
 }

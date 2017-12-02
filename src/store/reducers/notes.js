@@ -2,7 +2,7 @@
 import { TOGGLE_NOTE_DIALOG } from "./../actions/notes"
 
 const initialState = {
-  modals: false
+  modal: false
 }
 
 export default (state = initialState, action) => {

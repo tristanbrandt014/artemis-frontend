@@ -3,7 +3,7 @@ import Header from "./Header/Header"
 import Sidebar from "./Sidebar/Sidebar"
 import FullScreen from "./FullScreen/Fullscreen"
 import FadeDown from "./FadeDown/FadeDown"
-import Project from "./Project/Project"
+import ProjectCard from "./ProjectCard/ProjectCard"
 import FloatingButton from "./FloatingButton/FloatingButton"
 import AddProject from "./AddProject/AddProject"
 import StatusDot from "./StatusDot/StatusDot"
@@ -11,7 +11,10 @@ import EditProject from "./EditProject/EditProject"
 import MarkdownEditor from "./Markdown/Editor"
 import MarkdownRenderer from "./Markdown/Renderer"
 import EditNote from "./EditNote/EditNote"
-import EditTodos from "./EditTodos/EditTodos"
+// import EditTodos from "./EditTodos/EditTodos"
+import ProjectHead from "./ProjectHead/ProjectHead"
+import Note from "./Note/Note"
+import StatusCard from './StatusCard/StatusCard'
 
 export {
   Header,
@@ -19,7 +22,7 @@ export {
   FullScreen,
   FadeDown,
   // $FlowFixMe
-  Project,
+  ProjectCard,
   FloatingButton,
   AddProject,
   StatusDot,
@@ -27,5 +30,8 @@ export {
   MarkdownEditor,
   MarkdownRenderer,
   EditNote,
-  EditTodos
+  // EditTodos,
+  ProjectHead,
+  Note,
+  StatusCard
 }

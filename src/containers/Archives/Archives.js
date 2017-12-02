@@ -5,7 +5,7 @@ import { Typography } from "material-ui"
 import { graphql } from "react-apollo"
 import _ from "lodash"
 import { GET_PROJECTS } from "./../../apollo/queries"
-import { Project } from "./../../components"
+import { ProjectCard } from "./../../components"
 
 const withProjects = graphql(GET_PROJECTS)
 
@@ -25,7 +25,7 @@ class Archives extends Component<{}, {}> {
               .map(project => (
                 <ProjectContainer key={project.id}>
                   {/* $FlowFixMe */}
-                  <Project
+                  <ProjectCard
                     id={project.id}
                     name={project.name}
                     summary={project.summary}

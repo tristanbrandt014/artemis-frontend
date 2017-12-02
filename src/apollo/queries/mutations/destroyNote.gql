@@ -1,6 +1,10 @@
 #import "./../fragments/note.gql"
+#import "./../fragments/project.gql"
 mutation destroyNote($id: String!) {
   destroyNote(id: $id) {
     ...NoteFragment
+    project {
+      ...ProjectFragment
+    }
   }
 }

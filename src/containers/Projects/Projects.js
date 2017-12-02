@@ -7,7 +7,7 @@ import { connect } from "react-redux"
 import _ from "lodash"
 import { toggleCreate } from "./../../store/actions/projects"
 import { GET_PROJECTS } from "./../../apollo/queries"
-import { Project, FloatingButton } from "./../../components"
+import { ProjectCard, FloatingButton } from "./../../components"
 import AddProject from "./AddProject"
 
 const withProjects = graphql(GET_PROJECTS)
@@ -31,7 +31,7 @@ class Projects extends Component<{}, {}> {
               .map(project => (
                 <ProjectContainer key={project.id}>
                   {/* $FlowFixMe */}
-                  <Project
+                  <ProjectCard
                     id={project.id}
                     name={project.name}
                     summary={project.summary}
