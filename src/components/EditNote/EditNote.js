@@ -2,7 +2,6 @@
 import React, { Component } from "react"
 import Dialog from "material-ui/Dialog"
 import Form from "./Form"
-import styled from "styled-components"
 import Slide from "material-ui/transitions/Slide"
 
 type Props = {
@@ -21,9 +20,11 @@ class EditNote extends Component<Props, {}> {
         transition={Transition}
         fullScreen
       >
-        <Container>
-          <Form onRequestClose={this.props.onRequestClose} project_id={this.props.project_id} id={this.props.id} />
-        </Container>
+        <Form
+          onRequestClose={this.props.onRequestClose}
+          project_id={this.props.project_id}
+          id={this.props.id}
+        />
       </Dialog>
     )
   }
@@ -32,11 +33,5 @@ class EditNote extends Component<Props, {}> {
 const Transition = props => {
   return <Slide direction="up" {...props} />
 }
-
-const Container = styled.div`
-  width: 100%;
-  margin-top: 60px;
-  padding: 15px 0;
-`
 
 export default EditNote

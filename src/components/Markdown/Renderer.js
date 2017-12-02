@@ -1,13 +1,15 @@
 //@flow
 import React from "react"
 import marked from "marked"
-import styled from "styled-components"
+import Styles from "./Styles"
+import highlightjs from 'highlight.js';
 
 marked.setOptions({
   tables: true,
   breaks: true,
   sanitize: true,
-  gfm: true
+  gfm: true,
+  highlight: code => highlightjs.highlightAuto(code).value
 })
 
 type Props = {
@@ -22,10 +24,6 @@ const Renderer = (props: Props) => (
   />
 )
 
-const Styles = styled.div`
-  * {
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-  }
-`
+
 
 export default Renderer

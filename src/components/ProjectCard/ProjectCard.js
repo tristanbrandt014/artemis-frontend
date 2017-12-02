@@ -122,7 +122,7 @@ const Color = styled.div`
 const CardContent = styled.div`
   padding-bottom: 10px;
   padding-right: 10px;
-  flex: 1 0 auto;
+  flex: 1 1 auto;
   display: flex;
   flex-flow: column nowrap;
 `

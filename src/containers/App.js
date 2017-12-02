@@ -12,7 +12,10 @@ import client from "./../apollo"
 import { ConnectedRouter } from "react-router-redux"
 import history from "./../utils/history"
 import Routes from "./Routes"
+import "highlight.js/styles/tomorrow.css"
+import {initHighlighting} from "highlight.js"
 
+initHighlighting()
 persistStore()
 injectGlobal`
 ${styledNormalize}

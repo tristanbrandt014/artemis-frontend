@@ -51,15 +51,22 @@ export class Markdown extends Component<Props, State> {
 
         {tab === 0 ? (
           <Section>
-            <TextField
+            {/* <TextField
               onChange={e => {
                 this.props.onChange(e.target.value)
               }}
               value={this.props.value}
-              style={{ width: "100%" }}
+              style={{ width: "100%", height:"100%" }}
               placeholder={this.props.description}
               multiline
-              rows={17}
+            /> */}
+            <textarea 
+              onChange={e => {
+                this.props.onChange(e.target.value)
+              }}
+              value={this.props.value}
+              style={{ width: "100%", height:"100%", resize:"none", padding:"15px" }}
+              placeholder={this.props.description}
             />
           </Section>
         ) : (
@@ -74,17 +81,20 @@ export class Markdown extends Component<Props, State> {
 
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-flow: column nowrap;
   width: 100%;
+  height: 100%;
 `
 
 const Header = styled.div`
   display: flex;
   width: 100%;
+  flex: 0 0 48px;
 `
 
 const Section = styled.div`
   padding: 20px 0;
+  flex: 1 1 100%;
 `
 
 export default Markdown

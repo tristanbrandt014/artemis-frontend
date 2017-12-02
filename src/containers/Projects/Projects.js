@@ -62,7 +62,7 @@ const Content = styled.div`
 `
 
 const ProjectContainer = styled.div`
-  flex: 0 0 370px;
+  flex: 1 1 380px;
   margin-right: 30px;
   margin-bottom: 30px;
   display: flex;

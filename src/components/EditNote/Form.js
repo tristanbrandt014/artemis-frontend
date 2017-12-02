@@ -140,9 +140,9 @@ class EditNote extends Component<{}, {}> {
             handleSubmit,
             isSubmitting
           }) => (
-            <form onSubmit={handleSubmit}>
+            <StyledForm onSubmit={handleSubmit}>
               {/* $FlowFixMe */}
-              <AppBar>
+              <Header>
                 <ToolbarFlex>
                   <ToolbarLeft>
                     <IconButton
@@ -170,7 +170,7 @@ class EditNote extends Component<{}, {}> {
                     save
                   </Button>
                 </ToolbarFlex>
-              </AppBar>
+              </Header>
               <Container>
                 <Description>
                   <Editor
@@ -192,7 +192,7 @@ class EditNote extends Component<{}, {}> {
                 style={{ display: "none" }}
                 ref={input => (this.submitInput = input)}
               />
-            </form>
+            </StyledForm>
           )}
         />
       </Aux>
@@ -212,11 +212,23 @@ const ToolbarLeft = styled.div`
 
 const Container = styled.div`
   display: flex;
+  flex: 1 1 auto;
 `
 
 const Description = styled.div`
   flex: 3 3 auto;
   padding: 15px;
+`
+
+const StyledForm = styled.form`
+  display:flex;
+  flex-flow: column nowrap;
+  height: 100%;
+`
+
+const Header = styled(AppBar)`
+  position: static;
+  flex: 0 0 64px;
 `
 
 export default enhance(EditNote)

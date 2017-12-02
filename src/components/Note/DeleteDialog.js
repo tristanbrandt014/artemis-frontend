@@ -37,6 +37,7 @@ const enhance: OperationComponent<Response, Props, AllProps> = graphql(
     //$FlowFixMe
     options: props => ({
       update: (proxy, { data: { destroyNote } }) => {
+        console.dir(destroyNote)
         const data = proxy.readQuery({
           query: GET_PROJECT,
           variables: {
