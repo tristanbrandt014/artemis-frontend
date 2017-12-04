@@ -2,7 +2,6 @@
 import React, { Component } from "react"
 import Dialog from "material-ui/Dialog"
 import { EditProject as Form } from "../../components"
-import styled from "styled-components"
 import { connect } from "react-redux"
 import { toggleUpdate } from "./../../store/actions/projects"
 import Slide from "material-ui/transitions/Slide"
@@ -31,9 +30,7 @@ class AddProject extends Component<{}, {}> {
         transition={Transition}
         fullScreen
       >
-        <Container>
           <Form id={this.props.id} />
-        </Container>
       </Dialog>
     )
   }
@@ -42,11 +39,5 @@ class AddProject extends Component<{}, {}> {
 const Transition = props => {
   return <Slide direction="up" {...props} />
 }
-
-const Container = styled.div`
-  width: 100%;
-  margin-top: 60px;
-  padding: 15px 0;
-`
 
 export default enhance(AddProject)

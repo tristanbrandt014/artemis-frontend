@@ -33,7 +33,11 @@ class Project extends Component<{}, {}> {
   render() {
     if (this.props.data.loading) {
       // $FlowFixMe
-      return <CircularProgress />
+      return (
+        <Loader>
+          <CircularProgress />
+        </Loader>
+      )
     }
     const project = {
       ...this.props.data.Projects[0]
@@ -90,16 +94,25 @@ const Container = styled.div`
 
 const Notes = styled.div`
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: row nowrap;
   margin-top: 25px;
   margin-bottom: 56px;
 `
 
 const NoteColumn = styled.div`
   display: flex;
-  flex: 0 0 33%;
+  flex: 1 1 33%;
+  max-width: 33%;
   flex-flow: column nowrap;
   padding: 10px;
+`
+
+const Loader = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
 
 export default enhance(Project)

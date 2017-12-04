@@ -114,9 +114,9 @@ class EditProject extends Component<{}, {}> {
             handleSubmit,
             isSubmitting
           }) => (
-            <form onSubmit={handleSubmit}>
+            <StyledForm onSubmit={handleSubmit}>
               {/* $FlowFixMe */}
-              <AppBar>
+              <Header>
                 <ToolbarFlex>
                   <ToolbarLeft>
                     <IconButton
@@ -144,7 +144,7 @@ class EditProject extends Component<{}, {}> {
                     save
                   </Button>
                 </ToolbarFlex>
-              </AppBar>
+              </Header>
               <Container>
                 <Details>
                   <Field>
@@ -270,7 +270,7 @@ class EditProject extends Component<{}, {}> {
                   />
                 </Description>
               </Container>
-            </form>
+            </StyledForm>
           )}
         />
       </Aux>
@@ -295,16 +295,28 @@ const ToolbarLeft = styled.div`
 
 const Container = styled.div`
   display: flex;
+  flex: 1 1 100%;
 `
 
 const Details = styled.div`
-  flex: 1 1 auto;
+  flex: 0 0 25%;
   padding: 15px;
 `
 
 const Description = styled.div`
-  flex: 5 5 auto;
+  flex: 1 1 auto;
   padding: 15px;
+`
+
+const StyledForm = styled.form`
+display:flex;
+flex-flow: column nowrap;
+height: 100%;
+`
+
+const Header = styled(AppBar)`
+position: static !important;
+flex: 0 0 64px !important;
 `
 
 export default enhance(EditProject)

@@ -227,8 +227,8 @@ const StyledForm = styled.form`
 `
 
 const Header = styled(AppBar)`
-  position: static;
-  flex: 0 0 64px;
+  position: static !important;
+  flex: 0 0 64px !important;
 `
 
 export default enhance(EditNote)

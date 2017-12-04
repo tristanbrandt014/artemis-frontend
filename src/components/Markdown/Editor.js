@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from "react"
 import styled from "styled-components"
-import { TextField, Tabs, Tab } from "material-ui"
+import { Tabs, Tab } from "material-ui"
 import Renderer from "./Renderer"
 
 type Props = {
@@ -51,26 +51,22 @@ export class Markdown extends Component<Props, State> {
 
         {tab === 0 ? (
           <Section>
-            {/* <TextField
+            <textarea
               onChange={e => {
                 this.props.onChange(e.target.value)
               }}
               value={this.props.value}
-              style={{ width: "100%", height:"100%" }}
-              placeholder={this.props.description}
-              multiline
-            /> */}
-            <textarea 
-              onChange={e => {
-                this.props.onChange(e.target.value)
+              style={{
+                width: "100%",
+                height: "100%",
+                resize: "none",
+                padding: "15px"
               }}
-              value={this.props.value}
-              style={{ width: "100%", height:"100%", resize:"none", padding:"15px" }}
               placeholder={this.props.description}
             />
           </Section>
         ) : (
-          <Section>
+          <Section style={{ overflowY: "auto" }}>
             <Renderer markdown={this.props.value} />
           </Section>
         )}
