@@ -1,4 +1,5 @@
 #import "./../fragments/project.gql"
+#import "./../fragments/category.gql"
 mutation updateProject(
   $id: String!
   $archived: Boolean
@@ -16,8 +17,10 @@ mutation updateProject(
     category: $category
     status: $status
     summary: $summary
-    
   ) {
     ...ProjectFragment
+    category {
+      ...CategoryFragment
+    }
   }
 }

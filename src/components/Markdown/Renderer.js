@@ -8,6 +8,8 @@ marked.setOptions({
   tables: true,
   breaks: true,
   sanitize: true,
+  smartLists: true,
+  smartypants: true,
   gfm: true,
   highlight: code => highlightjs.highlightAuto(code).value
 })
