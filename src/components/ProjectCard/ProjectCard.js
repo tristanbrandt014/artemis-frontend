@@ -9,12 +9,18 @@ import DeleteDialog from "./DeleteDialog"
 import { push } from "react-router-redux"
 import { connect } from "react-redux"
 import Status from "./../StatusDot/StatusDot"
+import _ from "lodash"
+import { ALL } from "./../../utils/filters";
 
 const mapDispatchToProps = dispatch => ({
   redirect: path => dispatch(push(path))
 })
 
-const enhance = connect(null, mapDispatchToProps)
+const mapStateToProps = state => ({
+  filters: state.filters
+})
+
+const enhance = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = {
   name: string,
@@ -43,7 +49,7 @@ class Project extends Component<Props, State> {
   }
 
   edit() {
-    this.props.redirect(`/app/projects/${this.props.id}`)
+    this.props.redirect(`/app/projects/view/${this.props.id}`)
   }
 
   toggleDialog(dialog: "delete" | "archive", open?: boolean) {
@@ -79,10 +85,12 @@ class Project extends Component<Props, State> {
               >
                 Delete
               </Button>
-              {/* $FlowFixMe */}
-              <Button dense onClick={() => this.toggleDialog("archive", true)}>
-                {this.props.archived ? `Restore` : `Archive`}
-              </Button>
+              {
+                /* $FlowFixMe */
+                _.get(this.props, "filters.archived") !== ALL && <Button dense onClick={() => this.toggleDialog("archive", true)}>
+                  {this.props.archived ? `Restore` : `Archive`}
+                </Button>
+              }
               {/* $FlowFixMe */}
               <Button onClick={this.edit} dense color="primary">
                 View
@@ -127,7 +135,7 @@ const CardContent = styled.div`
   flex-flow: column nowrap;
 `
 
-const Description = styled(Typography)`
+const Description = styled(Typography) `
   padding-left: 17px;
   padding-bottom: 10px;
   flex: 1 0 auto;
@@ -146,11 +154,11 @@ const Header = styled.div`
   flex: 0 0 auto;
 `
 
-const Heading = styled(Typography)`
+const Heading = styled(Typography) `
   padding: 10px 17px;
 `
 
-const FullHeightCard = styled(Card)`
+const FullHeightCard = styled(Card) `
   flex: 1 0 auto;
   display: flex;
   flex-flow: column nowrap;

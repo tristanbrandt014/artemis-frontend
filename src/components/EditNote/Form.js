@@ -1,15 +1,9 @@
 //  @flow
 import React, { Component } from "react"
-import Aux from "react-aux"
 import Button from "material-ui/Button"
 import { Formik } from "formik"
 import { CircularProgress } from "material-ui/Progress"
 import { graphql, compose } from "react-apollo"
-import AppBar from "material-ui/AppBar"
-import Toolbar from "material-ui/Toolbar"
-import IconButton from "material-ui/IconButton"
-import Typography from "material-ui/Typography"
-import CloseIcon from "material-ui-icons/Close"
 import _ from "lodash"
 import {
   GET_NOTES,
@@ -19,6 +13,7 @@ import {
 } from "./../../apollo/queries"
 import styled from "styled-components"
 import Editor from "../Markdown/Editor"
+import FullScreenDialog from "./../FullScreenDialog/FullScreenDialog"
 
 
 const withNote = graphql(GET_NOTES, {
@@ -121,9 +116,7 @@ class EditNote extends Component<{}, {}> {
       return <CircularProgress />
     }
     const note = this.getNote()
-    console.log(note)
     return (
-      <Aux>
         <Formik
           initialValues={{
             body: note ? note.body : "",
@@ -140,75 +133,49 @@ class EditNote extends Component<{}, {}> {
             handleSubmit,
             isSubmitting
           }) => (
-            <StyledForm onSubmit={handleSubmit}>
-              {/* $FlowFixMe */}
-              <Header>
-                <ToolbarFlex>
-                  <ToolbarLeft>
-                    <IconButton
-                      style={{ color: "white" }}
-                      onClick={this.props.onRequestClose}
-                      aria-label="Close"
-                    >
-                      <CloseIcon />
-                    </IconButton>
-                    <Typography
-                      style={{ color: "white" }}
-                      type="title"
-                      color="inherit"
-                    >
-                      {this.props.id ? "Edit" : "Add a"} Note
-                    </Typography>
-                  </ToolbarLeft>
-                  <Button
-                    style={{ color: "white" }}
-                    onClick={() => {
-                      const click = new MouseEvent("click")
-                      this.submitInput.dispatchEvent(click)
-                    }}
-                  >
-                    save
-                  </Button>
-                </ToolbarFlex>
-              </Header>
-              <Container>
-                <Description>
-                  <Editor
-                    value={values.body}
-                    name="Note"
-                    description="Let your thoughts be recorded"
-                    onChange={value => {
-                      const fake = {
-                        name: "body",
-                        value: value
-                      }
-                      handleChange({ target: fake, persist: () => {} })
-                    }}
+              <FullScreenDialog
+                close={this.props.onRequestClose}
+                actions={() => <Button
+                  style={{ color: "white" }}
+                  onClick={() => {
+                    const click = new MouseEvent("click")
+                    this.submitInput.dispatchEvent(click)
+                  }}
+                >
+                  save
+                </Button>}
+                title={(this.props.id ? "Edit" : "Add a") + "Note"}
+              >
+                <StyledForm onSubmit={handleSubmit}>
+                  {/* $FlowFixMe */}
+                  <Container>
+                    <Description>
+                      <Editor
+                        value={values.body}
+                        name="Note"
+                        description="Let your thoughts be recorded"
+                        onChange={value => {
+                          const fake = {
+                            name: "body",
+                            value: value
+                          }
+                          handleChange({ target: fake, persist: () => { } })
+                        }}
+                      />
+                    </Description>
+                  </Container>
+                  <input
+                    type="submit"
+                    style={{ display: "none" }}
+                    ref={input => (this.submitInput = input)}
                   />
-                </Description>
-              </Container>
-              <input
-                type="submit"
-                style={{ display: "none" }}
-                ref={input => (this.submitInput = input)}
-              />
-            </StyledForm>
-          )}
+                </StyledForm>
+              </FullScreenDialog>
+            )}
         />
-      </Aux>
     )
   }
 }
-
-const ToolbarFlex = styled(Toolbar)`
-  display: flex;
-  justify-content: space-between;
-`
-
-const ToolbarLeft = styled.div`
-  display: flex;
-  align-items: center;
-`
 
 const Container = styled.div`
   display: flex;
@@ -224,11 +191,6 @@ const StyledForm = styled.form`
   display:flex;
   flex-flow: column nowrap;
   height: 100%;
-`
-
-const Header = styled(AppBar)`
-  position: static !important;
-  flex: 0 0 64px !important;
 `
 
 export default enhance(EditNote)

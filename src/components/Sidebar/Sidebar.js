@@ -34,7 +34,6 @@ const Sidebar = (props: Props) => (
     </Greeting>
     <List>
       <Link to="/app/projects" name="Projects" />
-      <Link to="/app/archives" name="Archives" />
     </List>
   </Container>
 )

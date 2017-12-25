@@ -1,6 +1,6 @@
 #import "./../fragments/category.gql"
-query getCategories {
-  Categories {
+query getCategories($id: String) {
+  Categories(id: $id) {
     ...CategoryFragment
   }
 }

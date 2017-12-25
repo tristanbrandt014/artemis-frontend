@@ -6,6 +6,7 @@ import routing from "./routing"
 import artemis from "./artemis"
 import projects from "./projects"
 import notes from "./notes"
+import filters from "./filters"
 
 import { LOGOUT } from "./../actions/auth"
 
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
   routing,
   artemis,
   projects,
-  notes
+  notes,
+  filters
 })
 
 export default (state: Object, action: Object): Object => {

@@ -10,6 +10,7 @@ import { connect } from "react-redux"
 import { toggleUpdate } from "./../../store/actions/projects"
 import hexRgb from "hex-rgb"
 import _ from "lodash"
+import defaults from "./../../utils/defaults"
 
 type Props = {
   project: ProjectType & {
@@ -31,7 +32,7 @@ const ProjectHead = (props: Props) => {
     }
     return "#ffffff"
   }
-  const categoryColor = _.get(props.project, "category.color", "#ccc")
+  const categoryColor = _.get(props.project, "category.color") || defaults.categoryColor
   const titleStyle = {
     color: getColor(categoryColor)
   }
@@ -97,7 +98,7 @@ const Title = styled.div`
 const EditButton = styled(Button)`
   bottom: -28px;
   right: 15px;
-  position: absolute;
+  position: absolute !important;
 `
 
 const Description = styled.div`

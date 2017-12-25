@@ -1,0 +1,21 @@
+// @flow
+const ARCHIVED = "ARCHIVED"
+const UNARCHIVED = "UNARCHIVED"
+const ALL = "ALL"
+
+const ACTIVE = "ACTIVE"
+const TODO = "TODO"
+const COMPLETE = "COMPLETE"
+const ABANDONED = "ABANDONED"
+const NONE = "NONE"
+
+export {
+  ARCHIVED,
+  UNARCHIVED,
+  ALL,
+  ACTIVE,
+  TODO,
+  COMPLETE,
+  ABANDONED,
+  NONE
+}

@@ -14,7 +14,11 @@ import EditNote from "./EditNote/EditNote"
 // import EditTodos from "./EditTodos/EditTodos"
 import ProjectHead from "./ProjectHead/ProjectHead"
 import Note from "./Note/Note"
-import StatusCard from './StatusCard/StatusCard'
+import StatusCard from "./StatusCard/StatusCard"
+import Column from "./Column/Column"
+import CategoryItem from "./CategoryItem/CategoryItem"
+import Link from "./Link/Link"
+import FullScreenDialog from "./FullScreenDialog/FullScreenDialog"
 
 export {
   Header,
@@ -33,5 +37,9 @@ export {
   // EditTodos,
   ProjectHead,
   Note,
-  StatusCard
+  StatusCard,
+  Column,
+  CategoryItem,
+  Link,
+  FullScreenDialog
 }

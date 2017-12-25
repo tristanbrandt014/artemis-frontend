@@ -40,7 +40,12 @@ const withProject = graphql(GET_PROJECTS, {
 })
 
 const withCategories = graphql(GET_CATEGORIES, {
-  name: "categories"
+  name: "categories",
+  options: {
+    variables: {
+      id: null
+    }
+  }
 })
 
 const withUpdate = graphql(UPDATE_PROJECT, {

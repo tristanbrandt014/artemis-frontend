@@ -42,10 +42,6 @@ class Project extends Component<{}, {}> {
     const project = {
       ...this.props.data.Projects[0]
     }
-    project.category = {
-      name: "Private",
-      color: "#333"
-    }
 
     const noteColumns = project.notes.reduce(
       (cols, note, index) => {

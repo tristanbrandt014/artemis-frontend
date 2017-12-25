@@ -1,9 +1,10 @@
 // @flow weak
 import React, { Component } from "react"
 import Aux from "react-aux"
-import Seek from "../Seek/Seek"
-import "keymaster"
-import { FadeDown } from "./../../components"
+import Seek, { Actions as SeekActions } from "../Seek/Seek"
+import Dialog from "material-ui/Dialog"
+import Slide from "material-ui/transitions/Slide"
+import { FullScreenDialog, FullScreen } from "./../../components"
 import { assignKey, unbindKey } from "./../../utils/keymaster"
 import { SEEK, openArtemis, closeArtemis } from "./../../store/actions/artemis"
 import { connect } from "react-redux"
@@ -30,11 +31,14 @@ const enhance = connect(MapStateToProps, MapDispatchToProps)
 
 class Artemis extends Component<Props, {}> {
   componentDidMount() {
-    assignKey("shift+down", () => this.openSeek())
+    assignKey("shift+left", () => this.openSeek())
+    assignKey("shift+right", () => this.props.close(SEEK))
+    assignKey("esc", () => this.props.close(SEEK))
   }
 
   commponentWillUnmount() {
-    unbindKey("shift+down")
+    unbindKey("shift+left")
+    unbindKey("esc")
   }
 
   openSeek() {
@@ -49,10 +53,26 @@ class Artemis extends Component<Props, {}> {
   render() {
     return (
       <Aux>
-        <FadeDown component={Seek} show={this.props.render === SEEK} />
+        <Dialog
+          open={this.props.render === SEEK}
+          onRequestClose={() => this.props.close(SEEK)}
+          transition={SlideDown}
+          fullScreen
+        >
+          <FullScreenDialog
+            close={() => this.props.close(SEEK)}
+            title="Seek"
+            actions={SeekActions}
+            icon="chevronRight"
+          >
+            <Seek />
+          </FullScreenDialog>
+        </Dialog>
       </Aux>
     )
   }
 }
+
+const SlideDown = props => <Slide direction="left" {...props} />
 
 export default enhance(Artemis)

@@ -4,9 +4,8 @@ import styled from "styled-components"
 import { blueGrey } from "material-ui/colors"
 import { Header, Sidebar } from "./../../components"
 import Artemis from "./../Artemis/Artemis"
-import { Route } from "react-router"
+import { Route, Switch } from "react-router"
 import Projects from "./../Projects/Projects"
-import Archives from "./../Archives/Archives"
 import Project from "./../Project/Project"
 
 export default () => (
@@ -15,9 +14,12 @@ export default () => (
     <Body>
       <Sidebar />
       <Content>
-        <Route path="/app/projects" exact component={Projects} />
-        <Route path="/app/archives" exact component={Archives} />
-        <Route path="/app/projects/:id" exact component={Project} />
+        <Switch>
+          <Route path="/app/projects/view/:id" exact component={Project} />
+          <Route path="/app/projects" exact component={Projects} />
+          <Route path="/app/projects/all" exact component={Projects} />
+          <Route path="/app/projects/:type/:value" exact component={Projects} />
+        </Switch>
       </Content>
     </Body>
     <Artemis />
@@ -37,6 +39,6 @@ const Body = styled.div`
 `
 
 const Content = styled.div`
-flex: 1 1 auto;
-overflow-Y: auto;
+  flex: 1 1 auto;
+  overflow-y: auto;
 `

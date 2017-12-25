@@ -8,7 +8,7 @@ type Props = {
   open: boolean,
   onRequestClose: Function,
   id?: number,
-  project_id: number
+  project_id?: number
 }
 class EditNote extends Component<Props, {}> {
   render() {
