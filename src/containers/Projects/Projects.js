@@ -98,6 +98,15 @@ class Projects extends Component<{}, {}> {
 
   render() {
     const projects = !this.props.data.loading ? this.getProjects() : []
+    if (_.get(this.props, "match.params.type") === "category" && !_.get(this.props, "categories.Categories[0].name")) {
+      return (
+        <Container>
+          <Typography>
+            Invalid Category
+          </Typography>
+        </Container>
+      )
+    }
     return (
       <Container>
         {/*$FlowFixMe*/}

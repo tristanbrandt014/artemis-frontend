@@ -149,7 +149,7 @@ module.exports = {
               // It enables caching results in ./node_modules/.cache/babel-loader/
               // directory for faster rebuilds.
               cacheDirectory: true,
-              plugins: ["react-hot-loader/babel", "transform-decorators-legacy"]
+              plugins: ["react-hot-loader/babel", "transform-decorators-legacy", "transform-es2015-unicode-regex"]
             }
           },
           // "postcss" loader applies autoprefixer to our CSS.

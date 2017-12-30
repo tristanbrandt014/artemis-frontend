@@ -11,6 +11,7 @@ import { toggleUpdate } from "./../../store/actions/projects"
 import hexRgb from "hex-rgb"
 import _ from "lodash"
 import defaults from "./../../utils/defaults"
+import { Link } from "./../../components"
 
 type Props = {
   project: ProjectType & {
@@ -18,11 +19,15 @@ type Props = {
   }
 }
 
+const mapStateToProps = state => ({
+  category: state.filters.category
+})
+
 const mapDispatchToProps = dispatch => ({
   toggleDialog: open => dispatch(toggleUpdate(open))
 })
 
-const enhance = connect(null, mapDispatchToProps)
+const enhance = connect(mapStateToProps, mapDispatchToProps)
 
 const ProjectHead = (props: Props) => {
   const getColor = (color: string) => {
@@ -36,8 +41,16 @@ const ProjectHead = (props: Props) => {
   const titleStyle = {
     color: getColor(categoryColor)
   }
+  console.log("CATEGORY", props.category)
   return (
     <Container>
+      <BackContainer>
+        <Link to={props.category ? `/app/projects/category/${props.category}` : "/app/projects"}>
+          <Button>
+            Projects
+        </Button>
+        </Link>
+      </BackContainer>
       <Inner>
         <ColorBar color={categoryColor}>
           <Title>
@@ -71,10 +84,9 @@ const Container = styled.div`
   flex: 1 0 100%;
   display: flex;
   flex-flow: row nowrap;
-  justify-content: center;
 `
 
-const Inner = styled(Paper)`
+const Inner = styled(Paper) `
   flex: 0 0 40%;
   flex-flow: column nowrap;
 `
@@ -95,7 +107,7 @@ const Title = styled.div`
   padding-bottom: 10px;
 `
 
-const EditButton = styled(Button)`
+const EditButton = styled(Button) `
   bottom: -28px;
   right: 15px;
   position: absolute !important;
@@ -104,6 +116,13 @@ const EditButton = styled(Button)`
 const Description = styled.div`
   padding: 15px;
   padding-top: 5px;
+`
+
+const BackContainer = styled.div`
+  flex: 0 0 30%;
+  display: flex;
+  height: 40px;
+  padding-left: 10px;
 `
 
 export default enhance(ProjectHead)

@@ -37,6 +37,8 @@ const Filters = props => (
         [ALL, ARCHIVED, UNARCHIVED].forEach(value => values.push(value))
       } else if (key === "status") {
         [ALL, ACTIVE, TODO, COMPLETE, ABANDONED, NONE].forEach(value => values.push(value))
+      } else {
+        return null
       }
       return (
         <Filter key={key}>

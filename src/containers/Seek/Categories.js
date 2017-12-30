@@ -7,11 +7,12 @@ import { cyan } from "material-ui/colors"
 import Typography from "material-ui/Typography"
 import { GET_CATEGORIES } from "./../../apollo/queries"
 import { CategoryItem, Link } from "./../../components"
-import { SEEK, closeArtemis } from "./../../store/actions/artemis"
+import { closeArtemis } from "./../../store/actions/artemis"
 import { connect } from "react-redux"
+import { get } from "lodash"
 
 const mapStateToProps = state => ({
-  path: state.routing.location.pathname
+  path: get(state, "routing.location.pathname", "")
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -25,15 +26,17 @@ type Props = {
   active: string
 }
 
-const Categories = (props: Props) => (
-  <Container>
+const Categories = (props: Props) => {
+  const isBase = (props.path || "").match(/app\/projects$/) !== null
+  return (
+<Container>
     {props.data.loading ? (
       <CircularProgress />
     ) : (
         <Content>
           <AllContainer>
             <Link to="/app/projects">
-              <SelectAll active={props.path === "/app/projects" ? "1" : ""} style={{ fontSize: 18 }}>
+              <SelectAll active={ isBase ? "1" : ""} style={{ fontSize: 18 }}>
                 All Categories
              </SelectAll>
             </Link>
@@ -47,7 +50,8 @@ const Categories = (props: Props) => (
         </Content>
       )}
   </Container>
-)
+  )
+}
 
 const Container = styled.div`
   display: flex;
@@ -61,7 +65,7 @@ const SelectAll = styled(Typography) `
     color: ${cyan[500]};
     text-decoration: underline;
   }
-  color: ${props => props.active && cyan[500]};
+  color: ${props => props.active && cyan[500]} !important;
   cursor: pointer;
 `
 

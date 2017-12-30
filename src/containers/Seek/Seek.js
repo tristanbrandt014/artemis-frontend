@@ -4,7 +4,6 @@ import { Column } from "../../components"
 import styled from "styled-components"
 import Categories from "./Categories"
 import Filters from "./Filters"
-import Button from "material-ui/Button"
 
 type Props = {
   style: Object
@@ -33,13 +32,7 @@ class Seek extends Component<Props, {}> {
     )
   }
 }
-
-export const Actions = () =>
-  <Button
-    style={{ color: "white" }}
-  >
-    Use on login
-</Button>
+  
 
 const Container = styled.div`
   width: 100%;

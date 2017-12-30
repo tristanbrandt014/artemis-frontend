@@ -5,7 +5,8 @@ import type { FiltersType } from "./../../types/filters"
 
 const initialState = {
   archived: UNARCHIVED,
-  status: ALL
+  status: ALL,
+  category: ""
 }
 
 export default (state: FiltersType = initialState, action) => {

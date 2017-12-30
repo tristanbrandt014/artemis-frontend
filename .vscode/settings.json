@@ -1,5 +1,6 @@
 {
     "javascript.validate.enable": false,
     "editor.tabSize": 2,
-    "vsicons.presets.angular": true
+    "vsicons.presets.angular": true,
+    "prettier.semi": false
 }

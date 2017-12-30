@@ -7,7 +7,6 @@ import IconButton from "material-ui/IconButton"
 import CloseIcon from "material-ui-icons/Close"
 import ChevronRight from "material-ui-icons/ChevronRight"
 import Typography from "material-ui/Typography"
-import Aux from "react-aux"
 
 type Props = {
   close: Function,

@@ -5,7 +5,7 @@ import { Typography } from "material-ui"
 import Link from "./../Link/Link"
 import { cyan } from "material-ui/colors"
 import { connect } from "react-redux"
-import { includes } from "lodash"
+import { includes, get } from "lodash"
 
 type Props = {
   name: string,
@@ -16,7 +16,7 @@ type Props = {
 }
 
 const mapStateToProps = state => ({
-  path: state.routing.location.pathname
+  path: get(state, "routing.location.pathname")
 })
 
 const enhance = connect(mapStateToProps, null)

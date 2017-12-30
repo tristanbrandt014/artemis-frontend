@@ -1,0 +1,6 @@
+#import "./../fragments/user.gql"
+query getUser {
+  User {
+  ...UserFragment    
+  }
+}

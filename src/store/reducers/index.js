@@ -1,5 +1,6 @@
 // @flow
 import { combineReducers } from "redux"
+import { get, cloneDeep } from "lodash"
 import auth from "./auth"
 import apollo from "./apollo"
 import routing from "./routing"
@@ -21,10 +22,24 @@ const rootReducer = combineReducers({
 })
 
 export default (state: Object, action: Object): Object => {
+  const newState = cloneDeep(state)
   if (action.type === LOGOUT) {
     return {
       apollo: state.apollo
     }
   }
-  return rootReducer(state, action)
+  const categoryPattern = /app\/projects\/category\/(.{24})/
+  const pathname = get(state, "routing.location.pathname", "") || ""
+  const match = pathname.match(categoryPattern)
+  let category = get(match, "[1]")
+  const isBase = pathname.match(/app\/projects$/) !== null
+  if (!category && isBase) {
+    category = ""
+  }
+
+  if (typeof category === "string" && typeof get(newState, "filters.category") === "string") {
+    newState.filters.category = category
+  }
+
+  return rootReducer(newState, action)
 }

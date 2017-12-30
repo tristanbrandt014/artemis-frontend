@@ -1,10 +1,11 @@
 // @flow weak
 import React, { Component } from "react"
 import Aux from "react-aux"
-import Seek, { Actions as SeekActions } from "../Seek/Seek"
+import Seek from "../Seek/Seek"
+import SeekActions from "../Seek/Actions"
 import Dialog from "material-ui/Dialog"
 import Slide from "material-ui/transitions/Slide"
-import { FullScreenDialog, FullScreen } from "./../../components"
+import { FullScreenDialog } from "./../../components"
 import { assignKey, unbindKey } from "./../../utils/keymaster"
 import { SEEK, openArtemis, closeArtemis } from "./../../store/actions/artemis"
 import { connect } from "react-redux"
@@ -36,8 +37,9 @@ class Artemis extends Component<Props, {}> {
     assignKey("esc", () => this.props.close(SEEK))
   }
 
-  commponentWillUnmount() {
+  componentWillUnmount() {
     unbindKey("shift+left")
+    unbindKey("shift+right")
     unbindKey("esc")
   }
 

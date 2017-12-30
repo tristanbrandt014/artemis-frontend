@@ -1,0 +1,11 @@
+#import "./../fragments/user.gql"
+mutation updateUserSettings ($type: String!, $value: String!) {
+  updateUserSettings(settings: {
+    startup: {
+      type: $type
+      value: $value
+    }
+  }) {
+    ...UserFragment
+  }
+}

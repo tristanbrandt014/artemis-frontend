@@ -1,0 +1,10 @@
+fragment UserFragment on User {
+  id
+  firstname
+  lastname
+  email
+  startup {
+    type 
+    value
+  }
+}

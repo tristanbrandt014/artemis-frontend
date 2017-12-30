@@ -12,16 +12,16 @@ import config from "./../../config"
 import { loginAction } from "./../../store/actions/auth"
 import { push } from "react-router-redux"
 
-const MapStateToProps = state => ({
+const mapStateToProps = state => ({
   auth: state.auth
 })
 
-const MapDispatchToProps = dispatch => ({
+const mapDispatchToProps = dispatch => ({
   login: (token, user) => dispatch(loginAction(token, user)),
   redirect: path => dispatch(push(path))
 })
 
-const enhance = connect(MapStateToProps, MapDispatchToProps)
+const enhance = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = {
   login: (token: string, user: Object) => void,

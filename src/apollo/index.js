@@ -20,6 +20,16 @@ networkInterface.use([{
   }
 }])
 
+// $FlowFixMe
+networkInterface.useAfter([{
+  applyAfterware: (res, next) => {
+    if (res.response.status === 401) {
+      window.location = ("/logout")
+    }
+    next()
+  }
+}])
+
 export default new ApolloClient({
   networkInterface
 })

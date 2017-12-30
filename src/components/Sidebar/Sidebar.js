@@ -4,34 +4,34 @@ import styled from "styled-components"
 import { Typography, List } from "material-ui"
 import { AccountCircle } from "material-ui-icons"
 import { blueGrey } from "material-ui/colors"
-import { connect } from "react-redux"
 import { sidebar } from "./../../styles"
+import withUser from "./../../utils/withUser"
 import Link from "./Link"
 
 import type { User } from "./../../types/user"
 
-const MapStateToProps = state => ({
-  user: state.auth.user
-})
-
-const enhance = connect(MapStateToProps, () => ({}))
+const enhance = withUser
 
 type Props = {
-  user: User
+  user: {
+    User: User
+  }
 }
 
 const Sidebar = (props: Props) => (
   <Container>
-    <Greeting>
-      <AccountCircle style={{ width: "35px", height: "35px" }} color="white" />
-      {/* $FlowFixMe */}
-      <Typography
-        type="subheading"
-        style={{ color: "white", marginLeft: "10px" }}
-      >
-        Hey {props.user.firstname}
-      </Typography>
-    </Greeting>
+    {
+      !props.user.loading && <Greeting>
+        <AccountCircle style={{ width: "35px", height: "35px" }} color="white" />
+        {/* $FlowFixMe */}
+        <Typography
+          type="subheading"
+          style={{ color: "white", marginLeft: "10px" }}
+        >
+          Hey {props.user.User.firstname}
+        </Typography>
+      </Greeting>
+    }
     <List>
       <Link to="/app/projects" name="Projects" />
     </List>

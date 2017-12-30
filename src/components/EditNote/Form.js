@@ -144,7 +144,7 @@ class EditNote extends Component<{}, {}> {
                 >
                   save
                 </Button>}
-                title={(this.props.id ? "Edit" : "Add a") + "Note"}
+                title={(this.props.id ? "Edit" : "Add a") + " Note"}
               >
                 <StyledForm onSubmit={handleSubmit}>
                   {/* $FlowFixMe */}
