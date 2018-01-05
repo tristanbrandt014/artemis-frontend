@@ -68,12 +68,12 @@ const ProjectHead = (props: Props) => {
           </EditButton>
         </ColorBar>
         <Description>
-          {<MarkdownRenderer markdown={props.project.description} /> || (
+          {props.project.description ? <MarkdownRenderer markdown={props.project.description} /> :
             // $FlowFixMe
             <Typography>
               <i>No description</i>
             </Typography>
-          )}
+          }
         </Description>
       </Inner>
     </Container>

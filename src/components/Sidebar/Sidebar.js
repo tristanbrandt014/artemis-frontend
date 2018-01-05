@@ -34,9 +34,10 @@ const Sidebar = (props: Props) => (
     }
     <List>
       <Link to="/app/projects" name="Projects" />
+      <Link to="/app/categories" name="Categories" />
     </List>
   </Container>
-)
+    )
 
 const Container = styled.div`
   flex: 0 0 ${sidebar.width};

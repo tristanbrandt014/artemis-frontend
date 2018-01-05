@@ -19,6 +19,7 @@ import Column from "./Column/Column"
 import CategoryItem from "./CategoryItem/CategoryItem"
 import Link from "./Link/Link"
 import FullScreenDialog from "./FullScreenDialog/FullScreenDialog"
+import EditCategory from "./EditCategory/EditCategory"
 
 export {
   Header,
@@ -41,5 +42,6 @@ export {
   Column,
   CategoryItem,
   Link,
-  FullScreenDialog
+  FullScreenDialog,
+  EditCategory
 }

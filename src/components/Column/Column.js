@@ -1,7 +1,7 @@
 // @flow
 import React from "react"
 import styled from "styled-components"
-import { Typography } from "material-ui"
+import { Typography, Paper } from "material-ui"
 
 type Props = {
   name: string
@@ -18,9 +18,10 @@ const Column = (props: Props) => (
   </Container>
 )
 
-const Container = styled.div`
-  flex: 1 1 auto;
+const Container = styled(Paper)`
+  flex: 0 1 30%;
   height: 100%;
+  padding: 30px;
 `
 
 const Body = styled.div`

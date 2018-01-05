@@ -110,7 +110,6 @@ class EditNote extends Component<{}, {}> {
     }
   }
   render() {
-    console.log(this.props)
     if (this.props.id && this.props.data.loading) {
       // $FlowFixMe
       return <CircularProgress />

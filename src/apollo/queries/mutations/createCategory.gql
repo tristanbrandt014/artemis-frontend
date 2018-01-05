@@ -1,0 +1,6 @@
+#import "./../fragments/category.gql"
+mutation createCategory ($name: String!, $color: String!) {
+  createCategory (name: $name, color: $color) {
+    ...CategoryFragment
+  }
+}

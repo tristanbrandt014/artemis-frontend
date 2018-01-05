@@ -1,0 +1,6 @@
+#import "./../fragments/category.gql"
+mutation destroyCategory ($id: String!) {
+  destroyCategory(id: $id) {
+    ...CategoryFragment
+  }
+}

@@ -13,6 +13,9 @@ import CREATE_NOTE from "./mutations/createNote.gql"
 import UPDATE_NOTE from "./mutations/updateNote.gql"
 import DESTROY_NOTE from "./mutations/destroyNote.gql"
 import UPDATE_USER_SETTINGS from "./mutations/updateUserSettings.gql"
+import CREATE_CATEGORY from "./mutations/createCategory.gql"
+import UPDATE_CATEGORY from "./mutations/updateCategory.gql"
+import DESTROY_CATEGORY from "./mutations/destroyCategory.gql"
 
 export {
   // queries
@@ -28,5 +31,8 @@ export {
   CREATE_NOTE,
   UPDATE_NOTE,
   DESTROY_NOTE,
-  UPDATE_USER_SETTINGS
+  UPDATE_USER_SETTINGS,
+  CREATE_CATEGORY,
+  UPDATE_CATEGORY,
+  DESTROY_CATEGORY
 }

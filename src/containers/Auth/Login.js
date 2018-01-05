@@ -11,6 +11,7 @@ import logo from "./../../resources/img/arte.png"
 import config from "./../../config"
 import { loginAction } from "./../../store/actions/auth"
 import { push } from "react-router-redux"
+import {get} from "lodash"
 
 const mapStateToProps = state => ({
   auth: state.auth
@@ -40,7 +41,13 @@ class Login extends Component<Props, {}> {
 
   checkUser(props) {
     if (props.auth && props.auth.token) {
-      props.redirect("/app")
+      const startup = get(props.auth, "user.startup", {})
+      console.log("STARTUP", startup)
+      if (startup.type === "category" && startup.value) {
+        props.redirect(`/app/projects/category/${startup.value}`)
+      } else {
+        props.redirect("/app")
+      }
     }
   }
 
@@ -95,7 +102,7 @@ class Login extends Component<Props, {}> {
                 setSubmitting(false)
                 this.props.login(result.token, result.user)
               } catch (err) {
-                setSubmitting(false)                
+                setSubmitting(false)
                 if (err.statusCode === 403) {
                   setErrors({ auth: "Invalid credentials" })
                 } else {
@@ -111,68 +118,68 @@ class Login extends Component<Props, {}> {
               handleSubmit,
               isSubmitting
             }) => (
-              <FormContainer>
-                {/* $FlowFixMe */}
-                {isSubmitting && <LinearProgress mode="query" />}
-                <FormInner>
-                  <Header>
-                    <Logo src={logo} alt="Logo" />
-                    {<Heading type="headline">Artemis</Heading>}
-                  </Header>
-                  <form onSubmit={handleSubmit}>
-                    <TextField
-                      type="email"
-                      name="email"
-                      margin="normal"
-                      fullWidth
-                      error={!!errors.email}
-                      helperText={errors.email}
-                      label="Email"
-                      onChange={handleChange}
-                      value={values.email}
-                    />
-                    <TextField
-                      name="password"
-                      error={!!errors.password}
-                      helperText={errors.password}
-                      type="password"
-                      margin="normal"
-                      fullWidth
-                      label="Password"
-                      onChange={handleChange}
-                      value={values.password}
-                    />
-                    {errors.auth && (
-                      <Error>
-                        {/* $FlowFixMe */}
-                        <Typography>{errors.auth}</Typography>
-                      </Error>
-                    )}
-                    <input
-                      type="submit"
-                      style={{ display: "none" }}
-                      ref={input => (this.submit = input)}
-                    />
-                  </form>
-                  <Actions>
-                    {/* $FlowFixMe */}
-                    <Button>Register</Button>
-                    {/* $FlowFixMe */}
-                    <Button
-                      style={{ color: "white", marginLeft: "10px" }}
-                      raised
-                      color="primary"
-                      onClick={() => {
-                        const click = new MouseEvent("click")
-                        this.submit.dispatchEvent(click)
-                      }}
-                    >
-                      Log in
+                <FormContainer>
+                  {/* $FlowFixMe */}
+                  {isSubmitting && <LinearProgress mode="query" />}
+                  <FormInner>
+                    <Header>
+                      <Logo src={logo} alt="Logo" />
+                      {<Heading type="headline">Artemis</Heading>}
+                    </Header>
+                    <form onSubmit={handleSubmit}>
+                      <TextField
+                        type="email"
+                        name="email"
+                        margin="normal"
+                        fullWidth
+                        error={!!errors.email}
+                        helperText={errors.email}
+                        label="Email"
+                        onChange={handleChange}
+                        value={values.email}
+                      />
+                      <TextField
+                        name="password"
+                        error={!!errors.password}
+                        helperText={errors.password}
+                        type="password"
+                        margin="normal"
+                        fullWidth
+                        label="Password"
+                        onChange={handleChange}
+                        value={values.password}
+                      />
+                      {errors.auth && (
+                        <Error>
+                          {/* $FlowFixMe */}
+                          <Typography>{errors.auth}</Typography>
+                        </Error>
+                      )}
+                      <input
+                        type="submit"
+                        style={{ display: "none" }}
+                        ref={input => (this.submit = input)}
+                      />
+                    </form>
+                    <Actions>
+                      {/* $FlowFixMe */}
+                      <Button>Register</Button>
+                      {/* $FlowFixMe */}
+                      <Button
+                        style={{ color: "white", marginLeft: "10px" }}
+                        raised
+                        color="primary"
+                        onClick={() => {
+                          const click = new MouseEvent("click")
+                          this.submit.dispatchEvent(click)
+                        }}
+                      >
+                        Log in
                     </Button>
-                  </Actions>
-                </FormInner>
-              </FormContainer>
-            )}
+                    </Actions>
+                  </FormInner>
+                </FormContainer>
+              )}
           />
         </Container>
       </div>
@@ -195,7 +202,7 @@ const Header = styled.div`
   align-items: center;
 `
 
-const FormContainer = styled(Paper)`
+const FormContainer = styled(Paper) `
   width: 350px;
   z-index: 2;
 `
@@ -224,6 +231,6 @@ const Error = styled.div`
   padding: 10px;
   background-color: ${red[50]};
 `
-const Heading = styled(Typography)`margin-left: 15px;`
+const Heading = styled(Typography) `margin-left: 15px;`
 
 export default enhance(Login)

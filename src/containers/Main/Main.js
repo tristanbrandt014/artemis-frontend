@@ -7,6 +7,7 @@ import Artemis from "./../Artemis/Artemis"
 import { Route, Switch } from "react-router"
 import Projects from "./../Projects/Projects"
 import Project from "./../Project/Project"
+import Categories from "./../Categories/Categories"
 
 export default () => (
   <Container>
@@ -19,6 +20,7 @@ export default () => (
           <Route path="/app/projects" exact component={Projects} />
           <Route path="/app/projects/all" exact component={Projects} />
           <Route path="/app/projects/:type/:value" exact component={Projects} />
+          <Route path="/app/categories" exact component={Categories} />
         </Switch>
       </Content>
     </Body>

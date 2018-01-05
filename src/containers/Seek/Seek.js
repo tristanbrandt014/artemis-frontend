@@ -4,6 +4,7 @@ import { Column } from "../../components"
 import styled from "styled-components"
 import Categories from "./Categories"
 import Filters from "./Filters"
+import { blueGrey } from "material-ui/colors"
 
 type Props = {
   style: Object
@@ -37,10 +38,11 @@ class Seek extends Component<Props, {}> {
 const Container = styled.div`
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: ${blueGrey[500]};
   display: flex;
   flex-flow: row nowrap;
   padding: 15px;
+  justify-content: space-around;
 `
 
 export default Seek

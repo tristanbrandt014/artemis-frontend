@@ -35,17 +35,20 @@ class Actions extends Component<{}, {}> {
   }
 
   handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
+    this.setState({ open: false })
+  }
 
-    this.setState({ open: false });
+  update = async () => {
+    await this.props.update()
+    this.setState({
+      open: true
+    })
   }
 
   render() {
     return (
       <Aux>
-        <Button style={{ color: "white" }} onClick={this.props.update}>
+        <Button style={{ color: "white" }} onClick={this.update}>
           Use on login
         </Button>
         <Snackbar
@@ -59,7 +62,7 @@ class Actions extends Component<{}, {}> {
           SnackbarContentProps={{
             'aria-describedby': 'message-id',
           }}
-          message={<span id="message-id">Noted ;)</span>}
+          message={<span id="message-id">Settings saved</span>}
           action={[
             <IconButton
               key="close"

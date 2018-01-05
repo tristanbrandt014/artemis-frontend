@@ -37,7 +37,7 @@ const Categories = (props: Props) => {
           <AllContainer>
             <Link to="/app/projects">
               <SelectAll active={ isBase ? "1" : ""} style={{ fontSize: 18 }}>
-                All Categories
+                All Projects
              </SelectAll>
             </Link>
           </AllContainer>
