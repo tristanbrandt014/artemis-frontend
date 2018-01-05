@@ -3,14 +3,16 @@ import React, { Component } from "react"
 import Aux from "react-aux"
 import Seek from "../Seek/Seek"
 import SeekActions from "../Seek/Actions"
+import Hunt from "../Hunt/Hunt"
+import HuntActions from "./../Hunt/Actions"
 import Dialog from "material-ui/Dialog"
 import Slide from "material-ui/transitions/Slide"
 import { FullScreenDialog } from "./../../components"
 import { assignKey, unbindKey } from "./../../utils/keymaster"
-import { SEEK, openArtemis, closeArtemis } from "./../../store/actions/artemis"
+import { SEEK, NONE, HUNT, openArtemis, closeArtemis } from "./../../store/actions/artemis"
 import { connect } from "react-redux"
 
-type RenderState = "SEEK" | "HUNT" | "NONE"
+type RenderState = typeof SEEK | typeof HUNT | typeof NONE
 
 type Props = {
   changeState: () => RenderState,
@@ -32,9 +34,9 @@ const enhance = connect(MapStateToProps, MapDispatchToProps)
 
 class Artemis extends Component<Props, {}> {
   componentDidMount() {
-    assignKey("shift+left", () => this.openSeek())
-    assignKey("shift+right", () => this.props.close(SEEK))
-    assignKey("esc", () => this.props.close(SEEK))
+    assignKey("shift+left", () => this.changeState({ to: SEEK }))
+    assignKey("shift+right", () => this.changeState({ to: HUNT }))
+    assignKey("esc", () => this.changeState({ to: NONE }))
   }
 
   componentWillUnmount() {
@@ -43,12 +45,16 @@ class Artemis extends Component<Props, {}> {
     unbindKey("esc")
   }
 
-  openSeek() {
-    if (this.props.render === SEEK) {
-      this.props.close(SEEK)
-      return
+  changeState = (options: {
+    to: typeof SEEK | typeof HUNT,
+    force?: boolean
+  }) => {
+    if (this.props.render === NONE || options.force) {
+      this.props.open(options.to)
+    } else {
+      this.props.open(NONE)
     }
-    this.props.open(SEEK)
+
   }
 
   // $FlowFixMe
@@ -57,12 +63,12 @@ class Artemis extends Component<Props, {}> {
       <Aux>
         <Dialog
           open={this.props.render === SEEK}
-          onRequestClose={() => this.props.close(SEEK)}
-          transition={SlideDown}
+          onRequestClose={() => this.changeState({ to: NONE })}
+          transition={SlideLeft}
           fullScreen
         >
           <FullScreenDialog
-            close={() => this.props.close(SEEK)}
+            close={() => this.changeState({ to: NONE })}
             title="Seek"
             actions={SeekActions}
             icon="chevronRight"
@@ -70,11 +76,27 @@ class Artemis extends Component<Props, {}> {
             <Seek />
           </FullScreenDialog>
         </Dialog>
+        <Dialog
+          open={this.props.render === HUNT}
+          onRequestClose={() => this.changeState({ to: NONE })}
+          transition={SlideRight}
+          fullScreen
+        >
+          <FullScreenDialog
+            close={() => this.changeState({ to: NONE })}
+            title="Hunt"
+            actions={HuntActions}
+            icon="chevronLeft"
+          >
+            <Hunt />
+          </FullScreenDialog>
+        </Dialog>
       </Aux>
     )
   }
 }
 
-const SlideDown = props => <Slide direction="left" {...props} />
+const SlideLeft = props => <Slide direction="left" {...props} />
+const SlideRight = props => <Slide direction="right" {...props} />
 
 export default enhance(Artemis)

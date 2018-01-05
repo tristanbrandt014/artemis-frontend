@@ -1,0 +1,15 @@
+#import "./../fragments/category.gql"
+#import "./../fragments/project.gql"
+#import "./../fragments/note.gql"
+
+query getUserData {
+  Categories {
+    ...CategoryFragment
+    projects {
+      ...ProjectFragment
+      notes {
+        ...NoteFragment
+      }
+    }
+  }
+}

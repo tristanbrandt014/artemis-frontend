@@ -4,6 +4,7 @@ import GET_CATEGORIES from "./queries/getCategories.gql"
 import GET_NOTES from "./queries/getNotes.gql"
 import GET_PROJECT from "./queries/getProject.gql"
 import GET_USER from "./queries/getUser.gql"
+import GET_USER_DATA from "./queries/getUserData.gql"
 
 // mutations
 import UPDATE_PROJECT from "./mutations/updateProject.gql"
@@ -24,6 +25,7 @@ export {
   GET_NOTES,
   GET_PROJECT,
   GET_USER,
+  GET_USER_DATA,
   // mutations
   UPDATE_PROJECT,
   CREATE_PROJECT,

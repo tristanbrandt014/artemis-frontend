@@ -7,4 +7,5 @@ fragment UserFragment on User {
     type 
     value
   }
+  dataVersion
 }

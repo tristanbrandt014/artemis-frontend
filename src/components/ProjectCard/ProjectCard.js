@@ -66,7 +66,7 @@ class Project extends Component<Props, State> {
 
   render() {
     return (
-      <FullHeightCard>
+      <FullHeightCard style={this.props.archived ? { opacity: 0.4 } : {}}>
         <Container>
           <Color color={this.props.color} />
           <CardContent>

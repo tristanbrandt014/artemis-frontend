@@ -1,13 +1,10 @@
 // @flow
-import {OPEN_ARTEMIS, CLOSE_ARTEMIS, SEEK, NONE} from "../actions/artemis"
+import {OPEN_ARTEMIS, CLOSE_ARTEMIS, NONE} from "../actions/artemis"
 
-export default (state: string = "", action: Object): string => {
+export default (state: string = NONE, action: Object): string => {
   switch (action.type) {
     case OPEN_ARTEMIS: {
-      if (action.payload.type === SEEK) {
-        return SEEK
-      }
-      return state
+      return action.payload.type
     }
     case CLOSE_ARTEMIS: {
      return NONE

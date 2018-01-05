@@ -6,6 +6,7 @@ import Toolbar from "material-ui/Toolbar"
 import IconButton from "material-ui/IconButton"
 import CloseIcon from "material-ui-icons/Close"
 import ChevronRight from "material-ui-icons/ChevronRight"
+import ChevronLeft from "material-ui-icons/ChevronLeft"
 import Typography from "material-ui/Typography"
 
 type Props = {
@@ -22,6 +23,9 @@ const FullScreenDialog = (props: Props) => {
     switch (props.icon) {
       case "chevronRight": {
         return (<ChevronRight />)
+      }
+      case "chevronLeft": {
+        return (<ChevronLeft />)
       }
       default: {
         return (<CloseIcon />)

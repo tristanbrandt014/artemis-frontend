@@ -7,7 +7,7 @@ import Filters from "./Filters"
 import { blueGrey } from "material-ui/colors"
 
 type Props = {
-  style: Object
+  style?: Object
 }
 
 class Seek extends Component<Props, {}> {
