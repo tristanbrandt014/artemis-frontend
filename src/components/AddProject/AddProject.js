@@ -14,7 +14,9 @@ import { graphql, compose } from "react-apollo"
 import {
   GET_CATEGORIES,
   CREATE_PROJECT,
-  GET_PROJECTS
+  GET_PROJECTS,
+  GET_USER, 
+  GET_USER_DATA
 } from "./../../apollo/queries"
 import Select from "material-ui/Select"
 import styled from "styled-components"
@@ -45,6 +47,12 @@ const withCreateProject = graphql(CREATE_PROJECT, {
           category: null,
           archived: null
         }
+      },
+      {
+        query: GET_USER
+      },
+      {
+        query: GET_USER_DATA
       }
     ]
   }
@@ -97,85 +105,85 @@ class AddProject extends Component<{}, {}> {
             handleSubmit,
             isSubmitting
           }) => (
-            <form onSubmit={handleSubmit}>
-              {/* $FlowFixMe */}
-              <DialogTitle>Add a project</DialogTitle>
-              {/* $FlowFixMe */}
-              <DialogContent>
-                <Field>
-                  <TextField
-                    type="text"
-                    name="name"
-                    margin="normal"
-                    fullWidth
-                    error={!!errors.name}
-                    helperText={errors.name}
-                    label="Name"
-                    onChange={handleChange}
-                    value={values.name}
-                  />
-                </Field>
-                <Field>
-                  {/* $FlowFixMe */}
-                  <FormControl fullWidth>
+              <form onSubmit={handleSubmit}>
+                {/* $FlowFixMe */}
+                <DialogTitle>Add a project</DialogTitle>
+                {/* $FlowFixMe */}
+                <DialogContent>
+                  <Field>
+                    <TextField
+                      type="text"
+                      name="name"
+                      margin="normal"
+                      fullWidth
+                      error={!!errors.name}
+                      helperText={errors.name}
+                      label="Name"
+                      onChange={handleChange}
+                      value={values.name}
+                    />
+                  </Field>
+                  <Field>
                     {/* $FlowFixMe */}
-                    <InputLabel htmlFor="category-input">Category</InputLabel>
-                    {/* $FlowFixMe */}
-                    <Select
-                      value={values.category}
-                      onChange={e => {
-                        const fake = {
-                          name: "category",
-                          value: e.target.value
-                        }
-                        handleChange({ target: fake, persist: () => {} })
-                      }}
-                      input={
-                        <Input
-                          value={values.category}
-                          onChange={() => {}}
-                          id="category-input"
-                        />
-                      }
-                    >
+                    <FormControl fullWidth>
                       {/* $FlowFixMe */}
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      {!this.props.data.loading &&
-                        this.props.data.Categories.map(category => (
-                          <MenuItem key={category.id} value={category.id}>
-                            {category.name}
-                          </MenuItem>
-                        ))}
-                    </Select>
-                  </FormControl>
-                </Field>
-              </DialogContent>
-              {/* $FlowFixMe */}
-              <DialogActions>
+                      <InputLabel htmlFor="category-input">Category</InputLabel>
+                      {/* $FlowFixMe */}
+                      <Select
+                        value={values.category}
+                        onChange={e => {
+                          const fake = {
+                            name: "category",
+                            value: e.target.value
+                          }
+                          handleChange({ target: fake, persist: () => { } })
+                        }}
+                        input={
+                          <Input
+                            value={values.category}
+                            onChange={() => { }}
+                            id="category-input"
+                          />
+                        }
+                      >
+                        {/* $FlowFixMe */}
+                        <MenuItem value="">
+                          <em>None</em>
+                        </MenuItem>
+                        {!this.props.data.loading &&
+                          this.props.data.Categories.map(category => (
+                            <MenuItem key={category.id} value={category.id}>
+                              {category.name}
+                            </MenuItem>
+                          ))}
+                      </Select>
+                    </FormControl>
+                  </Field>
+                </DialogContent>
                 {/* $FlowFixMe */}
-                <Button onClick={() => this.props.toggleDialog(false)}>
-                  Cancel
+                <DialogActions>
+                  {/* $FlowFixMe */}
+                  <Button onClick={() => this.props.toggleDialog(false)}>
+                    Cancel
                 </Button>
-                {/* $FlowFixMe */}
-                <Button
-                  onClick={() => {
-                    const click = new MouseEvent("click")
-                    this.submitInput.dispatchEvent(click)
-                  }}
-                  color="primary"
-                >
-                  Save
+                  {/* $FlowFixMe */}
+                  <Button
+                    onClick={() => {
+                      const click = new MouseEvent("click")
+                      this.submitInput.dispatchEvent(click)
+                    }}
+                    color="primary"
+                  >
+                    Save
                 </Button>
-              </DialogActions>
-              <input
-                type="submit"
-                style={{ display: "none" }}
-                ref={input => (this.submitInput = input)}
-              />
-            </form>
-          )}
+                </DialogActions>
+                <input
+                  type="submit"
+                  style={{ display: "none" }}
+                  ref={input => (this.submitInput = input)}
+                />
+              </form>
+            )}
         />
       </Aux>
     )

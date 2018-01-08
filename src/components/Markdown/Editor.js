@@ -8,7 +8,8 @@ type Props = {
   value: string,
   onChange: (value: string) => void,
   name: string,
-  description: string
+  description: string,
+  autoFocus?: boolean
 }
 
 type State = {
@@ -62,6 +63,7 @@ export class Markdown extends Component<Props, State> {
                 resize: "none",
                 padding: "15px"
               }}
+              autoFocus={this.props.autoFocus}
               placeholder={this.props.description}
             />
           </Section>

@@ -8,7 +8,9 @@ import _ from "lodash"
 import {
   GET_CATEGORIES,
   CREATE_CATEGORY,
-  UPDATE_CATEGORY
+  UPDATE_CATEGORY,
+  GET_USER, 
+  GET_USER_DATA
 } from "./../../apollo/queries"
 import styled from "styled-components"
 import { DialogActions, DialogContent, DialogTitle } from "material-ui/Dialog"
@@ -37,7 +39,19 @@ const withUpdate = graphql(UPDATE_CATEGORY, {
           ...params
         }
       })
-  })
+  }),
+  // $FlowFixMe
+  options: {
+    refetchQueries: [
+      {
+        query: GET_USER
+      },
+      {
+        query: GET_USER_DATA
+      }
+    ]
+  }
+
 })
 
 const withCreate = graphql(CREATE_CATEGORY, {
@@ -66,7 +80,15 @@ const withCreate = graphql(CREATE_CATEGORY, {
         },
         data
       })
-    }
+    },
+    refetchQueries: [
+      {
+        query: GET_USER
+      },
+      {
+        query: GET_USER_DATA
+      }
+    ]
   })
 })
 
@@ -154,7 +176,7 @@ class EditCategory extends Component<Props, {}> {
                     value={values.name}
                   />
                 </Field>
-                <Typography style={{marginBottom:10}}>Color:</Typography>
+                <Typography style={{ marginBottom: 10 }}>Color:</Typography>
                 <SliderPicker color={values.color} onChangeComplete={(color, event) => {
                   const fake = {
                     name: "color",

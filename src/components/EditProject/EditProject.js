@@ -12,7 +12,9 @@ import { graphql, compose } from "react-apollo"
 import {
   GET_CATEGORIES,
   GET_PROJECTS,
-  UPDATE_PROJECT
+  UPDATE_PROJECT,
+  GET_USER,
+  GET_USER_DATA
 } from "./../../apollo/queries"
 import { toggleUpdate } from "./../../store/actions/projects"
 import Select from "material-ui/Select"
@@ -52,7 +54,17 @@ const withUpdate = graphql(UPDATE_PROJECT, {
           ...params
         }
       })
-  })
+  }),
+  options: {
+    refetchQueries: [
+      {
+        query: GET_USER
+      },
+      {
+        query: GET_USER_DATA
+      }
+    ]
+  }
 })
 
 const enhance = compose(
@@ -141,6 +153,7 @@ class EditProject extends Component<{}, {}> {
                         label="Name"
                         onChange={handleChange}
                         value={values.name}
+                        autoFocus
                       />
                     </Field>
                     <Field>

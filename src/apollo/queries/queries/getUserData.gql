@@ -3,13 +3,13 @@
 #import "./../fragments/note.gql"
 
 query getUserData {
-  Categories {
+  Projects {
+    ...ProjectFragment
+    category {
     ...CategoryFragment
-    projects {
-      ...ProjectFragment
-      notes {
-        ...NoteFragment
-      }
+    }
+    notes {
+      ...NoteFragment
     }
   }
 }

@@ -8,7 +8,7 @@ import Dialog, {
 } from "material-ui/Dialog"
 import { graphql } from "react-apollo"
 import type { OperationComponent, QueryProps } from "react-apollo"
-import { UPDATE_PROJECT } from "./../../apollo/queries"
+import { UPDATE_PROJECT, GET_USER, GET_USER_DATA } from "./../../apollo/queries"
 import type { ProjectType } from "./../../types/project"
 
 type Response = {
@@ -37,7 +37,17 @@ const enhance: OperationComponent<
           archived: !ownProps.archived
         }
       })
-  })
+  }),
+  options: {
+    refetchQueries: [
+      {
+        query: GET_USER
+      },
+      {
+        query: GET_USER_DATA
+      }
+    ]
+  }
 })
 
 const ArchiveDialog = (props: Props) => (

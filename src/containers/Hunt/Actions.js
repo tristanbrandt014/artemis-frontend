@@ -1,7 +1,6 @@
 // @flow
 import React from "react"
-import { Button } from "material-ui"
 
-const Actions = () => <Button>Hello</Button>
+const Actions = () => <span />
 
 export default Actions

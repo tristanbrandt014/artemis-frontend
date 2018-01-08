@@ -8,7 +8,7 @@ import Dialog, {
 } from "material-ui/Dialog"
 import { graphql } from "react-apollo"
 import type { OperationComponent, QueryProps } from "react-apollo"
-import { DESTROY_NOTE, GET_PROJECT } from "./../../apollo/queries"
+import { DESTROY_NOTE, GET_PROJECT, GET_USER, GET_USER_DATA } from "./../../apollo/queries"
 import type { NoteType } from "./../../types/note"
 
 type Response = {
@@ -54,8 +54,17 @@ const enhance: OperationComponent<Response, Props, AllProps> = graphql(
           },
           data
         })
-      }
+      },
+      refetchQueries: [
+        {
+          query: GET_USER
+        },
+        {
+          query: GET_USER_DATA
+        }
+      ]
     })
+
   }
 )
 

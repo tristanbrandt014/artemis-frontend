@@ -9,7 +9,9 @@ import {
   GET_NOTES,
   UPDATE_NOTE,
   CREATE_NOTE,
-  GET_PROJECT
+  GET_PROJECT,
+  GET_USER, 
+  GET_USER_DATA
 } from "./../../apollo/queries"
 import styled from "styled-components"
 import Editor from "../Markdown/Editor"
@@ -33,7 +35,17 @@ const withUpdate = graphql(UPDATE_NOTE, {
           ...params
         }
       })
-  })
+  }),
+  options: {
+    refetchQueries: [
+      {
+        query: GET_USER
+      },
+      {
+        query: GET_USER_DATA
+      }
+    ]
+  }
 })
 
 const withCreate = graphql(CREATE_NOTE, {
@@ -62,7 +74,15 @@ const withCreate = graphql(CREATE_NOTE, {
         },
         data
       })
-    }
+    },
+    refetchQueries: [
+      {
+        query: GET_USER
+      },
+      {
+        query: GET_USER_DATA
+      }
+    ]
   })
 })
 
@@ -116,62 +136,63 @@ class EditNote extends Component<{}, {}> {
     }
     const note = this.getNote()
     return (
-        <Formik
-          initialValues={{
-            body: note ? note.body : "",
-            todos: note ? note.todos : []
-          }}
-          validate={this.validate}
-          onSubmit={this.submit}
-          render={({
+      <Formik
+        initialValues={{
+          body: note ? note.body : "",
+          todos: note ? note.todos : []
+        }}
+        validate={this.validate}
+        onSubmit={this.submit}
+        render={({
             values,
-            errors,
-            touched,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            isSubmitting
+          errors,
+          touched,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          isSubmitting
           }) => (
-              <FullScreenDialog
-                close={this.props.onRequestClose}
-                actions={() => <Button
-                  style={{ color: "white" }}
-                  onClick={() => {
-                    const click = new MouseEvent("click")
-                    this.submitInput.dispatchEvent(click)
-                  }}
-                >
-                  save
-                </Button>}
-                title={(this.props.id ? "Edit" : "Add a") + " Note"}
+            <FullScreenDialog
+              close={this.props.onRequestClose}
+              actions={() => <Button
+                style={{ color: "white" }}
+                onClick={() => {
+                  const click = new MouseEvent("click")
+                  this.submitInput.dispatchEvent(click)
+                }}
               >
-                <StyledForm onSubmit={handleSubmit}>
-                  {/* $FlowFixMe */}
-                  <Container>
-                    <Description>
-                      <Editor
-                        value={values.body}
-                        name="Note"
-                        description="Let your thoughts be recorded"
-                        onChange={value => {
-                          const fake = {
-                            name: "body",
-                            value: value
-                          }
-                          handleChange({ target: fake, persist: () => { } })
-                        }}
-                      />
-                    </Description>
-                  </Container>
-                  <input
-                    type="submit"
-                    style={{ display: "none" }}
-                    ref={input => (this.submitInput = input)}
-                  />
-                </StyledForm>
-              </FullScreenDialog>
-            )}
-        />
+                save
+                </Button>}
+              title={(this.props.id ? "Edit" : "Add a") + " Note"}
+            >
+              <StyledForm onSubmit={handleSubmit}>
+                {/* $FlowFixMe */}
+                <Container>
+                  <Description>
+                    <Editor
+                      value={values.body}
+                      name="Note"
+                      description="Let your thoughts be recorded"
+                      autoFocus
+                      onChange={value => {
+                        const fake = {
+                          name: "body",
+                          value: value
+                        }
+                        handleChange({ target: fake, persist: () => { } })
+                      }}
+                    />
+                  </Description>
+                </Container>
+                <input
+                  type="submit"
+                  style={{ display: "none" }}
+                  ref={input => (this.submitInput = input)}
+                />
+              </StyledForm>
+            </FullScreenDialog>
+          )}
+      />
     )
   }
 }

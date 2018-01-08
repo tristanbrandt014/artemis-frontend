@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import Button from "material-ui/Button"
 import { graphql, compose } from "react-apollo"
 import { connect } from "react-redux"
-import { UPDATE_USER_SETTINGS } from "./../../apollo/queries"
+import { UPDATE_USER_SETTINGS, GET_USER, GET_USER_DATA } from "./../../apollo/queries"
 import { get } from "lodash"
 import Aux from "react-aux"
 import Snackbar from "material-ui/Snackbar"
@@ -24,7 +24,17 @@ const withUpdate = graphql(UPDATE_USER_SETTINGS, {
           value: ownProps.category
         }
       })
-  })
+  }),
+  options: {
+    refetchQueries: [
+      {
+        query: GET_USER
+      },
+      {
+        query: GET_USER_DATA
+      }
+    ]
+  }
 })
 
 const enhance = compose(withCategory, withUpdate)
