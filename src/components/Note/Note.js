@@ -42,7 +42,7 @@ class Note extends Component<Props, State> {
               main.scrollTo(0, offset - 65)
             }
             setTimeout(() => element.style.backgroundColor = "", 1000)
-          }, 500)
+          }, 200)
           this.setState({
             loaded: true
           })

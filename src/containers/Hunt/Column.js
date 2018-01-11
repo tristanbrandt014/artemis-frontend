@@ -1,7 +1,7 @@
 // @flow
 import React from "react"
 import styled from "styled-components"
-import { Typography, Paper } from "material-ui"
+import { Typography } from "material-ui"
 
 type Props = {
   name: string,

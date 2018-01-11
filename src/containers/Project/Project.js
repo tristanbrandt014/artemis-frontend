@@ -15,7 +15,6 @@ import { toggleNoteDialog } from "./../../store/actions/notes"
 import EditProject from "./EditProject"
 import EditNote from "./EditNote"
 import { connect } from "react-redux"
-import { get } from "lodash"
 
 const withProject = graphql(GET_PROJECT, {
   options: props => ({
