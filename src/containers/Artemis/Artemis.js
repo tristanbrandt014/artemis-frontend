@@ -9,11 +9,10 @@ import Dialog from "material-ui/Dialog"
 import Slide from "material-ui/transitions/Slide"
 import { FullScreenDialog } from "./../../components"
 import { assignKey, unbindKey } from "./../../utils/keymaster"
-import { SEEK, NONE, HUNT, openArtemis, closeArtemis } from "./../../store/actions/artemis"
+import { SEEK, NONE, HUNT, openArtemis } from "./../../store/actions/artemis"
 import { connect } from "react-redux"
 import { graphql, compose } from "react-apollo"
 import { GET_USER_DATA } from "./../../apollo/queries"
-import local from "./../../utils/localstorage"
 import withUser from "./../../utils/withUser"
 import { get } from "lodash"
 
@@ -22,7 +21,6 @@ type RenderState = typeof SEEK | typeof HUNT | typeof NONE
 type Props = {
   changeState: () => RenderState,
   open: Function,
-  close: Function,
   render: RenderState
 }
 
@@ -31,8 +29,7 @@ const MapStateToProps = state => ({
 })
 
 const MapDispatchToProps = dispatch => ({
-  open: type => dispatch(openArtemis(type)),
-  close: type => dispatch(closeArtemis(type))
+  open: type => dispatch(openArtemis(type))
 })
 
 const withUserData = graphql(GET_USER_DATA)
@@ -56,19 +53,6 @@ class Artemis extends Component<Props, {}> {
       }
     })
     assignKey("esc", () => this.changeState({ to: NONE }))
-  }
-
-  componentWillReceiveProps(newProps) {
-    if (!newProps.data.loading && !newProps.data.error) {
-      if (!newProps.user.error && !newProps.user.loading) {
-        const user = newProps.user.User
-        const dataVersion = local.get("dataVersion")
-        if (dataVersion !== user.dataVersion) {
-          local.set("dataVersion", user.dataVersion)
-          local.set("userData", JSON.stringify(newProps.data.Projects))
-        }
-      }
-    }
   }
 
   componentWillUnmount() {

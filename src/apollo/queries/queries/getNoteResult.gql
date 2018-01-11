@@ -1,0 +1,10 @@
+#import "./../fragments/note.gql"
+#import "./../fragments/project.gql"
+query getNoteResults($ids: [String]) {
+  Notes(ids: $id) {
+    ...NoteFragment
+    project {
+      ...ProjectFragment
+    }
+  }
+}

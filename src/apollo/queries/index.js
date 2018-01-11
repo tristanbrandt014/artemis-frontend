@@ -5,6 +5,7 @@ import GET_NOTES from "./queries/getNotes.gql"
 import GET_PROJECT from "./queries/getProject.gql"
 import GET_USER from "./queries/getUser.gql"
 import GET_USER_DATA from "./queries/getUserData.gql"
+import GET_NOTE_RESULTS from "./queries/getNoteResult.gql"
 
 // mutations
 import UPDATE_PROJECT from "./mutations/updateProject.gql"
@@ -26,6 +27,7 @@ export {
   GET_PROJECT,
   GET_USER,
   GET_USER_DATA,
+  GET_NOTE_RESULTS,
   // mutations
   UPDATE_PROJECT,
   CREATE_PROJECT,

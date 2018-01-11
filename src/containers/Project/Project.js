@@ -15,6 +15,7 @@ import { toggleNoteDialog } from "./../../store/actions/notes"
 import EditProject from "./EditProject"
 import EditNote from "./EditNote"
 import { connect } from "react-redux"
+import { get } from "lodash"
 
 const withProject = graphql(GET_PROJECT, {
   options: props => ({
@@ -30,6 +31,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(withProject, connect(null, mapDispatchToProps))
 class Project extends Component<{}, {}> {
+
   render() {
     if (this.props.data.loading) {
       // $FlowFixMe
@@ -39,6 +41,7 @@ class Project extends Component<{}, {}> {
         </Loader>
       )
     }
+
     const project = {
       ...this.props.data.Projects[0]
     }
@@ -50,6 +53,7 @@ class Project extends Component<{}, {}> {
       },
       [[], [], []]
     )
+
     return (
       <Container>
         <ProjectHead project={project} />

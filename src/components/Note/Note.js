@@ -9,18 +9,49 @@ import DeleteDialog from "./DeleteDialog"
 
 type Props = {
   note: {
-    body: string
+    body: string,
+    id: string
   }
 }
 
 type State = {
   edit: boolean,
-  delete: boolean
+  delete: boolean,
+  loaded: boolean,
+  tries: number
 }
 
 class Note extends Component<Props, State> {
   state = {
-    edit: false
+    edit: false,
+    delete: false,
+    loaded: false,
+    tries: 0
+  }
+  componentDidMount() {
+    if (!this.state.loaded && this.state.tries < 30) {
+      if (window.location.hash) {
+        const scroll_id = window.location.hash.substring(1)
+        const element = document.getElementById(scroll_id)
+        if (element) {
+          element.style.backgroundColor = "#dfd"
+          const main = document.getElementById("main-container")
+          const offset = element.getBoundingClientRect().top
+          setTimeout(() => {
+            if (main) {
+              main.scrollTo(0, offset - 65)
+            }
+            setTimeout(() => element.style.backgroundColor = "", 1000)
+          }, 500)
+          this.setState({
+            loaded: true
+          })
+        }
+        this.setState({
+          tries: this.state.tries + 1
+        })
+      }
+    }
   }
   toggleDialog(dialog: "edit" | "delete", open?: boolean) {
     if (typeof open !== "boolean") {
@@ -36,7 +67,7 @@ class Note extends Component<Props, State> {
   render() {
     return (
       <Aux>
-        <Container>
+        <Container id={this.props.note.id}>
           <Inner>
             <MarkdownRenderer markdown={this.props.note.body} />
           </Inner>
@@ -73,7 +104,7 @@ class Note extends Component<Props, State> {
   }
 }
 
-export const Container = styled(Paper)`
+export const Container = styled(Paper) `
   margin-bottom: 20px;
 `
 

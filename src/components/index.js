@@ -20,6 +20,7 @@ import CategoryItem from "./CategoryItem/CategoryItem"
 import Link from "./Link/Link"
 import FullScreenDialog from "./FullScreenDialog/FullScreenDialog"
 import EditCategory from "./EditCategory/EditCategory"
+import SearchItem from "./SearchItem/SearchItem"
 
 export {
   Header,
@@ -43,5 +44,6 @@ export {
   CategoryItem,
   Link,
   FullScreenDialog,
-  EditCategory
+  EditCategory,
+  SearchItem
 }

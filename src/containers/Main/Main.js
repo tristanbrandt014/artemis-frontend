@@ -14,7 +14,7 @@ export default () => (
     <Header />
     <Body>
       <Sidebar />
-      <Content>
+      <Content id="main-container">
         <Switch>
           <Route path="/app/projects/view/:id" exact component={Project} />
           <Route path="/app/projects" exact component={Projects} />
