@@ -90,12 +90,12 @@ class EditProject extends Component<{}, {}> {
   submit = async (values, { setSubmitting, setErrors }) => {
     try {
       this.props.toggleDialog(false)
-      console.log(this.props.id)
+      // console.log(this.props.id)
       await this.props.update(values)
       setSubmitting(false)
     } catch (err) {
       setSubmitting(false)
-      console.log("FAILED")
+      // console.log("FAILED")
     }
   }
   render() {

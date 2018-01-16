@@ -12,6 +12,13 @@ import config from "./../../config"
 import { loginAction } from "./../../store/actions/auth"
 import { push } from "react-router-redux"
 import { get } from "lodash"
+import Recaptcha from "react-google-recaptcha"
+import Dialog, {
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from 'material-ui/Dialog'
 
 const mapStateToProps = state => ({
   auth: state.auth
@@ -30,7 +37,15 @@ type Props = {
   auth?: Object
 }
 
-class Login extends Component<Props, {}> {
+type State = {
+  captchaDialog: boolean
+}
+
+class Register extends Component<Props, State> {
+  state = {
+    captchaDialog: false
+  }
+
   componentWillMount() {
     this.checkUser(this.props)
   }
@@ -51,21 +66,48 @@ class Login extends Component<Props, {}> {
     }
   }
 
-  attemptLogin(email: string, password: string): Promise<Object> {
+  attemptRegister(
+    firstname: string,
+    lastname: string,
+    email: string,
+    password: string,
+    captcha: string
+  ): Promise<Object> {
     const options = {
       method: "POST",
-      uri: `${config.api}/login`,
+      uri: `${config.api}/register`,
       body: {
         email,
-        password
+        password,
+        firstname,
+        lastname,
+        captcha
       },
       json: true
     }
     return rp(options)
   }
 
-  validate(values: { email: string, password: string }) {
+  validate(values: {
+    email: string,
+    password: string,
+    passwordRepeat: string,
+    firstname: string,
+    lastname: string,
+    captcha: string
+  }) {
     let errors = {}
+
+    console.log(values)
+
+    if (!values.firstname) {
+      errors.firstname = "Please enter your first name"
+    }
+
+    if (!values.lastname) {
+      errors.lastname = "Please enter your last name"
+    }
+
     if (!values.email) {
       errors.email = "Please enter an email address"
     } else if (
@@ -77,8 +119,14 @@ class Login extends Component<Props, {}> {
     if (!values.password) {
       errors.password = "Please enter your password"
     }
+
+    if (values.password !== values.passwordRepeat) {
+      errors.passwordRepeat = "Passwords do not match"
+    }
+
     return errors
   }
+
 
   submit: any
 
@@ -90,26 +138,37 @@ class Login extends Component<Props, {}> {
           <Formik
             initialValues={{
               email: "",
-              password: ""
+              password: "",
+              passwordRepeat: "",
+              firstname: "",
+              lastname: "",
+              captcha: ""
             }}
             validate={values => this.validate(values)}
             onSubmit={async (values, { setErrors, setSubmitting }) => {
+              console.log(values)
+              if (!values.captcha) {
+                this.setState({ captchaDialog: true })
+                setSubmitting(false)
+                return
+              }
               try {
-                const result = await this.attemptLogin(
+                const result = await this.attemptRegister(
+                  values.firstname,
+                  values.lastname,
                   values.email,
-                  values.password
+                  values.password,
+                  values.captcha
                 )
                 setSubmitting(false)
                 this.props.login(result.token, result.user)
               } catch (err) {
                 setSubmitting(false)
-                if (err.statusCode === 403) {
-                  setErrors({ auth: "Invalid credentials" })
-                } else {
-                  setErrors({ auth: "Failed to connect" })
-                }
+                console.dir(err)
+                setErrors({ auth: "Failed to connect" })
               }
             }}
+            validateOnChange={false}
             render={({
               values,
               errors,
@@ -128,6 +187,28 @@ class Login extends Component<Props, {}> {
                         {<Heading type="headline">Artemis</Heading>}
                       </Header>
                       <form onSubmit={handleSubmit}>
+                        <TextField
+                          type="text"
+                          name="firstname"
+                          margin="normal"
+                          fullWidth
+                          error={!!errors.firstname}
+                          helperText={errors.firstname}
+                          label="First name"
+                          onChange={handleChange}
+                          value={values.firstname}
+                        />
+                        <TextField
+                          type="text"
+                          name="lastname"
+                          margin="normal"
+                          fullWidth
+                          error={!!errors.lastname}
+                          helperText={errors.lastname}
+                          label="Last name"
+                          onChange={handleChange}
+                          value={values.lastname}
+                        />
                         <TextField
                           type="email"
                           name="email"
@@ -150,6 +231,30 @@ class Login extends Component<Props, {}> {
                           onChange={handleChange}
                           value={values.password}
                         />
+                        <TextField
+                          name="passwordRepeat"
+                          error={!!errors.passwordRepeat}
+                          helperText={errors.passwordRepeat}
+                          type="password"
+                          margin="normal"
+                          fullWidth
+                          label="Retype Password"
+                          onChange={handleChange}
+                          value={values.passwordRepeat}
+                        />
+                        <Captcha>
+                          <Recaptcha
+                            onChange={response => {
+                              const fake = {
+                                name: "captcha",
+                                value: response
+                              }
+                              console.log("HERE", response)
+                              handleChange({ target: fake, persist: () => { } })
+                            }}
+                            sitekey={config.siteKey}
+                          />
+                        </Captcha>
                         {errors.auth && (
                           <Error>
                             {/* $FlowFixMe */}
@@ -165,7 +270,7 @@ class Login extends Component<Props, {}> {
                     </Content>
                     <Actions>
                       {/* $FlowFixMe */}
-                      <Button onClick={() => this.props.redirect("/register")}>Register</Button>
+                      <Button onClick={() => this.props.redirect("/login")}>Login</Button>
                       {/* $FlowFixMe */}
                       <Button
                         style={{ color: "white", marginLeft: "10px" }}
@@ -176,7 +281,7 @@ class Login extends Component<Props, {}> {
                           this.submit.dispatchEvent(click)
                         }}
                       >
-                        Log in
+                        Register
                     </Button>
                     </Actions>
                   </FormInner>
@@ -184,6 +289,22 @@ class Login extends Component<Props, {}> {
               )}
           />
         </Container>
+        <Dialog
+          open={this.state.captchaDialog}
+          onClose={() => this.setState({ captchaDialog: false })}
+        >
+          <DialogTitle id="alert-dialog-title">Please complete the captcha</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Unless you're a robot. Then, well... do what robots do when they encounter captcha's
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => this.setState({ captchaDialog: false })} color="primary" autoFocus>
+              OK
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Wrapper>
     )
   }
@@ -218,7 +339,6 @@ const FormContainer = styled(Paper) `
   display: flex;
   flex-flow: column nowrap;
   @media(min-width: 400px) {
-    height: 450px;
     flex: initial;
     width: 350px;
   }
@@ -254,13 +374,18 @@ const Actions = styled.div`
 `
 
 const Error = styled.div`
+  margin-top: 10px;
   padding: 10px;
   background-color: ${red[50]};
 `
 const Heading = styled(Typography) `margin-left: 15px;`
 
-const Progress = styled(LinearProgress)`
+const Progress = styled(LinearProgress) `
   flex: 0 0 auto;
 `
 
-export default enhance(Login)
+const Captcha = styled.div`
+  margin-top: 20px;
+`
+
+export default enhance(Register)

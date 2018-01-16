@@ -18,9 +18,9 @@ type Props = {
 }
 
 class Logout extends Component<Props, {}> {
-  componentWillMount() {
-    local.clear("store")
+  componentDidMount() {
     this.props.logout()
+    local.clear("store")
     this.props.redirect("/login")
   }
 

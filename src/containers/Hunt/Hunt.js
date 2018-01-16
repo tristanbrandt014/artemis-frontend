@@ -57,7 +57,7 @@ class Hunt extends Component<{}, State> {
   componentWillReceiveProps(newProps) {
     if (!newProps.user.loading && !newProps.user.error && !newProps.data.loading && !newProps.data.error) {
       const user = newProps.user.User
-      if (this.dataVersion !== user.dataVersion) {
+      if (this.dataVersion !== user.dataVersion || this.getUserData() === undefined) {
         this.indexNotes()
         this.indexProjects()
       }
@@ -71,6 +71,9 @@ class Hunt extends Component<{}, State> {
 
   indexNotes = () => {
     const userData = this.getUserData()
+    if (userData === undefined) {
+      return
+    }
     const notes = flatten(userData.map(({ notes }) => notes)).map(note => ({
       ...note,
       body: removeMD(note.body)
@@ -87,6 +90,9 @@ class Hunt extends Component<{}, State> {
 
   indexProjects = () => {
     const userData = this.getUserData()
+    if (userData === undefined) {
+      return
+    }
     this.projects = lunr(function () {
       this.ref("id")
       this.field("name")
@@ -220,7 +226,7 @@ const Wrapper = styled.div`
 const SearchContainer = styled.div`
   padding: 16px;
   display: flex;
-  flex: 0 0 50%;  
+  flex: 0 0 50%;
 `
 
 const Results = styled.div`

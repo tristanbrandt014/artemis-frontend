@@ -8,10 +8,11 @@ import { connect } from "react-redux"
 import _ from "lodash"
 import { toggleCreate } from "./../../store/actions/projects"
 import { GET_PROJECTS, GET_CATEGORIES } from "./../../apollo/queries"
-import { ProjectCard, FloatingButton } from "./../../components"
+import { FloatingButton } from "./../../components"
 import AddProject from "./AddProject"
-import defaults from "./../../utils/defaults"
-import { ARCHIVED, ALL, NONE } from "./../../utils/filters";
+import { ARCHIVED, ALL, NONE } from "./../../utils/filters"
+import Mobile from "./Mobile"
+import Desktop from "./Desktop"
 
 const withProjects = graphql(GET_PROJECTS)
 
@@ -20,10 +21,10 @@ const withCategories = graphql(GET_CATEGORIES, {
   options: props => ({
     ...(props.match.params.type === "category"
       ? {
-        variables: {
-          id: props.match.params.value
+          variables: {
+            id: props.match.params.value
+          }
         }
-      }
       : {})
   })
 })
@@ -33,7 +34,8 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const mapStateToProps = state => ({
-  filters: state.filters
+  filters: state.filters,
+  window: state.window
 })
 
 const enhance = compose(
@@ -54,14 +56,16 @@ class Projects extends Component<{}, {}> {
       names.push("Projects")
     }
 
-
     if (_.get(this.props, "filters.archived") === ARCHIVED) {
       names.unshift("Archives: ")
     }
     if (_.get(this.props, "filters.archived") === ALL) {
       names.unshift("All ")
     }
-    if (_.get(this.props, "filters.status") && !_.includes([ALL, NONE], _.get(this.props, "filters.status"))) {
+    if (
+      _.get(this.props, "filters.status") &&
+      !_.includes([ALL, NONE], _.get(this.props, "filters.status"))
+    ) {
       names.push(", " + _.capitalize(this.props.filters.status))
     }
     return names.join("")
@@ -72,18 +76,22 @@ class Projects extends Component<{}, {}> {
     if (params.type === "category") {
       const categoryId = params.value
       const byCategory = projects =>
-        projects.filter(project =>
-          _.get(project, "category.id") === categoryId
-        )
+        projects.filter(project => _.get(project, "category.id") === categoryId)
       filters.push(byCategory)
     }
-    if (_.get(this.props, "filters.archived") && this.props.filters.archived !== ALL) {
+    if (
+      _.get(this.props, "filters.archived") &&
+      this.props.filters.archived !== ALL
+    ) {
       const archiveState = this.props.filters.archived === ARCHIVED
       const byArchived = projects =>
         projects.filter(project => project.archived === archiveState)
       filters.push(byArchived)
     }
-    if (_.get(this.props, "filters.status") && this.props.filters.status !== ALL) {
+    if (
+      _.get(this.props, "filters.status") &&
+      this.props.filters.status !== ALL
+    ) {
       const status = this.props.filters.status
       const byStatus = projects =>
         projects.filter(project => project.status === status)
@@ -98,41 +106,33 @@ class Projects extends Component<{}, {}> {
 
   render() {
     const projects = !this.props.data.loading ? this.getProjects() : []
-    if (_.get(this.props, "match.params.type") === "category" && !_.get(this.props, "categories.Categories[0].name")) {
+    if (
+      _.get(this.props, "match.params.type") === "category" &&
+      !_.get(this.props, "categories.Categories[0].name")
+    ) {
       return (
         <Container>
-          <Typography>
-            Invalid Category
-          </Typography>
+          <Typography>Invalid Category</Typography>
         </Container>
       )
     }
     return (
       <Container>
+        {this.props.window.width <= 500 ? (
+          <Mobile
+            projects={projects}
+            title={this.getTitle()}
+            loading={this.props.data.loading}
+          />
+        ) : (
+          <Desktop
+            projects={projects}
+            title={this.getTitle()}
+            loading={this.props.data.loading}
+          />
+        )}
         {/*$FlowFixMe*/}
-        <Typography type="display1">{this.getTitle()}</Typography>
-        <Content>
-          {!this.props.data.loading &&
-            (
-              projects.length ? projects.map(project => (
-                <ProjectContainer key={project.id}>
-                  {/* $FlowFixMe */}
-                  <ProjectCard
-                    id={project.id}
-                    name={project.name}
-                    summary={project.summary}
-                    status={project.status}
-                    archived={project.archived}
-                    color={
-                      _.get(project, "category.color") || defaults.categoryColor
-                    }
-                  />
-                </ProjectContainer>
-              )) : <NoProjects>
-                  <Typography><em>No Projects</em></Typography>
-                </NoProjects>
-            )}
-        </Content>
+
         <FloatingButton
           onClick={() => this.props.toggleDialog(true)}
           type="add"
@@ -146,26 +146,6 @@ class Projects extends Component<{}, {}> {
 
 const Container = styled.div`
   padding: 30px;
-`
-
-const Content = styled.div`
-  margin-top: 20px;
-  display: flex;
-  flex-flow: row wrap;
-`
-
-const ProjectContainer = styled.div`
-  flex: 1 1 380px;
-  margin-right: 30px;
-  margin-bottom: 30px;
-  display: flex;
-  flex-flow: column nowrap;
-`
-
-const NoProjects = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `
 
 // $FlowFixMe

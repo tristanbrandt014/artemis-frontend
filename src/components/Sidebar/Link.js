@@ -5,6 +5,7 @@ import { withStyles, withTheme } from "material-ui/styles"
 import { compose } from "redux"
 import { connect } from "react-redux"
 import { push } from "react-router-redux"
+import {get} from 'lodash'
 
 type Props = {
   redirect: Function,
@@ -19,7 +20,7 @@ type Props = {
 }
 
 const MapStateToProps = state => ({
-  path: state.routing.location.pathname
+  path: get(state, "routing.location.pathname", "")
 })
 
 const MapDispatchToProps = (dispatch, ownProps: Props) => ({
@@ -28,7 +29,7 @@ const MapDispatchToProps = (dispatch, ownProps: Props) => ({
 
 const styles = theme => ({
   button: {
-    backgroundColor: theme.palette.secondary[200]
+    backgroundColor: `${theme.palette.secondary[200]} !important`
   }
 })
 

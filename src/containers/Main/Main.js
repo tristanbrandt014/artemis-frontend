@@ -2,12 +2,13 @@
 import React from "react"
 import styled from "styled-components"
 import { blueGrey } from "material-ui/colors"
-import { Header, Sidebar } from "./../../components"
+import { Header } from "./../../components"
 import Artemis from "./../Artemis/Artemis"
 import { Route, Switch } from "react-router"
 import Projects from "./../Projects/Projects"
 import Project from "./../Project/Project"
 import Categories from "./../Categories/Categories"
+import Sidebar from "./../Sidebar/Sidebar"
 
 export default () => (
   <Container>

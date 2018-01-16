@@ -9,7 +9,7 @@ import {
   GET_CATEGORIES,
   CREATE_CATEGORY,
   UPDATE_CATEGORY,
-  GET_USER, 
+  GET_USER,
   GET_USER_DATA
 } from "./../../apollo/queries"
 import styled from "styled-components"
@@ -130,7 +130,7 @@ class EditCategory extends Component<Props, {}> {
       setSubmitting(false)
     } catch (err) {
       setSubmitting(false)
-      console.dir(err)
+      // console.dir(err)
     }
   }
 

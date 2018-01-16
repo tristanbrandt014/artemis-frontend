@@ -7,22 +7,25 @@ import { blueGrey } from "material-ui/colors"
 import { sidebar } from "./../../styles"
 import withUser from "./../../utils/withUser"
 import Link from "./Link"
+import { connect } from "react-redux"
+import { compose } from "redux"
 
-import type { User } from "./../../types/user"
+const mapStateToProps = state => ({
+  window: state.window
+})
 
-const enhance = withUser
+const withState = connect(mapStateToProps, null)
 
-type Props = {
-  user: {
-    User: User
-  }
-}
+const enhance = compose(withUser, withState)
 
-const Sidebar = (props: Props) => (
+const Sidebar = props => (
   <Container>
-    {
-      !props.user.loading && <Greeting>
-        <AccountCircle style={{ width: "35px", height: "35px" }} color="white" />
+    {!props.user.loading && (
+      <Greeting>
+        <AccountCircle
+          style={{ width: "35px", height: "35px" }}
+          color="white"
+        />
         {/* $FlowFixMe */}
         <Typography
           type="subheading"
@@ -31,21 +34,24 @@ const Sidebar = (props: Props) => (
           Hey {props.user.User.firstname}
         </Typography>
       </Greeting>
-    }
+    )}
     <List>
       <Link to="/app/projects" name="Projects" />
       <Link to="/app/categories" name="Categories" />
+      <Link to="/logout" name="Logout" />
     </List>
   </Container>
-    )
+)
 
 const Container = styled.div`
   flex: 0 0 ${sidebar.width};
   background-color: #fff;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   display: flex;
   z-index: 2;
   flex-flow: column nowrap;
+  @media (min-width: ${sidebar.breakpoint + 1}px) {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  }
 `
 
 const Greeting = styled.div`
@@ -54,5 +60,9 @@ const Greeting = styled.div`
   justify-content: center;
   align-items: center;
   height: 70px;
+  padding: 60px 25px;
+  @media (min-width: ${sidebar.breakpoint + 1}px) {
+    padding: 0 25px;
+  }
 `
 export default enhance(Sidebar)

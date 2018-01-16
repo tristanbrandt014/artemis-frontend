@@ -41,7 +41,7 @@ const ProjectHead = (props: Props) => {
   const titleStyle = {
     color: getColor(categoryColor)
   }
-  console.log("CATEGORY", props.category)
+  // console.log("CATEGORY", props.category)
   return (
     <Container>
       <BackContainer>

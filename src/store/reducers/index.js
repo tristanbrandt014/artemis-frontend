@@ -8,8 +8,12 @@ import artemis from "./artemis"
 import projects from "./projects"
 import notes from "./notes"
 import filters from "./filters"
+import window from "./window"
+import sidebar from "./sidebar"
 
 import { LOGOUT } from "./../actions/auth"
+import { NONE } from "./../actions/artemis"
+import { ALL, UNARCHIVED } from "./../../utils/filters";
 
 const rootReducer = combineReducers({
   auth,
@@ -18,14 +22,36 @@ const rootReducer = combineReducers({
   artemis,
   projects,
   notes,
-  filters
+  filters,
+  window,
+  sidebar
 })
 
 export default (state: Object, action: Object): Object => {
   const newState = cloneDeep(state)
   if (action.type === LOGOUT) {
     return {
-      apollo: state.apollo
+      auth: {},
+      apollo: {
+        data: {},
+        optimistic: [],
+        reducerError: null
+      },
+      artemis: NONE,
+      filters: {
+        archived: UNARCHIVED,
+        status: ALL,
+        category: ""
+      },
+      projects: {
+        modals: {
+          create: false,
+          update: false
+        }
+      },
+      notes: {
+        modal: false
+      }
     }
   }
   const categoryPattern = /app\/projects\/category\/(.{24})/

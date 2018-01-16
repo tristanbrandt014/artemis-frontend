@@ -1,17 +1,25 @@
 // @flow
 import React from "react"
 import styled from "styled-components"
-import { Typography, Button } from "material-ui"
+import { Typography, Button, IconButton } from "material-ui"
+import MenuIcon from "material-ui-icons/Menu"
 import { cyan } from "material-ui/colors"
 import { connect } from "react-redux"
-import { push } from "react-router-redux"
-import { sidebar } from "./../../styles"
+import { sidebar, breakpoints } from "./../../styles"
+import { openArtemis, SEEK, HUNT } from "./../../store/actions/artemis"
+import { toggleSidebar } from "./../../store/actions/sidebar"
 
-const MapDispatchToProps = dispatch => ({
-  logout: () => dispatch(push("/logout"))
+const mapDispatchToProps = dispatch => ({
+  seek: () => dispatch(openArtemis(SEEK)),
+  hunt: () => dispatch(openArtemis(HUNT)),
+  toggleSidebar: open => dispatch(toggleSidebar(open))
 })
 
-const enhance = connect(() => ({}), MapDispatchToProps)
+const mapStateToProps = state => ({
+  window: state.window
+})
+
+const enhance = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = {
   logout: Function
@@ -20,14 +28,34 @@ type Props = {
 const Header = (props: Props) => (
   <Container>
     <Left>
-      <Heading type="display1" style={{ color: "white" }}>
+      {props.window.width <= sidebar.breakpoint && (
+        <IconButton onClick={() => props.toggleSidebar(true)}>
+          <MenuIcon color="white" />
+        </IconButton>
+      )}
+      <Heading
+        type={props.window.width > sidebar.breakpoint ? "display1" : "headline"}
+        style={{ color: "white" }}
+      >
         Artemis
       </Heading>
     </Left>
     <Right>
       {/* $FlowFixMe */}
-      <Button onClick={props.logout} style={{ color: "white" }}>
-        Logout
+      <Button
+        dense={props.window.width <= breakpoints.mobile}
+        onClick={props.seek}
+        style={{ color: "white" }}
+      >
+        Seek
+      </Button>
+      {/* $FlowFixMe */}
+      <Button
+        dense={props.window.width <= breakpoints.mobile}
+        onClick={props.hunt}
+        style={{ color: "white" }}
+      >
+        Hunt
       </Button>
     </Right>
   </Container>
@@ -46,15 +74,22 @@ const Container = styled.div`
 
 const Left = styled.div`
   height: 60px;
-  width: ${sidebar.width};
+  flex: 0 0 auto;
   background-color: ${cyan[500]};
   display: flex;
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
 `
 
-const Right = styled.div`margin-right: 30px;`
+const Right = styled.div`
+  margin-right: 30px;
+  flex: 1 1 100%;
+  display: flex;
+  justify-content: flex-end;
+`
 
-const Heading = styled(Typography)`color: white;`
+const Heading = styled(Typography)`
+  color: white;
+`
 
 export default enhance(Header)

@@ -21,6 +21,7 @@ import Link from "./Link/Link"
 import FullScreenDialog from "./FullScreenDialog/FullScreenDialog"
 import EditCategory from "./EditCategory/EditCategory"
 import SearchItem from "./SearchItem/SearchItem"
+import SizeTracker from "./SizeTracker/SizeTracker"
 
 export {
   Header,
@@ -45,5 +46,6 @@ export {
   Link,
   FullScreenDialog,
   EditCategory,
-  SearchItem
+  SearchItem,
+  SizeTracker
 }
