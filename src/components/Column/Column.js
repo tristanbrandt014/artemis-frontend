@@ -19,7 +19,7 @@ const Column = (props: Props) => (
 )
 
 const Container = styled(Paper)`
-  flex: 0 1 30%;
+  flex: 0 1 470px;
   height: 100%;
   padding: 30px;
 `

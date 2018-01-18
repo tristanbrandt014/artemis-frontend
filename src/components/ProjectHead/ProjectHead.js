@@ -44,13 +44,6 @@ const ProjectHead = (props: Props) => {
   // console.log("CATEGORY", props.category)
   return (
     <Container>
-      <BackContainer>
-        <Link to={props.category ? `/app/projects/category/${props.category}` : "/app/projects"}>
-          <Button>
-            Projects
-        </Button>
-        </Link>
-      </BackContainer>
       <Inner>
         <ColorBar color={categoryColor}>
           <Title>
@@ -82,12 +75,15 @@ const ProjectHead = (props: Props) => {
 
 const Container = styled.div`
   flex: 1 0 100%;
+  position: relative;
+  margin: 10px;
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: column nowrap;
 `
 
 const Inner = styled(Paper) `
-  flex: 0 0 40%;
+  margin:0 auto;
+  width: 100%;
   flex-flow: column nowrap;
 `
 
@@ -119,10 +115,8 @@ const Description = styled.div`
 `
 
 const BackContainer = styled.div`
-  flex: 0 0 30%;
   display: flex;
   height: 40px;
-  padding-left: 10px;
 `
 
 export default enhance(ProjectHead)

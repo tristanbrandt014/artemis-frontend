@@ -4,13 +4,13 @@ import Card from "material-ui/Card"
 import Button from "material-ui/Button"
 import Typography from "material-ui/Typography"
 import styled from "styled-components"
-import ArchiveDialog from "./ArchiveDialog"
-import DeleteDialog from "./DeleteDialog"
 import { push } from "react-router-redux"
 import { connect } from "react-redux"
 import Status from "./../StatusDot/StatusDot"
 import _ from "lodash"
-import { ALL } from "./../../utils/filters";
+import { ALL } from "./../../utils/filters"
+import ProjectActions from "./../ProjectActions/ProjectActions"
+import Aux from "react-aux"
 
 const mapDispatchToProps = dispatch => ({
   redirect: path => dispatch(push(path))
@@ -39,7 +39,6 @@ type State = {
 class Project extends Component<Props, State> {
   constructor() {
     super()
-    this.toggleDialog = this.toggleDialog.bind(this)
     this.edit = this.edit.bind(this)
   }
 
@@ -50,18 +49,6 @@ class Project extends Component<Props, State> {
 
   edit() {
     this.props.redirect(`/app/projects/view/${this.props.id}`)
-  }
-
-  toggleDialog(dialog: "delete" | "archive", open?: boolean) {
-    if (typeof open !== "boolean") {
-      this.setState({
-        [dialog]: !this.state[dialog]
-      })
-    } else {
-      this.setState({
-        [dialog]: open
-      })
-    }
   }
 
   render() {
@@ -77,40 +64,38 @@ class Project extends Component<Props, State> {
             </Header>
             <Description>{this.props.summary}</Description>
             <Actions>
-              {/* $FlowFixMe */}
-              <Button
-                dense
-                onClick={() => this.toggleDialog("delete", true)}
-                color="accent"
-              >
-                Delete
-              </Button>
-              {
-                /* $FlowFixMe */
-                _.get(this.props, "filters.archived") !== ALL && <Button dense onClick={() => this.toggleDialog("archive", true)}>
-                  {this.props.archived ? `Restore` : `Archive`}
-                </Button>
-              }
-              {/* $FlowFixMe */}
-              <Button onClick={this.edit} dense color="primary">
-                View
-              </Button>
+              <ProjectActions
+                id={this.props.id}
+                archived={this.props.archived}
+                render={toggleDialog => (
+                  <Aux>
+                    {/* $FlowFixMe */}
+                    <Button
+                      dense
+                      onClick={() => toggleDialog("delete", true)}
+                      color="accent"
+                    >
+                      Delete
+                    </Button>
+                    {/* $FlowFixMe */
+                    _.get(this.props, "filters.archived") !== ALL && (
+                      <Button
+                        dense
+                        onClick={() => toggleDialog("archive", true)}
+                      >
+                        {this.props.archived ? `Restore` : `Archive`}
+                      </Button>
+                    )}
+                    {/* $FlowFixMe */}
+                    <Button onClick={this.edit} dense color="primary">
+                      View
+                    </Button>
+                  </Aux>
+                )}
+              />
             </Actions>
           </CardContent>
         </Container>
-        {/* $FlowFixMe */}
-        <ArchiveDialog
-          id={this.props.id}
-          toggle={open => this.toggleDialog("archive", open)}
-          open={this.state.archive}
-          archived={this.props.archived}
-        />
-        {/* $FlowFixMe */}
-        <DeleteDialog
-          id={this.props.id}
-          toggle={open => this.toggleDialog("delete", open)}
-          open={this.state.delete}
-        />
       </FullHeightCard>
     )
   }
@@ -135,7 +120,7 @@ const CardContent = styled.div`
   flex-flow: column nowrap;
 `
 
-const Description = styled(Typography) `
+const Description = styled(Typography)`
   padding-left: 17px;
   padding-bottom: 10px;
   flex: 1 0 auto;
@@ -154,11 +139,11 @@ const Header = styled.div`
   flex: 0 0 auto;
 `
 
-const Heading = styled(Typography) `
+const Heading = styled(Typography)`
   padding: 10px 17px;
 `
 
-const FullHeightCard = styled(Card) `
+const FullHeightCard = styled(Card)`
   flex: 1 0 auto;
   display: flex;
   flex-flow: column nowrap;

@@ -1,5 +1,4 @@
 export default {
-    api: process.env.API_HOST || "https://artemis-192011.appspot.com",
-    // api: "http://localhost:3005",
-    siteKey: "6Lc6mUAUAAAAAOdIdV6xKTUu1DQDTSi0leb3QV8l"
+    api: process.env.API_HOST || "http://localhost:3005",
+    siteKey: process.env.SITE_KEY || "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI",
 }

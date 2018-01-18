@@ -70,7 +70,7 @@ const enhance: OperationComponent<Response, Props, AllProps> = graphql(
 
 const DeleteDialog = (props: Props) => (
   // $FlowFixMe
-  <Dialog open={props.open} onRequestClose={() => props.toggle(false)}>
+  <Dialog open={props.open} onClose={() => props.toggle(false)}>
     {/* $FlowFixMe */}
     <DialogContent>
       {/* $FlowFixMe */}

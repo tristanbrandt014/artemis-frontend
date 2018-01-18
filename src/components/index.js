@@ -22,6 +22,7 @@ import FullScreenDialog from "./FullScreenDialog/FullScreenDialog"
 import EditCategory from "./EditCategory/EditCategory"
 import SearchItem from "./SearchItem/SearchItem"
 import SizeTracker from "./SizeTracker/SizeTracker"
+import ProjectListItem from "./ProjectListItem/ProjectListItem"
 
 export {
   Header,
@@ -47,5 +48,6 @@ export {
   FullScreenDialog,
   EditCategory,
   SearchItem,
-  SizeTracker
+  SizeTracker,
+  ProjectListItem
 }

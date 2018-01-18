@@ -15,7 +15,7 @@ import {
   GET_CATEGORIES,
   CREATE_PROJECT,
   GET_PROJECTS,
-  GET_USER, 
+  GET_USER,
   GET_USER_DATA
 } from "./../../apollo/queries"
 import Select from "material-ui/Select"
@@ -105,7 +105,7 @@ class AddProject extends Component<{}, {}> {
             handleSubmit,
             isSubmitting
           }) => (
-              <form onSubmit={handleSubmit}>
+              <Form onSubmit={handleSubmit}>
                 {/* $FlowFixMe */}
                 <DialogTitle>Add a project</DialogTitle>
                 {/* $FlowFixMe */}
@@ -182,7 +182,7 @@ class AddProject extends Component<{}, {}> {
                   style={{ display: "none" }}
                   ref={input => (this.submitInput = input)}
                 />
-              </form>
+              </Form>
             )}
         />
       </Aux>
@@ -191,5 +191,11 @@ class AddProject extends Component<{}, {}> {
 }
 
 const Field = styled.div`padding-bottom: 10px;`
+
+const Form = styled.form`
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+`
 
 export default enhance(AddProject)

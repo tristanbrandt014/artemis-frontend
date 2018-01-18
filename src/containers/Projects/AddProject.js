@@ -5,9 +5,11 @@ import { AddProject as Form } from "../../components"
 import styled from "styled-components"
 import { connect } from "react-redux"
 import { toggleCreate } from "./../../store/actions/projects"
+import { breakpoints } from "./../../styles"
 
 const mapStateToProps = state => ({
-  projects: state.projects
+  projects: state.projects,
+  window: state.window
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -26,7 +28,8 @@ class AddProject extends Component<{}, {}> {
       // $FlowFixMe
       <Dialog
         open={this.props.projects.modals.create}
-        onRequestClose={this.handleRequestClose}
+        onClose={this.handleRequestClose}
+        fullScreen={this.props.window.width <= breakpoints.mobile}
       >
         <Container>
           <Form />
@@ -36,6 +39,9 @@ class AddProject extends Component<{}, {}> {
   }
 }
 
-const Container = styled.div`width: 400px;`
+const Container = styled.div`
+  min-width: 300px;
+  height: 100%;
+`
 
 export default enhance(AddProject)

@@ -73,7 +73,7 @@ const enhance: OperationComponent<
 
 const DeleteDialog = (props: Props) => (
   // $FlowFixMe
-  <Dialog open={props.open} onRequestClose={() => props.toggle(false)}>
+  <Dialog open={props.open} onClose={() => props.toggle(false)}>
     {/* $FlowFixMe */}
     <DialogContent>
       {/* $FlowFixMe */}

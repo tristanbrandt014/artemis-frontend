@@ -9,9 +9,11 @@ import withUser from "./../../utils/withUser"
 import Link from "./Link"
 import { connect } from "react-redux"
 import { compose } from "redux"
+import { includes } from "lodash"
 
 const mapStateToProps = state => ({
-  window: state.window
+  window: state.window,
+  category: state.filters.category
 })
 
 const withState = connect(mapStateToProps, null)
@@ -23,8 +25,7 @@ const Sidebar = props => (
     {!props.user.loading && (
       <Greeting>
         <AccountCircle
-          style={{ width: "35px", height: "35px" }}
-          color="white"
+          style={{ width: "35px", height: "35px", color: "white" }}
         />
         {/* $FlowFixMe */}
         <Typography
@@ -36,7 +37,13 @@ const Sidebar = props => (
       </Greeting>
     )}
     <List>
-      <Link to="/app/projects" name="Projects" />
+      <Link
+        to={`/app/projects${
+          props.category ? "/category/" + props.category : ""
+        }`}
+        match={(path, to) => includes(path, "projects")}
+        name="Projects"
+      />
       <Link to="/app/categories" name="Categories" />
       <Link to="/logout" name="Logout" />
     </List>

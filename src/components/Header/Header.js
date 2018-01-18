@@ -30,7 +30,7 @@ const Header = (props: Props) => (
     <Left>
       {props.window.width <= sidebar.breakpoint && (
         <IconButton onClick={() => props.toggleSidebar(true)}>
-          <MenuIcon color="white" />
+          <MenuIcon style={{ color: "white" }} />
         </IconButton>
       )}
       <Heading
@@ -70,6 +70,9 @@ const Container = styled.div`
   justify-content: space-between;
   z-index: 1;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  @media (min-width: ${sidebar.breakpoint}px) {
+    padding-left: 16px;
+  }
 `
 
 const Left = styled.div`

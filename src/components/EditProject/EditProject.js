@@ -22,10 +22,17 @@ import styled from "styled-components"
 import _ from "lodash"
 import Editor from "../Markdown/Editor"
 import FullScreenDialog from "./../FullScreenDialog/FullScreenDialog"
+import { breakpoints } from "./../../styles"
 
 const mapDispatchToProps = dispatch => ({
   toggleDialog: open => dispatch(toggleUpdate(open))
 })
+
+const mapStateToProps = state => ({
+  window: state.window
+})
+
+const withState = connect(mapStateToProps, mapDispatchToProps)
 
 const withProject = graphql(GET_PROJECTS, {
   options: props => ({
@@ -67,12 +74,7 @@ const withUpdate = graphql(UPDATE_PROJECT, {
   }
 })
 
-const enhance = compose(
-  connect(null, mapDispatchToProps),
-  withCategories,
-  withUpdate,
-  withProject
-)
+const enhance = compose(withState, withCategories, withUpdate, withProject)
 
 class EditProject extends Component<{}, {}> {
   validate = values => {
@@ -101,7 +103,11 @@ class EditProject extends Component<{}, {}> {
   render() {
     if (this.props.project.loading || this.props.categories.loading) {
       // $FlowFixMe
-      return <CircularProgress />
+      return (
+        <ProgressContainer>
+          <CircularProgress />
+        </ProgressContainer>
+      )
     }
     const project = this.props.project.Projects[0]
     const category = project.category
@@ -117,17 +123,18 @@ class EditProject extends Component<{}, {}> {
         validate={this.validate}
         onSubmit={this.submit}
         render={({
-            values,
+          values,
           errors,
           touched,
           handleChange,
           handleBlur,
           handleSubmit,
           isSubmitting
-          }) => (
-            <FullScreenDialog
-              close={() => this.props.toggleDialog(false)}
-              actions={() => <Button
+        }) => (
+          <FullScreenDialog
+            close={() => this.props.toggleDialog(false)}
+            actions={() => (
+              <Button
                 style={{ color: "white" }}
                 onClick={() => {
                   const click = new MouseEvent("click")
@@ -135,139 +142,141 @@ class EditProject extends Component<{}, {}> {
                 }}
               >
                 save
-                </Button>}
-              title="Edit Project"
-            >
-              <StyledForm onSubmit={handleSubmit}>
-                {/* $FlowFixMe */}
-                <Container>
-                  <Details>
-                    <Field>
-                      <TextField
-                        type="text"
-                        name="name"
-                        margin="normal"
-                        fullWidth
-                        error={!!errors.name}
-                        helperText={errors.name}
-                        label="Name"
-                        onChange={handleChange}
-                        value={values.name}
-                        autoFocus
-                      />
-                    </Field>
-                    <Field>
-                      <TextField
-                        type="text"
-                        multiline
-                        name="summary"
-                        margin="normal"
-                        fullWidth
-                        error={!!errors.summary}
-                        helperText={errors.summary}
-                        label="Summary"
-                        onChange={handleChange}
-                        value={values.summary}
-                      />
-                    </Field>
-                    {!this.props.categories.loading &&
-                      this.props.categories.Categories.length ? (
-                        <Field withMargin>
-                          {/* $FlowFixMe */}
-                          <FormControl fullWidth>
-                            {/* $FlowFixMe */}
-                            <InputLabel htmlFor="category-input">
-                              Category
-                        </InputLabel>
-                            {/* $FlowFixMe */}
-                            <Select
-                              value={values.category}
-                              onChange={e => {
-                                const fake = {
-                                  name: "category",
-                                  value: e.target.value
-                                }
-                                handleChange({ target: fake, persist: () => { } })
-                              }}
-                              input={
-                                <Input
-                                  value={values.category}
-                                  onChange={() => { }}
-                                  id="category-input"
-                                />
-                              }
-                            >
-                              {/* $FlowFixMe */}
-                              <MenuItem value="">
-                                <em>None</em>
-                              </MenuItem>
-                              {this.props.categories.Categories.map(category => (
-                                <MenuItem key={category.id} value={category.id}>
-                                  {category.name}
-                                </MenuItem>
-                              ))}
-                            </Select>
-                          </FormControl>
-                        </Field>
-                      ) : (
-                        <span />
-                      )}
+              </Button>
+            )}
+            title="Edit Project"
+          >
+            <StyledForm onSubmit={handleSubmit}>
+              {/* $FlowFixMe */}
+              <Container>
+                <Details>
+                  <Field>
+                    <TextField
+                      type="text"
+                      name="name"
+                      margin="normal"
+                      fullWidth
+                      error={!!errors.name}
+                      helperText={errors.name}
+                      label="Name"
+                      onChange={handleChange}
+                      value={values.name}
+                      autoFocus
+                    />
+                  </Field>
+                  <Field>
+                    <TextField
+                      type="text"
+                      multiline
+                      name="summary"
+                      margin="normal"
+                      fullWidth
+                      error={!!errors.summary}
+                      helperText={errors.summary}
+                      label="Summary"
+                      onChange={handleChange}
+                      value={values.summary}
+                    />
+                  </Field>
+                  {!this.props.categories.loading &&
+                  this.props.categories.Categories.length ? (
                     <Field withMargin>
                       {/* $FlowFixMe */}
                       <FormControl fullWidth>
                         {/* $FlowFixMe */}
-                        <InputLabel htmlFor="status-input">Status</InputLabel>
+                        <InputLabel htmlFor="category-input">
+                          Category
+                        </InputLabel>
                         {/* $FlowFixMe */}
                         <Select
-                          value={values.status}
+                          value={values.category}
                           onChange={e => {
                             const fake = {
-                              name: "status",
+                              name: "category",
                               value: e.target.value
                             }
-                            handleChange({ target: fake, persist: () => { } })
+                            handleChange({ target: fake, persist: () => {} })
                           }}
                           input={
                             <Input
-                              value={values.status}
-                              onChange={() => { }}
-                              id="status-input"
+                              value={values.category}
+                              onChange={() => {}}
+                              id="category-input"
                             />
                           }
                         >
-                          {this.statuses.map(status => (
-                            //$FlowFixMe
-                            <MenuItem value={status} key={status}>
-                              <em>{_.capitalize(status)}</em>
+                          {/* $FlowFixMe */}
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          {this.props.categories.Categories.map(category => (
+                            <MenuItem key={category.id} value={category.id}>
+                              {category.name}
                             </MenuItem>
                           ))}
                         </Select>
                       </FormControl>
                     </Field>
-                    <input
-                      type="submit"
-                      style={{ display: "none" }}
-                      ref={input => (this.submitInput = input)}
-                    />
-                  </Details>
-                  <Description>
-                    <Editor
-                      value={values.description}
-                      name="Description"
-                      description="Describe your project"
-                      onChange={value => {
-                        const fake = {
-                          name: "description",
-                          value: value
+                  ) : (
+                    <span />
+                  )}
+                  <Field withMargin>
+                    {/* $FlowFixMe */}
+                    <FormControl fullWidth>
+                      {/* $FlowFixMe */}
+                      <InputLabel htmlFor="status-input">Status</InputLabel>
+                      {/* $FlowFixMe */}
+                      <Select
+                        value={values.status}
+                        onChange={e => {
+                          const fake = {
+                            name: "status",
+                            value: e.target.value
+                          }
+                          handleChange({ target: fake, persist: () => {} })
+                        }}
+                        input={
+                          <Input
+                            value={values.status}
+                            onChange={() => {}}
+                            id="status-input"
+                          />
                         }
-                        handleChange({ target: fake, persist: () => { } })
-                      }}
-                    />
-                  </Description>
-                </Container>
-              </StyledForm>
-            </FullScreenDialog>
-          )}
+                      >
+                        {this.statuses.map(status => (
+                          //$FlowFixMe
+                          <MenuItem value={status} key={status}>
+                            <em>{_.capitalize(status)}</em>
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Field>
+                  <input
+                    type="submit"
+                    style={{ display: "none" }}
+                    ref={input => (this.submitInput = input)}
+                  />
+                </Details>
+                <Description>
+                  <Editor
+                    value={values.description}
+                    name="Description"
+                    description="Describe your project"
+                    minHeight={400}
+                    onChange={value => {
+                      const fake = {
+                        name: "description",
+                        value: value
+                      }
+                      handleChange({ target: fake, persist: () => {} })
+                    }}
+                  />
+                </Description>
+              </Container>
+            </StyledForm>
+          </FullScreenDialog>
+        )}
       />
     )
   }
@@ -281,6 +290,10 @@ const Field = styled.div`
 const Container = styled.div`
   display: flex;
   flex: 1 1 100%;
+  flex-flow: column nowrap;
+  @media (min-width: ${breakpoints.tablet + 1}px) {
+    flex-flow: row nowrap;
+  }
 `
 
 const Details = styled.div`
@@ -294,9 +307,15 @@ const Description = styled.div`
 `
 
 const StyledForm = styled.form`
-display:flex;
-flex-flow: column nowrap;
-height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  height: 100%;
+`
+
+const ProgressContainer = styled.div`
+  display: flex;
+  padding: 10px;
+  justify-content: center;
 `
 
 export default enhance(EditProject)

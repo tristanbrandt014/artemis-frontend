@@ -5,35 +5,68 @@ import styled from "styled-components"
 import Categories from "./Categories"
 import Filters from "./Filters"
 import { blueGrey } from "material-ui/colors"
+import { connect } from "react-redux"
+import { Paper, Tabs, Tab } from "material-ui"
+
+import Aux from "react-aux"
+
+const mapStateToProps = state => ({
+  window: state.window
+})
+
+const enhance = connect(mapStateToProps, null)
 
 type Props = {
   style?: Object
 }
 
-class Seek extends Component<Props, {}> {
-  componentDidMount() { }
+type State = {
+  tab: number
+}
 
-  componentWillUnmount() { }
+class Seek extends Component<Props, State> {
+  state = {
+    tab: 0
+  }
 
-  onSubmit() {
-    console.log("submit")
+  changeTab = (e: Event, tab: number) => {
+    this.setState({
+      tab
+    })
   }
 
   render() {
     return (
-      <Container onSubmit={this.onSubmit} style={this.props.style}>
+      <Container style={this.props.style}>
+        {this.props.window.width <= 1030 ? (
+          <Tabbed>
+            <Tabs
+              centered
+              scrollable
+              scrollButtons="off"
+              onChange={this.changeTab}
+              value={this.state.tab}
+            >
+              <Tab label="Categories" />
+              <Tab label="Status" />
+            </Tabs>
+            <Content>{this.state.tab ? <Filters /> : <Categories />}</Content>
+          </Tabbed>
+        ) : (
+          <Aux>
+            <Column name="Categories">
+              <Categories />
+            </Column>
+            <Column name="Status">
+              <Filters />
+            </Column>
+          </Aux>
+        )}
         {/* $FlowFixMe */}
-        <Column name="Categories">
-          <Categories />
-        </Column>
-        <Column name="Status">
-          <Filters />
-        </Column>
       </Container>
     )
   }
 }
-  
 
 const Container = styled.div`
   width: 100%;
@@ -45,4 +78,13 @@ const Container = styled.div`
   justify-content: space-around;
 `
 
-export default Seek
+const Tabbed = styled(Paper)`
+  flex: 1 1 auto;
+  padding: 0 16px 16px 16px;
+`
+
+const Content = styled.div`
+  margin-top: 20px;
+`
+
+export default enhance(Seek)

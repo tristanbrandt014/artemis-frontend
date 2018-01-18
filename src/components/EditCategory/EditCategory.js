@@ -16,7 +16,7 @@ import styled from "styled-components"
 import { DialogActions, DialogContent, DialogTitle } from "material-ui/Dialog"
 import TextField from "material-ui/TextField"
 import { SliderPicker } from "react-color"
-import Typography from "material-ui/Typography/Typography";
+import Typography from "material-ui/Typography/Typography"
 
 type Props = {
   close: Function
@@ -51,7 +51,6 @@ const withUpdate = graphql(UPDATE_CATEGORY, {
       }
     ]
   }
-
 })
 
 const withCreate = graphql(CREATE_CATEGORY, {
@@ -120,7 +119,7 @@ class EditCategory extends Component<Props, {}> {
       this.props.close()
       if (this.props.id) {
         await this.props.update({
-          ...values,
+          ...values
         })
       } else {
         await this.props.create({
@@ -137,7 +136,11 @@ class EditCategory extends Component<Props, {}> {
   render() {
     if (this.props.id && this.props.data.loading) {
       // $FlowFixMe
-      return <CircularProgress />
+      return (
+        <ProgressContainer>
+          <CircularProgress />
+        </ProgressContainer>
+      )
     }
     const category = this.getCategory()
 
@@ -158,63 +161,78 @@ class EditCategory extends Component<Props, {}> {
           handleSubmit,
           isSubmitting
         }) => (
-            <form onSubmit={handleSubmit}>
-              {/* $FlowFixMe */}
-              <DialogTitle>{(this.props.id ? "Edit" : "Add a") + " Category"}</DialogTitle>
-              {/* $FlowFixMe */}
-              <DialogContent>
-                <Field>
-                  <TextField
-                    type="text"
-                    name="name"
-                    margin="normal"
-                    fullWidth
-                    error={!!errors.name}
-                    helperText={errors.name}
-                    label="Name"
-                    onChange={handleChange}
-                    value={values.name}
-                  />
-                </Field>
-                <Typography style={{ marginBottom: 10 }}>Color:</Typography>
-                <SliderPicker color={values.color} onChangeComplete={(color, event) => {
+          <Form onSubmit={handleSubmit}>
+            {/* $FlowFixMe */}
+            <DialogTitle>
+              {(this.props.id ? "Edit" : "Add a") + " Category"}
+            </DialogTitle>
+            {/* $FlowFixMe */}
+            <DialogContent>
+              <Field>
+                <TextField
+                  type="text"
+                  name="name"
+                  margin="normal"
+                  fullWidth
+                  error={!!errors.name}
+                  helperText={errors.name}
+                  label="Name"
+                  onChange={handleChange}
+                  value={values.name}
+                />
+              </Field>
+              <Typography style={{ marginBottom: 10 }}>Color:</Typography>
+              <SliderPicker
+                color={values.color}
+                onChangeComplete={(color, event) => {
                   const fake = {
                     name: "color",
                     value: color.hex
                   }
-                  handleChange({ target: fake, persist: () => { } })
-
-                }} />
-              </DialogContent>
-              {/* $FlowFixMe */}
-              <DialogActions>
-                {/* $FlowFixMe */}
-                <Button onClick={this.props.close}>
-                  Cancel
-                </Button>
-                {/* $FlowFixMe */}
-                <Button
-                  onClick={() => {
-                    const click = new MouseEvent("click")
-                    this.submitInput.dispatchEvent(click)
-                  }}
-                  color="primary"
-                >
-                  Save
-                </Button>
-              </DialogActions>
-              <input
-                type="submit"
-                style={{ display: "none" }}
-                ref={input => (this.submitInput = input)}
+                  handleChange({ target: fake, persist: () => {} })
+                }}
               />
-            </form>
-          )}
+            </DialogContent>
+            {/* $FlowFixMe */}
+            <DialogActions>
+              {/* $FlowFixMe */}
+              <Button onClick={this.props.close}>Cancel</Button>
+              {/* $FlowFixMe */}
+              <Button
+                onClick={() => {
+                  const click = new MouseEvent("click")
+                  this.submitInput.dispatchEvent(click)
+                }}
+                color="primary"
+              >
+                Save
+              </Button>
+            </DialogActions>
+            <input
+              type="submit"
+              style={{ display: "none" }}
+              ref={input => (this.submitInput = input)}
+            />
+          </Form>
+        )}
       />
     )
   }
 }
 
-const Field = styled.div`padding-bottom: 10px;`
+const Field = styled.div`
+  padding-bottom: 10px;
+`
+
+const Form = styled.form`
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+`
+const ProgressContainer = styled.div`
+  display: flex;
+  padding: 10px;
+  justify-content: center;
+`
 
 export default enhance(EditCategory)

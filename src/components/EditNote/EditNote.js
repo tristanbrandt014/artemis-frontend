@@ -16,7 +16,7 @@ class EditNote extends Component<Props, {}> {
       // $FlowFixMe
       <Dialog
         open={this.props.open}
-        onRequestClose={this.props.onRequestClose}
+        onClose={this.props.onRequestClose}
         transition={Transition}
         fullScreen
       >

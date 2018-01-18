@@ -3,13 +3,22 @@ import React, { Component } from "react"
 import styled from "styled-components"
 import { Tabs, Tab } from "material-ui"
 import Renderer from "./Renderer"
+import { connect } from "react-redux"
+import { breakpoints } from "./../../styles"
+
+const mapStateToProps = state => ({
+  window: state.window
+})
+
+const enhance = connect(mapStateToProps, null)
 
 type Props = {
   value: string,
   onChange: (value: string) => void,
   name: string,
   description: string,
-  autoFocus?: boolean
+  autoFocus?: boolean,
+  minHeight?: number
 }
 
 type State = {
@@ -61,7 +70,11 @@ export class Markdown extends Component<Props, State> {
                 width: "100%",
                 height: "100%",
                 resize: "none",
-                padding: "15px"
+                padding: "15px",
+                minHeight:
+                  this.props.window.width <= breakpoints.tablet
+                    ? this.props.minHeight ? this.props.minHeight : 0
+                    : 0
               }}
               autoFocus={this.props.autoFocus}
               placeholder={this.props.description}
@@ -95,4 +108,4 @@ const Section = styled.div`
   flex: 1 1 100%;
 `
 
-export default Markdown
+export default enhance(Markdown)

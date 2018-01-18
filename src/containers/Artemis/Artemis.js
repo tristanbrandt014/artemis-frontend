@@ -79,7 +79,7 @@ class Artemis extends Component<Props, {}> {
       <Aux>
         <Dialog
           open={this.props.render === SEEK}
-          onRequestClose={() => this.changeState({ to: NONE })}
+          onClose={() => this.changeState({ to: NONE })}
           transition={SlideLeft}
           fullScreen
         >
@@ -94,7 +94,7 @@ class Artemis extends Component<Props, {}> {
         </Dialog>
         <Dialog
           open={this.props.render === HUNT}
-          onRequestClose={() => this.changeState({ to: NONE })}
+          onClose={() => this.changeState({ to: NONE })}
           transition={SlideRight}
           fullScreen
         >

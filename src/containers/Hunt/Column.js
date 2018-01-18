@@ -5,26 +5,27 @@ import { Typography } from "material-ui"
 
 type Props = {
   name: string,
-  show: boolean
+  show: boolean,
+  mobile: boolean
 }
 
 const Column = (props: Props) => (
-  <Container>
-    {
-      props.show &&
+  <Container mobile={props.mobile}>
+    {props.show && (
       <Inner>
-        <Head>
-          <Typography type="display1">{props.name}</Typography>
-        </Head>
+        {!props.mobile && (
+          <Head>
+            <Typography type="display1">{props.name}</Typography>
+          </Head>
+        )}
         <Body>{props.children}</Body>
       </Inner>
-    }
-
+    )}
   </Container>
 )
 
 const Container = styled.div`
-  flex: 0 1 50%;
+  flex: 1 1 ${props => (props.mobile ? 100 : 50)}%;
   height: 100%;
   padding: 10px 20px;
 `

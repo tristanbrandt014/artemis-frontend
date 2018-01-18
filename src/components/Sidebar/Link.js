@@ -5,13 +5,14 @@ import { withStyles, withTheme } from "material-ui/styles"
 import { compose } from "redux"
 import { connect } from "react-redux"
 import { push } from "react-router-redux"
-import {get} from 'lodash'
+import { get } from "lodash"
 
 type Props = {
   redirect: Function,
   to: string,
   name: string,
   path: string,
+  match?: (path: string, to: string) => boolean,
   classes: {
     button: Object,
     text: Object,
@@ -40,7 +41,10 @@ const enhance = compose(
 )
 
 const Link = (props: Props) => {
-  const active = props.path.includes(props.to)
+  const active =
+    typeof props.match === "undefined"
+      ? props.path.includes(props.to)
+      : props.match(props.path, props.to)
   return (
     <ListItem
       button

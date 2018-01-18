@@ -1,18 +1,10 @@
 // @flow
-import React from "react"
+import React, { Component } from "react"
 import { Paper, Typography } from "material-ui"
-import ListSubheader from "material-ui/List/ListSubheader"
-import List, {
-  ListItem,
-  ListItemIcon,
-  ListItemSecondaryAction,
-  ListItemText
-} from "material-ui/List"
-import defaults from "./../../utils/defaults"
+import List from "material-ui/List"
 import styled from "styled-components"
-import { get } from "lodash"
-import IconButton from 'material-ui/IconButton'
-import MoreVert from 'material-ui-icons/MoreVert'
+import { ProjectListItem } from "./../../components"
+import { CircularProgress } from "material-ui/Progress"
 
 type Props = {
   projects: Array<Object>,
@@ -20,42 +12,43 @@ type Props = {
   loading: boolean
 }
 
-const Mobile = (props: Props) => (
-  <Paper>
-    <List subheader={<ListSubheader>{props.title}</ListSubheader>}>
-      {!props.loading &&
-        (props.projects.length ? (
-          props.projects.map(project => (
-            <ListItem key={project.id} button>
-              <ListItemIcon>
-                <Color
-                  color={
-                    get(project, "category.color") || defaults.categoryColor
-                  }
-                />
-              </ListItemIcon>
-              <ListItemText
-                inset
-                secondary={project.summary}
-                primary={project.name}
-              />
-              <ListItemSecondaryAction>
-                <IconButton aria-label="Delete">
-                  <MoreVert />
-                </IconButton>
-              </ListItemSecondaryAction>
-            </ListItem>
-          ))
-        ) : (
-          <NoProjects>
-            <Typography>
-              <em>No Projects</em>
+class Mobile extends Component<Props, {}> {
+  render() {
+    const { props } = this
+    return (
+      <Paper>
+        <List
+          subheader={
+            <Typography
+              style={{ paddingLeft: 19, paddingTop: 16, paddingBottom:10 }}
+              type="title"
+            >
+              {props.title}
             </Typography>
-          </NoProjects>
-        ))}
-    </List>
-  </Paper>
-)
+          }
+        >
+          {!props.loading ? (
+            props.projects.length ? (
+              props.projects.map(project => (
+                <ProjectListItem project={project} key={project.id} />
+              ))
+            ) : (
+              <NoProjects>
+                <Typography>
+                  <em>No Projects</em>
+                </Typography>
+              </NoProjects>
+            )
+          ) : (
+            <Center>
+              <CircularProgress />
+            </Center>
+          )}
+        </List>
+      </Paper>
+    )
+  }
+}
 
 const NoProjects = styled.div`
   display: flex;
@@ -63,11 +56,10 @@ const NoProjects = styled.div`
   align-items: center;
 `
 
-const Color = styled.div`
-  width: 30px;
-  height: 30px;
-  border-radius: 100%;
-  background-color: ${props => props.color};
+const Center = styled.div`
+  display: flex;
+  padding: 15px;
+  justify-content: center;
 `
 
 export default Mobile

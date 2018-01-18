@@ -10,13 +10,12 @@ import {
   UPDATE_NOTE,
   CREATE_NOTE,
   GET_PROJECT,
-  GET_USER, 
+  GET_USER,
   GET_USER_DATA
 } from "./../../apollo/queries"
 import styled from "styled-components"
 import Editor from "../Markdown/Editor"
 import FullScreenDialog from "./../FullScreenDialog/FullScreenDialog"
-
 
 const withNote = graphql(GET_NOTES, {
   options: props => ({
@@ -86,11 +85,7 @@ const withCreate = graphql(CREATE_NOTE, {
   })
 })
 
-const enhance = compose(
-  withNote,
-  withUpdate,
-  withCreate
-)
+const enhance = compose(withNote, withUpdate, withCreate)
 
 class EditNote extends Component<{}, {}> {
   validate = values => {
@@ -115,7 +110,7 @@ class EditNote extends Component<{}, {}> {
       this.props.onRequestClose()
       if (this.props.id) {
         await this.props.update({
-          ...values,
+          ...values
         })
       } else {
         await this.props.create({
@@ -132,7 +127,11 @@ class EditNote extends Component<{}, {}> {
   render() {
     if (this.props.id && this.props.data.loading) {
       // $FlowFixMe
-      return <CircularProgress />
+      return (
+        <ProgressContainer>
+          <CircularProgress />
+        </ProgressContainer>
+      )
     }
     const note = this.getNote()
     return (
@@ -144,17 +143,18 @@ class EditNote extends Component<{}, {}> {
         validate={this.validate}
         onSubmit={this.submit}
         render={({
-            values,
+          values,
           errors,
           touched,
           handleChange,
           handleBlur,
           handleSubmit,
           isSubmitting
-          }) => (
-            <FullScreenDialog
-              close={this.props.onRequestClose}
-              actions={() => <Button
+        }) => (
+          <FullScreenDialog
+            close={this.props.onRequestClose}
+            actions={() => (
+              <Button
                 style={{ color: "white" }}
                 onClick={() => {
                   const click = new MouseEvent("click")
@@ -162,36 +162,38 @@ class EditNote extends Component<{}, {}> {
                 }}
               >
                 save
-                </Button>}
-              title={(this.props.id ? "Edit" : "Add a") + " Note"}
-            >
-              <StyledForm onSubmit={handleSubmit}>
-                {/* $FlowFixMe */}
-                <Container>
-                  <Description>
-                    <Editor
-                      value={values.body}
-                      name="Note"
-                      description="Let your thoughts be recorded"
-                      autoFocus
-                      onChange={value => {
-                        const fake = {
-                          name: "body",
-                          value: value
-                        }
-                        handleChange({ target: fake, persist: () => { } })
-                      }}
-                    />
-                  </Description>
-                </Container>
-                <input
-                  type="submit"
-                  style={{ display: "none" }}
-                  ref={input => (this.submitInput = input)}
-                />
-              </StyledForm>
-            </FullScreenDialog>
-          )}
+              </Button>
+            )}
+            title={(this.props.id ? "Edit" : "Add a") + " Note"}
+          >
+            <StyledForm onSubmit={handleSubmit}>
+              {/* $FlowFixMe */}
+              <Container>
+                <Description>
+                  <Editor
+                    value={values.body}
+                    name="Note"
+                    description="Let your thoughts be recorded"
+                    autoFocus
+                    minHeight={300}
+                    onChange={value => {
+                      const fake = {
+                        name: "body",
+                        value: value
+                      }
+                      handleChange({ target: fake, persist: () => {} })
+                    }}
+                  />
+                </Description>
+              </Container>
+              <input
+                type="submit"
+                style={{ display: "none" }}
+                ref={input => (this.submitInput = input)}
+              />
+            </StyledForm>
+          </FullScreenDialog>
+        )}
       />
     )
   }
@@ -208,9 +210,15 @@ const Description = styled.div`
 `
 
 const StyledForm = styled.form`
-  display:flex;
+  display: flex;
   flex-flow: column nowrap;
   height: 100%;
+`
+
+const ProgressContainer = styled.div`
+  display: flex;
+  padding: 10px;
+  justify-content: center;
 `
 
 export default enhance(EditNote)

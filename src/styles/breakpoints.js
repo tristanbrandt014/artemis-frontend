@@ -1,3 +1,4 @@
 export default {
-  mobile: 400
+  mobile: 400,
+  tablet: 768
 }

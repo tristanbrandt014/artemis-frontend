@@ -5,9 +5,11 @@ import { EditCategory as Form } from "../../components"
 import styled from "styled-components"
 import { connect } from "react-redux"
 import { toggleCreate } from "./../../store/actions/projects"
+import { breakpoints } from "./../../styles"
 
 const mapStateToProps = state => ({
-  projects: state.projects
+  projects: state.projects,
+  window: state.window
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -29,6 +31,7 @@ class EditCategory extends Component<Props, {}> {
       <Dialog
         open={this.props.open}
         onRequestClose={this.props.close}
+        fullScreen={this.props.window.width <= breakpoints.mobile}
       >
         <Container>
           <Form close={this.props.close} id={this.props.id} />
@@ -38,6 +41,9 @@ class EditCategory extends Component<Props, {}> {
   }
 }
 
-const Container = styled.div`width: 400px;`
+const Container = styled.div`
+  min-width: 300px;
+  height: 100%;
+`
 
 export default enhance(EditCategory)

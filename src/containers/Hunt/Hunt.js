@@ -2,8 +2,8 @@
 import React, { Component } from "react"
 import styled from "styled-components"
 import { blueGrey } from "material-ui/colors"
-import { TextField } from "material-ui"
-import { withStyles } from 'material-ui/styles'
+import { TextField, Tabs, Tab } from "material-ui"
+import { withStyles } from "material-ui/styles"
 import withUser from "../../utils/withUser"
 import lunr from "lunr"
 import { flatten } from "lodash"
@@ -18,35 +18,51 @@ import { push } from "react-router-redux"
 import { connect } from "react-redux"
 import { NONE, openArtemis } from "./../../store/actions/artemis"
 import removeMD from "remove-markdown"
+import { breakpoints } from "./../../styles"
+
 const withUserData = graphql(GET_USER_DATA)
 
 type State = {
-  search: string
+  search: string,
+  tab: number
 }
 
 const styles = theme => ({
-  textFieldInput: {
+  textFieldInputDesktop: {
     fontSize: 35,
-    // color: "white",
+    fontWeight: 300
+  },
+  textFieldInputMobile: {
+    fontSize: 20,
     fontWeight: 300
   }
 })
 
+const mapStateToProps = state => ({
+  window: state.window
+})
+
 const mapDispatchToProps = dispatch => ({
-  go: (to) => dispatch(push(to)),
+  go: to => dispatch(push(to)),
   close: () => dispatch(openArtemis(NONE))
 })
 
-const withDispatch = connect(null, mapDispatchToProps)
+const withDispatch = connect(mapStateToProps, mapDispatchToProps)
 
-const enhance = compose(withUser, withUserData, withStyles(styles), withDispatch)
+const enhance = compose(
+  withUser,
+  withUserData,
+  withStyles(styles),
+  withDispatch
+)
 
 class Hunt extends Component<{}, State> {
   notes: any
   projects: any
   dataVersion: string = ""
   state = {
-    search: ""
+    search: "",
+    tab: 0
   }
 
   componentDidMount() {
@@ -55,9 +71,17 @@ class Hunt extends Component<{}, State> {
   }
 
   componentWillReceiveProps(newProps) {
-    if (!newProps.user.loading && !newProps.user.error && !newProps.data.loading && !newProps.data.error) {
+    if (
+      !newProps.user.loading &&
+      !newProps.user.error &&
+      !newProps.data.loading &&
+      !newProps.data.error
+    ) {
       const user = newProps.user.User
-      if (this.dataVersion !== user.dataVersion || this.getUserData() === undefined) {
+      if (
+        this.dataVersion !== user.dataVersion ||
+        this.getUserData() === undefined
+      ) {
         this.indexNotes()
         this.indexProjects()
       }
@@ -78,9 +102,9 @@ class Hunt extends Component<{}, State> {
       ...note,
       body: removeMD(note.body)
     }))
-    this.notes = lunr(function () {
-      this.ref('id')
-      this.field('body')
+    this.notes = lunr(function() {
+      this.ref("id")
+      this.field("body")
 
       notes.forEach(note => {
         this.add(note)
@@ -93,7 +117,7 @@ class Hunt extends Component<{}, State> {
     if (userData === undefined) {
       return
     }
-    this.projects = lunr(function () {
+    this.projects = lunr(function() {
       this.ref("id")
       this.field("name")
       this.field("description")
@@ -108,9 +132,17 @@ class Hunt extends Component<{}, State> {
     const terms = search.split(" ").filter(term => term !== " ")
     return terms.reduce(
       (searchString, term) =>
-        term ? `${searchString} ${term}^10 ${term}*^5 *${term}* *${term} ` : searchString
-      , ''
+        term
+          ? `${searchString} ${term}^10 ${term}*^5 *${term}* *${term} `
+          : searchString,
+      ""
     )
+  }
+
+  changeTab = (e: Event, tab: number) => {
+    this.setState({
+      tab
+    })
   }
 
   render() {
@@ -138,22 +170,47 @@ class Hunt extends Component<{}, State> {
               onChange={e => this.setState({ search: e.target.value })}
               InputProps={{
                 classes: {
-                  input: this.props.classes.textFieldInput
-                },
+                  input:
+                    this.props.window.width <= breakpoints.tablet
+                      ? this.props.classes.textFieldInputMobile
+                      : this.props.classes.textFieldInputDesktop
+                }
               }}
             />
           </SearchContainer>
         </Wrapper>
+        {this.props.window.width <= breakpoints.tablet &&
+          (!!projects.length || !!notes.length) && (
+            <Tabs
+              centered
+              scrollable
+              scrollButtons="off"
+              onChange={this.changeTab}
+              value={!!projects.length && !!notes.length ? this.state.tab : 0}
+            >
+              {!!projects.length && <Tab label="Projects" />}
+              {!!notes.length && <Tab label="Notes" />}
+            </Tabs>
+          )}
         <Results>
-          <Column show={!!projects.length} name="Projects">
-            {
-              projects.slice(0, Math.min(projects.length, 10)).map(res => {
-                const project = this.getUserData().reduce((result, _project) => {
-                  if (_project.id === res.ref) {
-                    return _project
+          {(this.props.window.width > breakpoints.tablet ||
+            (this.props.window.width <= breakpoints.tablet &&
+              (this.state.tab === 0 || !notes.length) &&
+              !!projects.length)) && (
+            <Column
+              show={!!projects.length}
+              name="Projects"
+              mobile={this.props.window.width <= breakpoints.tablet}
+            >
+              {projects.slice(0, Math.min(projects.length, 10)).map(res => {
+                const project = this.getUserData().reduce(
+                  (result, _project) => {
+                    if (_project.id === res.ref) {
+                      return _project
+                    }
+                    return result
                   }
-                  return result
-                })
+                )
                 return (
                   <SearchItem
                     title={project.name}
@@ -168,41 +225,57 @@ class Hunt extends Component<{}, State> {
                     }
                   />
                 )
-              })
-            }
-          </Column>
-          <Column show={!!notes.length} name="Notes">
-            {notes.slice(0, Math.min(notes.length, 10)).map(res => {
-              const note = flatten(this.getUserData().map(project => {
-                return project.notes.map(_n => ({
-                  ..._n,
-                  project
-                }))
-              })).reduce((result, _note) => {
-                if (_note.id === res.ref) {
-                  return _note
-                }
-                return result
-              })
-
-              const title = removeMD(note.body).substring(0, 35) + "..."
-              return (
-                <SearchItem
-                  title={title}
-                  small
-                  onClick={() => {
-                    this.props.go(`/app/projects/view/${note.project.id}#${note.id}`)
-                    this.props.close()
-                  }}
-                  isArchived={note.project.archived}
-                  key={note.id}
-                  color={
-                    _.get(note.project, "category.color") || defaults.categoryColor
+              })}
+            </Column>
+          )}
+          {(this.props.window.width > breakpoints.tablet ||
+            (this.props.window.width <= breakpoints.tablet &&
+              this.state.tab ===
+                (!!projects.length && !!notes.length ? 1 : 0) &&
+              !!notes.length)) && (
+            <Column
+              show={!!notes.length}
+              active={this.state.tab === 0}
+              name="Notes"
+              mobile={this.props.window.width <= breakpoints.tablet}
+            >
+              {notes.slice(0, Math.min(notes.length, 10)).map(res => {
+                const note = flatten(
+                  this.getUserData().map(project => {
+                    return project.notes.map(_n => ({
+                      ..._n,
+                      project
+                    }))
+                  })
+                ).reduce((result, _note) => {
+                  if (_note.id === res.ref) {
+                    return _note
                   }
-                />
-              )
-            })}
-          </Column>
+                  return result
+                })
+
+                const title = removeMD(note.body).substring(0, 35) + "..."
+                return (
+                  <SearchItem
+                    title={title}
+                    small
+                    onClick={() => {
+                      this.props.go(
+                        `/app/projects/view/${note.project.id}#${note.id}`
+                      )
+                      this.props.close()
+                    }}
+                    isArchived={note.project.archived}
+                    key={note.id}
+                    color={
+                      _.get(note.project, "category.color") ||
+                      defaults.categoryColor
+                    }
+                  />
+                )
+              })}
+            </Column>
+          )}
         </Results>
       </Container>
     )
@@ -211,6 +284,7 @@ class Hunt extends Component<{}, State> {
 
 const Container = styled.div`
   height: 100%;
+  min-height: 500px;
   background-color: ${blueGrey[50]};
   display: flex;
   flex-flow: column nowrap;
@@ -224,9 +298,13 @@ const Wrapper = styled.div`
 `
 
 const SearchContainer = styled.div`
-  padding: 16px;
+  padding: 0 10px 10px 10px;
   display: flex;
-  flex: 0 0 50%;
+  flex: 0 0 100%;
+  @media (min-width: ${breakpoints.tablet + 1}px) {
+    flex: 0 0 50%;
+    padding: 16px;
+  }
 `
 
 const Results = styled.div`

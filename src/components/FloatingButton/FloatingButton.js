@@ -14,9 +14,9 @@ const FloatingButton = (props: Props) => {
   const getIcon = () => {
     switch (props.type) {
       case "add":
-        return <AddIcon color="white" />
+        return <AddIcon style={{color: "white"}}/>
       default:
-        return <AddIcon color="white" />
+        return <AddIcon style={{color: "white"}} />
     }
   }
   return (
