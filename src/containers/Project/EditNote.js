@@ -22,7 +22,7 @@ type Props = {
 const EditNote = (props: Props) => (
   <Dialog
     open={props.notes.modal}
-    onRequestClose={() => props.toggle(false)}
+    onClose={() => props.toggle(false)}
     id={props.id}
     project_id={props.project_id}
   />

@@ -2,7 +2,7 @@
 import React from "react"
 import styled from "styled-components"
 import { Typography, List } from "material-ui"
-import { AccountCircle } from "material-ui-icons"
+import AccountCircle from "material-ui-icons/AccountCircle"
 import { blueGrey } from "material-ui/colors"
 import { sidebar } from "./../../styles"
 import withUser from "./../../utils/withUser"

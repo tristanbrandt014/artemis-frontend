@@ -19,7 +19,7 @@ import {
 import { toggleUpdate } from "./../../store/actions/projects"
 import Select from "material-ui/Select"
 import styled from "styled-components"
-import _ from "lodash"
+import {capitalize} from "lodash"
 import Editor from "../Markdown/Editor"
 import FullScreenDialog from "./../FullScreenDialog/FullScreenDialog"
 import { breakpoints } from "./../../styles"
@@ -246,7 +246,7 @@ class EditProject extends Component<{}, {}> {
                         {this.statuses.map(status => (
                           //$FlowFixMe
                           <MenuItem value={status} key={status}>
-                            <em>{_.capitalize(status)}</em>
+                            <em>{capitalize(status)}</em>
                           </MenuItem>
                         ))}
                       </Select>

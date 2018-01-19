@@ -3,7 +3,7 @@ import React, { Component } from "react"
 import styled from "styled-components"
 import { Typography } from "material-ui"
 import { graphql } from "react-apollo"
-import _ from "lodash"
+import {get} from "lodash"
 import { GET_PROJECTS } from "./../../apollo/queries"
 import { ProjectCard } from "./../../components"
 
@@ -31,7 +31,7 @@ class Archives extends Component<{}, {}> {
                     summary={project.summary}
                     status={project.status}
                     archived={project.archived}
-                    color={_.get(project, "category.color", "#ccc")}
+                    color={get(project, "category.color", "#ccc")}
                   />
                 </ProjectContainer>
               ))}

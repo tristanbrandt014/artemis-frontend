@@ -4,7 +4,7 @@ import { setWindowSize } from "./../../store/actions/window"
 import { connect } from "react-redux"
 
 const mapDispatchToProps = dispatch => ({
-  setWindowSize: width => dispatch(setWindowSize(width))
+  setWindowSize: (width, height) => dispatch(setWindowSize(width, height))
 })
 
 const withState = connect(null, mapDispatchToProps)
@@ -21,7 +21,7 @@ class SizeTracker extends Component<{}, {}> {
   }
 
   handleWindowSizeChange = () => {
-    this.props.setWindowSize(window.innerWidth)
+    this.props.setWindowSize(window.innerWidth, window.innerWidth)
   }
 
   render() {

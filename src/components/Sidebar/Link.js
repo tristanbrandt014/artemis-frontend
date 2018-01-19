@@ -5,7 +5,7 @@ import { withStyles, withTheme } from "material-ui/styles"
 import { compose } from "redux"
 import { connect } from "react-redux"
 import { push } from "react-router-redux"
-import { get } from "lodash"
+import {get} from "lodash"
 
 type Props = {
   redirect: Function,

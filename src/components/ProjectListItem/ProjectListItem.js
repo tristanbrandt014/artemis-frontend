@@ -7,7 +7,7 @@ import {
   ListItemText
 } from "material-ui/List"
 import defaults from "./../../utils/defaults"
-import { get } from "lodash"
+import {get} from "lodash"
 import MoreVert from "material-ui-icons/MoreVert"
 import IconButton from "material-ui/IconButton"
 import Menu, { MenuItem } from "material-ui/Menu"

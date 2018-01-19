@@ -9,9 +9,8 @@ import type { CategoryType } from "./../../types/category"
 import { connect } from "react-redux"
 import { toggleUpdate } from "./../../store/actions/projects"
 import hexRgb from "hex-rgb"
-import _ from "lodash"
+import {get} from "lodash"
 import defaults from "./../../utils/defaults"
-import { Link } from "./../../components"
 
 type Props = {
   project: ProjectType & {
@@ -37,7 +36,7 @@ const ProjectHead = (props: Props) => {
     }
     return "#ffffff"
   }
-  const categoryColor = _.get(props.project, "category.color") || defaults.categoryColor
+  const categoryColor = get(props.project, "category.color") || defaults.categoryColor
   const titleStyle = {
     color: getColor(categoryColor)
   }
@@ -112,11 +111,6 @@ const EditButton = styled(Button) `
 const Description = styled.div`
   padding: 15px;
   padding-top: 5px;
-`
-
-const BackContainer = styled.div`
-  display: flex;
-  height: 40px;
 `
 
 export default enhance(ProjectHead)

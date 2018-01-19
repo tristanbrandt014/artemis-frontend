@@ -17,7 +17,7 @@ import {
   ABANDONED,
   NONE
 } from "./../../utils/filters"
-import { upperFirst } from "lodash"
+import {upperFirst} from "lodash"
 
 const mapStateToProps = state => ({
   filters: state.filters

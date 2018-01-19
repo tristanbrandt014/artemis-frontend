@@ -4,7 +4,6 @@ import styled from "styled-components"
 import type { TodoType } from "./../../types/todo"
 import Todo from "./Todo"
 import Button from "material-ui/Button"
-import _ from "lodash"
 
 type Props = {
   todos: [TodoType],

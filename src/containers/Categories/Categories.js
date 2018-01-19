@@ -110,7 +110,7 @@ const Container = styled.div`
   padding: 30px;
   display: flex;
   flex-flow: column nowrap;
-  height: 100%;
+  min-height: 100%;
 `
 
 const Header = styled.div`
@@ -123,7 +123,7 @@ const Body = styled.div`
   justify-content: center;
   @media (min-width: ${breakpoints.mobile + 1}px) {
     padding: 30px;
-  }
+  };
 `
 
 const ListContainer = styled(Paper)`
@@ -131,6 +131,10 @@ const ListContainer = styled(Paper)`
   display: flex;
   flex-flow: column nowrap;
   padding: 10px;
+  justify-content: flex-start;
+  > * {
+    flex: 0 0 auto;
+  }
 `
 
 const SearchContainer = styled.div`

@@ -30,7 +30,7 @@ class EditCategory extends Component<Props, {}> {
       // $FlowFixMe
       <Dialog
         open={this.props.open}
-        onRequestClose={this.props.close}
+        onClose={this.props.close}
         fullScreen={this.props.window.width <= breakpoints.mobile}
       >
         <Container>

@@ -2,7 +2,7 @@
 import React from "react"
 import marked from "marked"
 import Styles from "./Styles"
-import highlightjs from 'highlight.js';
+import highlightjs from './highlight';
 
 marked.setOptions({
   tables: true,

@@ -5,7 +5,7 @@ import { Typography } from "material-ui"
 import Link from "./../Link/Link"
 import { cyan } from "material-ui/colors"
 import { connect } from "react-redux"
-import { includes, get } from "lodash"
+import {includes, get} from "lodash"
 
 type Props = {
   name: string,
@@ -52,7 +52,7 @@ const Color = styled.div`
 
 const Name = styled(Typography) `
   ${props =>
-    props.active === "true" && `color: ${cyan[300]} !important;`} 
+    props.active === "true" && `color: ${cyan[300]} !important;`}
     :hover {
       color: ${cyan[500]};
       text-decoration: underline;

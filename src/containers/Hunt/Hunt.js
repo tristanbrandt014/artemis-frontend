@@ -6,13 +6,12 @@ import { TextField, Tabs, Tab } from "material-ui"
 import { withStyles } from "material-ui/styles"
 import withUser from "../../utils/withUser"
 import lunr from "lunr"
-import { flatten } from "lodash"
+import {flatten, get} from "lodash"
 import { compose } from "redux"
 import { GET_USER_DATA } from "./../../apollo/queries"
 import { graphql } from "react-apollo"
 import Column from "./Column"
 import { SearchItem } from "./../../components"
-import _ from "lodash"
 import defaults from "./../../utils/defaults"
 import { push } from "react-router-redux"
 import { connect } from "react-redux"
@@ -221,7 +220,7 @@ class Hunt extends Component<{}, State> {
                     isArchived={project.archived}
                     key={project.id}
                     color={
-                      _.get(project, "category.color") || defaults.categoryColor
+                      get(project, "category.color") || defaults.categoryColor
                     }
                   />
                 )
@@ -268,7 +267,7 @@ class Hunt extends Component<{}, State> {
                     isArchived={note.project.archived}
                     key={note.id}
                     color={
-                      _.get(note.project, "category.color") ||
+                      get(note.project, "category.color") ||
                       defaults.categoryColor
                     }
                   />

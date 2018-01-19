@@ -9,7 +9,7 @@ import { GET_CATEGORIES } from "./../../apollo/queries"
 import { CategoryItem, Link } from "./../../components"
 import { closeArtemis } from "./../../store/actions/artemis"
 import { connect } from "react-redux"
-import { get } from "lodash"
+import {get} from "lodash"
 
 const mapStateToProps = state => ({
   path: get(state, "routing.location.pathname", "")

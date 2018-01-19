@@ -14,7 +14,7 @@ import { connect } from "react-redux"
 import { graphql, compose } from "react-apollo"
 import { GET_USER_DATA } from "./../../apollo/queries"
 import withUser from "./../../utils/withUser"
-import { get } from "lodash"
+import {get} from "lodash"
 
 type RenderState = typeof SEEK | typeof HUNT | typeof NONE
 

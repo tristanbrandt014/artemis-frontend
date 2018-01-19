@@ -1,4 +1,6 @@
+import {get} from "lodash"
+
 export default {
-    api: process.env.API_HOST || "http://localhost:3005",
-    siteKey: process.env.SITE_KEY || "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI",
+    api: get(window, "__CONFIG__.API_HOST") || "http://localhost:3005",
+    siteKey: get(window, "__CONFIG__.SITE_KEY") || "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI",
 }

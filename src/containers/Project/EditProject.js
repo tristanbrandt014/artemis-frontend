@@ -26,7 +26,7 @@ class AddProject extends Component<{}, {}> {
       // $FlowFixMe
       <Dialog
         open={this.props.projects.modals.update}
-        onRequestClose={this.handleRequestClose}
+        onClose={this.handleRequestClose}
         transition={Transition}
         fullScreen
       >

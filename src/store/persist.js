@@ -1,5 +1,5 @@
 // @flow
-import { pickBy, includes } from "lodash"
+import {pickBy, includes} from "lodash"
 import local from "../utils/localstorage"
 import store from "./index"
 import config from "./config"

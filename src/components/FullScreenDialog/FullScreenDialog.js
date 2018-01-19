@@ -14,7 +14,7 @@ type Props = {
   title: string,
   actions: any,
   children: any,
-  icon?: string
+  icon?: string,
 }
 
 const FullScreenDialog = (props: Props) => {
@@ -60,7 +60,7 @@ const FullScreenDialog = (props: Props) => {
 }
 const Header = styled(AppBar) `
   position: static !important;
-  flex: 0 0 64px !important;
+  flex: 0 0 auto;
 `
 
 const Container = styled.div`

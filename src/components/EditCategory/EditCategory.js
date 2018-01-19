@@ -4,7 +4,7 @@ import Button from "material-ui/Button"
 import { Formik } from "formik"
 import { CircularProgress } from "material-ui/Progress"
 import { graphql, compose } from "react-apollo"
-import _ from "lodash"
+import {get} from "lodash"
 import {
   GET_CATEGORIES,
   CREATE_CATEGORY,
@@ -109,7 +109,7 @@ class EditCategory extends Component<Props, {}> {
     if (!this.props.id || this.props.data.loading) {
       return false
     }
-    return _.get(this.props.data, "Categories[0]", false)
+    return get(this.props.data, "Categories[0]", false)
   }
 
   submitInput: any

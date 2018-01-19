@@ -40,7 +40,7 @@ class Seek extends Component<Props, State> {
       <Container style={this.props.style}>
         {this.props.window.width <= 1030 ? (
           <Tabbed>
-            <Tabs
+            <StyledTabs
               centered
               scrollable
               scrollButtons="off"
@@ -49,8 +49,10 @@ class Seek extends Component<Props, State> {
             >
               <Tab label="Categories" />
               <Tab label="Status" />
-            </Tabs>
-            <Content>{this.state.tab ? <Filters /> : <Categories />}</Content>
+            </StyledTabs>
+            <Wrapper>
+              <Content>{this.state.tab ? <Filters /> : <Categories />}</Content>
+            </Wrapper>
           </Tabbed>
         ) : (
           <Aux>
@@ -69,22 +71,39 @@ class Seek extends Component<Props, State> {
 }
 
 const Container = styled.div`
-  width: 100%;
+  flex: 1 1 100%;
   height: 100%;
   background-color: ${blueGrey[500]};
   display: flex;
-  flex-flow: row nowrap;
   padding: 15px;
   justify-content: space-around;
+  flex-flow: column nowrap;
+  @media (min-width: 1030px) {
+    flex-flow: row nowrap;
+  }
 `
 
 const Tabbed = styled(Paper)`
   flex: 1 1 auto;
-  padding: 0 16px 16px 16px;
+  overflow: hidden;
+  display: flex;
+  flex-flow: column nowrap;
+`
+
+const StyledTabs = styled(Tabs)`
+  flex: 0 0 auto;
 `
 
 const Content = styled.div`
-  margin-top: 20px;
+  padding-top: 20px;
+`
+
+const Wrapper = styled.div`
+  padding: 0 16px 16px 16px;
+  display: flex;
+  flex-flow: column nowrap;
+  flex: 1 1 100%;
+  overflow-y: auto;
 `
 
 export default enhance(Seek)

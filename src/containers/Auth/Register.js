@@ -11,7 +11,7 @@ import logo from "./../../resources/img/arte.png"
 import config from "./../../config"
 import { loginAction } from "./../../store/actions/auth"
 import { push } from "react-router-redux"
-import { get } from "lodash"
+import {get} from "lodash"
 import Recaptcha from "react-google-recaptcha"
 import Dialog, {
   DialogActions,

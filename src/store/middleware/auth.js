@@ -1,7 +1,8 @@
 // @flow
 import type { Middleware } from "redux"
 import type { Store } from "./../../types/store"
-import { get, includes } from "lodash"
+import {get} from "lodash"
+import { includes } from "lodash"
 import { push } from "react-router-redux"
 
 const PUBLIC_ROUTES = ["/login", "/register"]

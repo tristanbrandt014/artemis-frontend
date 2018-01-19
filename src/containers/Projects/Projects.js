@@ -5,7 +5,7 @@ import { Typography } from "material-ui"
 import { CircularProgress } from "material-ui/Progress"
 import { graphql, compose } from "react-apollo"
 import { connect } from "react-redux"
-import _ from "lodash"
+import {get, flow, capitalize, includes} from "lodash"
 import { toggleCreate } from "./../../store/actions/projects"
 import { GET_PROJECTS, GET_CATEGORIES } from "./../../apollo/queries"
 import { FloatingButton } from "./../../components"
@@ -48,25 +48,29 @@ class Projects extends Component<{}, {}> {
   getTitle = () => {
     const names = []
     if (this.props.match.params.type === "category") {
-      if (this.props.categories.loading) {
-        return <CircularProgress />
+      if (this.props.categories.loading || this.props.data.loading) {
+        return (
+          <ProgressContainer>
+            <CircularProgress />
+          </ProgressContainer>
+        )
       }
       names.push(this.props.categories.Categories[0].name)
     } else {
       names.push("Projects")
     }
 
-    if (_.get(this.props, "filters.archived") === ARCHIVED) {
+    if (get(this.props, "filters.archived") === ARCHIVED) {
       names.unshift("Archives: ")
     }
-    if (_.get(this.props, "filters.archived") === ALL) {
+    if (get(this.props, "filters.archived") === ALL) {
       names.unshift("All ")
     }
     if (
-      _.get(this.props, "filters.status") &&
-      !_.includes([ALL, NONE], _.get(this.props, "filters.status"))
+      get(this.props, "filters.status") &&
+      !includes([ALL, NONE], get(this.props, "filters.status"))
     ) {
-      names.push(", " + _.capitalize(this.props.filters.status))
+      names.push(", " + capitalize(this.props.filters.status))
     }
     return names.join("")
   }
@@ -76,11 +80,11 @@ class Projects extends Component<{}, {}> {
     if (params.type === "category") {
       const categoryId = params.value
       const byCategory = projects =>
-        projects.filter(project => _.get(project, "category.id") === categoryId)
+        projects.filter(project => get(project, "category.id") === categoryId)
       filters.push(byCategory)
     }
     if (
-      _.get(this.props, "filters.archived") &&
+      get(this.props, "filters.archived") &&
       this.props.filters.archived !== ALL
     ) {
       const archiveState = this.props.filters.archived === ARCHIVED
@@ -89,7 +93,7 @@ class Projects extends Component<{}, {}> {
       filters.push(byArchived)
     }
     if (
-      _.get(this.props, "filters.status") &&
+      get(this.props, "filters.status") &&
       this.props.filters.status !== ALL
     ) {
       const status = this.props.filters.status
@@ -98,7 +102,7 @@ class Projects extends Component<{}, {}> {
       filters.push(byStatus)
     }
 
-    const requested = _.flow(filters)
+    const requested = flow(filters)
     return requested(projects)
   }
 
@@ -107,12 +111,18 @@ class Projects extends Component<{}, {}> {
   render() {
     const projects = !this.props.data.loading ? this.getProjects() : []
     if (
-      _.get(this.props, "match.params.type") === "category" &&
-      !_.get(this.props, "categories.Categories[0].name")
+      get(this.props, "match.params.type") === "category" &&
+      !get(this.props, "categories.Categories[0].name")
     ) {
       return (
         <Container>
-          <Typography>Invalid Category</Typography>
+          {this.props.data.loading || this.props.categories.loading ? (
+            <ProgressContainer>
+              <CircularProgress />
+            </ProgressContainer>
+          ) : (
+            <Typography>Invalid Category</Typography>
+          )}
         </Container>
       )
     }
@@ -146,6 +156,12 @@ class Projects extends Component<{}, {}> {
 
 const Container = styled.div`
   padding: 30px;
+`
+
+const ProgressContainer = styled.div`
+  display: flex;
+  padding: 10px;
+  justify-content: center;
 `
 
 // $FlowFixMe

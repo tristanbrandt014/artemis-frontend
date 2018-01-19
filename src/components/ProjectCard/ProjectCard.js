@@ -7,7 +7,7 @@ import styled from "styled-components"
 import { push } from "react-router-redux"
 import { connect } from "react-redux"
 import Status from "./../StatusDot/StatusDot"
-import _ from "lodash"
+import { get } from "lodash"
 import { ALL } from "./../../utils/filters"
 import ProjectActions from "./../ProjectActions/ProjectActions"
 import Aux from "react-aux"
@@ -78,7 +78,7 @@ class Project extends Component<Props, State> {
                       Delete
                     </Button>
                     {/* $FlowFixMe */
-                    _.get(this.props, "filters.archived") !== ALL && (
+                    get(this.props, "filters.archived") !== ALL && (
                       <Button
                         dense
                         onClick={() => toggleDialog("archive", true)}

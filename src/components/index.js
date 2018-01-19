@@ -2,7 +2,7 @@
 import Header from "./Header/Header"
 import Sidebar from "./Sidebar/Sidebar"
 import FullScreen from "./FullScreen/Fullscreen"
-import FadeDown from "./FadeDown/FadeDown"
+// import FadeDown from "./FadeDown/FadeDown"
 import ProjectCard from "./ProjectCard/ProjectCard"
 import FloatingButton from "./FloatingButton/FloatingButton"
 import AddProject from "./AddProject/AddProject"
@@ -28,7 +28,7 @@ export {
   Header,
   Sidebar,
   FullScreen,
-  FadeDown,
+  // FadeDown,
   // $FlowFixMe
   ProjectCard,
   FloatingButton,

@@ -3,7 +3,7 @@ import Button from "material-ui/Button"
 import { graphql, compose } from "react-apollo"
 import { connect } from "react-redux"
 import { UPDATE_USER_SETTINGS, GET_USER, GET_USER_DATA } from "./../../apollo/queries"
-import { get } from "lodash"
+import {get} from "lodash"
 import Aux from "react-aux"
 import Snackbar from "material-ui/Snackbar"
 import IconButton from 'material-ui/IconButton'

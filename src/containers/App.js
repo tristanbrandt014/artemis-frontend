@@ -13,7 +13,7 @@ import { ConnectedRouter } from "react-router-redux"
 import history from "./../utils/history"
 import Routes from "./Routes"
 import "highlight.js/styles/tomorrow.css"
-import { initHighlighting } from "highlight.js"
+import { initHighlighting } from "highlight.js/lib/highlight"
 import { SizeTracker } from "./../components"
 import Aux from "react-aux"
 
