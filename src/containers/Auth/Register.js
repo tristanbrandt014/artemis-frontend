@@ -57,7 +57,7 @@ class Register extends Component<Props, State> {
   checkUser(props) {
     if (props.auth && props.auth.token) {
       const startup = get(props.auth, "user.startup", {})
-      console.log("STARTUP", startup)
+      // console.log("STARTUP", startup)
       if (startup.type === "category" && startup.value) {
         props.redirect(`/app/projects/category/${startup.value}`)
       } else {
@@ -98,7 +98,7 @@ class Register extends Component<Props, State> {
   }) {
     let errors = {}
 
-    console.log(values)
+    // console.log(values)
 
     if (!values.firstname) {
       errors.firstname = "Please enter your first name"
@@ -146,7 +146,7 @@ class Register extends Component<Props, State> {
             }}
             validate={values => this.validate(values)}
             onSubmit={async (values, { setErrors, setSubmitting }) => {
-              console.log(values)
+              // console.log(values)
               if (!values.captcha) {
                 this.setState({ captchaDialog: true })
                 setSubmitting(false)
@@ -249,7 +249,7 @@ class Register extends Component<Props, State> {
                                 name: "captcha",
                                 value: response
                               }
-                              console.log("HERE", response)
+                              // console.log("HERE", response)
                               handleChange({ target: fake, persist: () => { } })
                             }}
                             sitekey={config.siteKey}

@@ -61,7 +61,7 @@ class Project extends Component<{}, {}> {
     let noteColumns
     let numCols
 
-    console.log(width)
+    // console.log(width)
     if (width <= 500) {
       numCols = 1
       noteColumns = project.notes.reduce(

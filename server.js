@@ -32,8 +32,6 @@ app.get("*", (req, res) => {
   template("head").append(
     `<script>window.__CONFIG__ = ${JSON.stringify(env)}</script>\n`
   )
-
-  template("body").append(`<script src="/bundle.js"></script>`)
   return res.send(template.html())
 })
 

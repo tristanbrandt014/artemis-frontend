@@ -42,7 +42,7 @@ class Login extends Component<Props, {}> {
   checkUser(props) {
     if (props.auth && props.auth.token) {
       const startup = get(props.auth, "user.startup", {})
-      console.log("STARTUP", startup)
+      // console.log("STARTUP", startup)
       if (startup.type === "category" && startup.value) {
         props.redirect(`/app/projects/category/${startup.value}`)
       } else {

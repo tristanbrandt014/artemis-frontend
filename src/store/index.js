@@ -8,8 +8,14 @@ import history from "./middleware/history"
 import auth from "./middleware/auth"
 import client from "./middleware/apollo"
 
+const middlewares = [auth, history, client]
+
+if (process.env.NODE_ENV !== `production`) {
+  middlewares.push(logger)
+}
+
 export default createStore(
   reducers,
   initialStore,
-  applyMiddleware(auth, history, logger, client)
+  applyMiddleware(...middlewares)
 )
