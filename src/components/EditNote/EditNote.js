@@ -6,7 +6,7 @@ import Slide from "material-ui/transitions/Slide"
 
 type Props = {
   open: boolean,
-  onRequestClose: Function,
+  onClose: Function,
   id?: number,
   project_id?: number
 }
@@ -16,12 +16,12 @@ class EditNote extends Component<Props, {}> {
       // $FlowFixMe
       <Dialog
         open={this.props.open}
-        onClose={this.props.onRequestClose}
+        onClose={this.props.onClose}
         transition={Transition}
         fullScreen
       >
         <Form
-          onRequestClose={this.props.onRequestClose}
+          onClose={this.props.onClose}
           project_id={this.props.project_id}
           id={this.props.id}
         />

@@ -91,7 +91,7 @@ class Note extends Component<Props, State> {
         </Container>
         <EditNote
           open={this.state.edit}
-          onRequestClose={() => this.toggleDialog("edit", false)}
+          onClose={() => this.toggleDialog("edit", false)}
           id={this.props.note.id}
         />
         <DeleteDialog

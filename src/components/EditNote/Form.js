@@ -107,7 +107,7 @@ class EditNote extends Component<{}, {}> {
 
   submit = async (values, { setSubmitting, setErrors }) => {
     try {
-      this.props.onRequestClose()
+      this.props.onClose()
       if (this.props.id) {
         await this.props.update({
           ...values
@@ -152,7 +152,7 @@ class EditNote extends Component<{}, {}> {
           isSubmitting
         }) => (
           <FullScreenDialog
-            close={this.props.onRequestClose}
+            close={this.props.onClose}
             actions={() => (
               <Button
                 style={{ color: "white" }}

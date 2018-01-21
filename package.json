@@ -91,7 +91,7 @@
   "scripts": {
     "analyze": "source-map-explorer build/static/js/main.*",
     "start": "npm run build && node build.js",
-    "build": "node scripts/build.js && npm run build:server",
+    "build": "node scripts/build.js",
     "build:server": "mv ./babelrc ./.babelrc && babel ./server.js -o ./build.js --presets=es2015,stage-0,flow --plugins=transform-object-rest-spread && mv ./.babelrc ./babelrc",
     "test": "node scripts/test.js --env=jsdom",
     "dev": "node scripts/start.js"
